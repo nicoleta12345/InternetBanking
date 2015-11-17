@@ -1,5 +1,8 @@
 package com.iquest.advancedframeworks.internetbanking.dao;
 
+import java.util.List;
+
+import com.iquest.advancedframeworks.internetbanking.model.Account;
 import com.iquest.advancedframeworks.internetbanking.model.Address;
 import com.iquest.advancedframeworks.internetbanking.model.User;
 import com.iquest.advancedframeworks.internetbanking.model.UserDetails;
@@ -32,6 +35,8 @@ public interface UserDao {
 	 * @return the User object populated with the details from the database
 	 */
 	User readUser(Integer id);
+	
+	User getUserByAccount(Account account);
 
 	/**
 	 * Updates a User entry into the database with the information from the User
@@ -52,5 +57,7 @@ public interface UserDao {
 	 *            identify the entry from the database which will be deleted
 	 */
 	void deleteUser(User user);
+
+  List<Account> getAccountsNo(User user);
 
 }

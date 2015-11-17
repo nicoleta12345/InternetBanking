@@ -1,5 +1,8 @@
 package com.iquest.advancedframeworks.internetbanking.services;
 
+import java.util.List;
+
+import com.iquest.advancedframeworks.internetbanking.model.Account;
 import com.iquest.advancedframeworks.internetbanking.model.Address;
 import com.iquest.advancedframeworks.internetbanking.model.User;
 import com.iquest.advancedframeworks.internetbanking.model.UserDetails;
@@ -33,5 +36,9 @@ public interface UserService {
 	 * @return the User object with the given id
 	 */
 	User getUserbyId(Integer id);
+
+	User getUserByAccount(Account sender);
+
+  List<Account> getAccountsNo(User user);
 
 }

@@ -61,7 +61,7 @@ public class PersistenceConfiguration {
     DriverManagerDataSource dataSource = new DriverManagerDataSource();
     dataSource.setDriverClassName("com.mysql.jdbc.Driver");
     dataSource.setUsername("root");
-    dataSource.setPassword("root");
+    dataSource.setPassword("iquest1234");
     dataSource.setUrl("jdbc:mysql://localhost:3306/internet_banking");
    
     return dataSource;

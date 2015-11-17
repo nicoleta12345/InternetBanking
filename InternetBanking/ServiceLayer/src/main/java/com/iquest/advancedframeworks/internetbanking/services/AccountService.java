@@ -18,4 +18,7 @@ public interface AccountService {
 	 *            the account which will be inserted into the database
 	 */
 	void createAccount(Account account);
+	
+	Account getAccountByNo(String accountNo);
+	Account updateAccount(Account account);
 }

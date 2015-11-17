@@ -2,6 +2,7 @@ package com.iquest.advancedframeworks.internetbanking.services.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.iquest.advancedframeworks.internetbanking.dao.AccountDao;
 import com.iquest.advancedframeworks.internetbanking.model.Account;
@@ -25,8 +26,19 @@ public class AccountServiceImpl implements AccountService {
 	private AccountDao accountDao;
 
 	@Override
+	@Transactional
 	public void createAccount(Account account) {
 		accountDao.createAccount(account);
+	}
+	
+	@Override
+	public Account getAccountByNo(String accountNo) {
+		return accountDao.getAccountByNo(accountNo);
+	}
+
+	@Override
+	public Account updateAccount(Account account) {
+		return accountDao.updateAccount(account);
 	}
 
 }

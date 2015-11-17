@@ -1,9 +1,13 @@
 package com.iquest.advancedframeworks.internetbanking.services.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.iquest.advancedframeworks.internetbanking.dao.UserDao;
+import com.iquest.advancedframeworks.internetbanking.model.Account;
 import com.iquest.advancedframeworks.internetbanking.model.Address;
 import com.iquest.advancedframeworks.internetbanking.model.User;
 import com.iquest.advancedframeworks.internetbanking.model.UserDetails;
@@ -27,14 +31,27 @@ public class UserServiceImpl implements UserService {
 	private UserDao userDao;
 
 	@Override
+	@Transactional
 	public User getUserbyId(Integer id) {
 		return userDao.readUser(id);
 	}
 
 	@Override
+	@Transactional
 	public void insertUser(User user, UserDetails userDetails, Address address) {
 		userDao.createUser(user, userDetails, address);
 
 	}
+
+	@Override
+	public User getUserByAccount(Account sender) {
+		return userDao.getUserByAccount(sender);
+		
+	}
+
+  @Override
+  public List<Account> getAccountsNo(User user) {
+   return userDao.getAccountsNo(user);
+  }
 
 }

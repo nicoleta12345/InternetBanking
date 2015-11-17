@@ -12,17 +12,17 @@
 	</parent>
 
 	<groupId>com.iquestgroup.advancedframeworks</groupId>
-	<artifactId>controllerLayer</artifactId>
+	<artifactId>ControllerLayer</artifactId>
 	<version>1.0.0-SNAPSHOT</version>
 	<packaging>war</packaging>
-	<name>controllerLayer Maven Webapp</name>
+	<name>ControllerLayer Maven Webapp</name>
 	<url>http://maven.apache.org</url>
 
 	<dependencies>
 
 		<dependency>
 			<groupId>com.iquestgroup.advancedframeworks</groupId>
-			<artifactId>serviceLayer</artifactId>
+			<artifactId>ServiceLayer</artifactId>
 			<version>1.0.0-SNAPSHOT</version>
 		</dependency>
 

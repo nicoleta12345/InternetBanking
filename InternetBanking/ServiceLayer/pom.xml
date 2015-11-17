@@ -12,23 +12,23 @@
 	</parent>
 	
 	<groupId>com.iquestgroup.advancedframeworks</groupId>
-	<artifactId>ServiceLayer</artifactId>
+	<artifactId>serviceLayer</artifactId>
 	<version>1.0.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
-	<name>ServiceLayer Maven Webapp</name>
+	<name>serviceLayer Maven Webapp</name>
 	<url>http://maven.apache.org</url>
 
 	<dependencies>
 
 		<dependency>
 			<groupId>com.iquestgroup.advancedframeworks</groupId>
-			<artifactId>PersistenceLayer</artifactId>
+			<artifactId>persistenceLayer</artifactId>
 			<version>1.0.0-SNAPSHOT</version>
 		</dependency>		
 		
 	</dependencies>
 
 	<build>
-		<finalName>ServiceLayer</finalName>
+		<finalName>serviceLayer</finalName>
 	</build>
 </project>

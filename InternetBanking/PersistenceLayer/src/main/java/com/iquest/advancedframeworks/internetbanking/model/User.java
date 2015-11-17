@@ -102,4 +102,56 @@ public class User {
 		this.id = id;
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((accounts == null) ? 0 : accounts.hashCode());
+		result = prime * result + id;
+		result = prime * result + ((password == null) ? 0 : password.hashCode());
+		result = prime * result + ((userCode == null) ? 0 : userCode.hashCode());
+		result = prime * result + ((userDetails == null) ? 0 : userDetails.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		User other = (User) obj;
+		if (accounts == null) {
+			if (other.accounts != null)
+				return false;
+		} else if (!accounts.equals(other.accounts))
+			return false;
+		if (id != other.id)
+			return false;
+		if (password == null) {
+			if (other.password != null)
+				return false;
+		} else if (!password.equals(other.password))
+			return false;
+		if (userCode == null) {
+			if (other.userCode != null)
+				return false;
+		} else if (!userCode.equals(other.userCode))
+			return false;
+		if (userDetails == null) {
+			if (other.userDetails != null)
+				return false;
+		} else if (!userDetails.equals(other.userDetails))
+			return false;
+		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "User [id=" + id + ", userCode=" + userCode + ", password=" + password + ", userDetails=" + userDetails
+				+ ", accounts=" + accounts + "]";
+	}
+
 }

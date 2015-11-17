@@ -28,27 +28,57 @@ public class Account {
 	/**
 	 * The number of the account.
 	 */
-	private Long accountNumber;
+	private String accountNumber;
 
 	/**
 	 * The amount of the account.
 	 */
-	private Double amount;
+	private double amount;
 
-	public Long getAccountNumber() {
+	public Account() {};
+	
+	public Account(String accountNumber) {
+	  this.accountNumber = accountNumber;
+	}
+	
+	public String getAccountNumber() {
 		return accountNumber;
 	}
 
-	public void setAccountNumber(Long accountNumber) {
+	public void setAccountNumber(String accountNumber) {
 		this.accountNumber = accountNumber;
 	}
 
-	public Double getAmount() {
+	public double getAmount() {
 		return amount;
 	}
 
-	public void setAmount(Double amount) {
+	public void setAmount(double amount) {
 		this.amount = amount;
+	}
+	
+	public int getAccountId() {
+		return accountId;
+	}
+
+	public void setAccountId(int accountId) {
+		this.accountId = accountId;
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder account = new StringBuilder();
+		String separator = " ";
+		
+		account.append(accountId);
+		account.append(separator);
+		
+		account.append(accountNumber);
+		account.append(separator);
+		
+		account.append(amount);
+
+		return account.toString();
 	}
 
 }

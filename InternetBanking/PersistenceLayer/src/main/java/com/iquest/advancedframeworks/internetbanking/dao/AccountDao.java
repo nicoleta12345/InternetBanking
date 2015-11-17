@@ -47,4 +47,6 @@ public interface AccountDao {
 	 */
 	void deleteAccount(Account account);
 
+	Account getAccountByNo(String accountNo);
+
 }
