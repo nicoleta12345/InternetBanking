@@ -1,0 +1,10 @@
+The user needs to login before he can use the application. For the moment it's enough to access:
+http://localhost:8080/ControllerLayer/user/login.
+
+After the user logged in he can access the following links:
+-for transactions:
+	http://localhost:8080/ControllerLayer/transaction/transferForm
+	http://localhost:8080/ControllerLayer/transaction/dopositForm
+	http://localhost:8080/ControllerLayer/transaction/withdrawalForm
+-to see the details about an account:
+	http://localhost:8080/ControllerLayer/account/accountForm
