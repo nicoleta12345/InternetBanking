@@ -11,21 +11,16 @@
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 	
-	<groupId>com.iquestgroup.advancedframeworks</groupId>
 	<artifactId>serviceLayer</artifactId>
-	<version>1.0.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<name>serviceLayer Maven Webapp</name>
 	<url>http://maven.apache.org</url>
 
 	<dependencies>
-
 		<dependency>
 			<groupId>com.iquestgroup.advancedframeworks</groupId>
 			<artifactId>persistenceLayer</artifactId>
-			<version>1.0.0-SNAPSHOT</version>
-		</dependency>		
-		
+		</dependency>			
 	</dependencies>
 
 	<build>
