@@ -8,6 +8,13 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+/**
+ * /** The TransferTransaction class represents a transaction of type
+ * withdrawal.
+ * 
+ * @author Nicoleta Barbulescu
+ *
+ */
 @Entity
 @Table(name = "transaction_withdrawal")
 public class WithdrawalTransaction extends Transaction implements Serializable {
@@ -17,6 +24,9 @@ public class WithdrawalTransaction extends Transaction implements Serializable {
 	 */
   private static final long serialVersionUID = 1L;
 
+  /**
+   * The sender account.
+   */
   @OneToOne
   @JoinColumn(name = "sender_idAccount")
   @NotNull

@@ -23,7 +23,7 @@ public class Account {
 	 */
 	@Id
 	@GeneratedValue
-	private int accountId;
+	private int id;
 
 	/**
 	 * The number of the account.
@@ -58,11 +58,11 @@ public class Account {
 	}
 	
 	public int getAccountId() {
-		return accountId;
+		return id;
 	}
 
 	public void setAccountId(int accountId) {
-		this.accountId = accountId;
+		this.id = accountId;
 	}
 
 	@Override
@@ -70,7 +70,7 @@ public class Account {
 		StringBuilder account = new StringBuilder();
 		String separator = " ";
 		
-		account.append(accountId);
+		account.append(id);
 		account.append(separator);
 		
 		account.append(accountNumber);

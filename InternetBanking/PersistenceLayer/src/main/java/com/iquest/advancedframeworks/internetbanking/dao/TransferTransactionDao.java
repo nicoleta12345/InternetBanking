@@ -1,15 +1,15 @@
 package com.iquest.advancedframeworks.internetbanking.dao;
 
-import com.iquest.advancedframeworks.internetbanking.model.Transaction;
 import com.iquest.advancedframeworks.internetbanking.model.TransferTransaction;
 
-public interface TransferTransactionDao {
+/**
+ * The TransferTransactionDao interface adds operations which can be performed
+ * with TransferTransaction entities besides the CRUD operations inherited from
+ * the GenericDao interface.
+ * 
+ * @author Nicoleta Barbulescu
+ *
+ */
+public interface TransferTransactionDao extends GenericDao<TransferTransaction> {
 
-	void createTransaction(TransferTransaction transferTransaction);
-
-	TransferTransaction readTransaction(Integer id);
-
-	TransferTransaction updateTransaction(TransferTransaction transferTransaction);
-
-	void deleteTransaction(TransferTransaction transferTransaction);
 }

@@ -11,9 +11,9 @@
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
-	<artifactId>persistenceLayer</artifactId>
+	<artifactId>InternetBanking-persistenceLayer</artifactId>
 	<packaging>jar</packaging>
-	<name>PersistenceLayer Maven Webapp</name>
+	<name>InternetBanking-PersistenceLayer Maven Webapp</name>
 	<url>http://maven.apache.org</url>
 
 	<dependencies>
@@ -60,6 +60,6 @@
 	</dependencies>
 
 	<build>
-		<finalName>persistenceLayer</finalName>
+		<finalName>InternetBanking-persistenceLayer</finalName>
 	</build>
 </project>

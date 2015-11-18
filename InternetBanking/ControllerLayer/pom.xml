@@ -11,15 +11,15 @@
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
-	<artifactId>controllerLayer</artifactId>
+	<artifactId>InternetBanking-webapp</artifactId>
 	<packaging>war</packaging>
-	<name>controllerLayer Maven Webapp</name>
+	<name>InternetBanking-webapp Maven Webapp</name>
 	<url>http://maven.apache.org</url>
 
 	<dependencies>
 		<dependency>
 			<groupId>com.iquestgroup.advancedframeworks</groupId>
-			<artifactId>serviceLayer</artifactId>
+			<artifactId>InternetBanking-serviceLayer</artifactId>
 		</dependency>
 
 		<dependency>
@@ -50,6 +50,6 @@
 	</dependencies>
 
 	<build>
-		<finalName>ControllerLayer</finalName>
+		<finalName>InternetBanking-webapp</finalName>
 	</build>
 </project>

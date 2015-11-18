@@ -22,7 +22,7 @@ public class Address {
 	 */
 	@Id
 	@GeneratedValue
-	private int addressId;
+	private int id;
 
 	/**
 	 * The town for the address.

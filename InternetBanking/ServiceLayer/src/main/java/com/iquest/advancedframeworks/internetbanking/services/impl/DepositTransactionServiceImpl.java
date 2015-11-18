@@ -23,13 +23,13 @@ public class DepositTransactionServiceImpl implements DepositTransactionService 
 	@Transactional
 	public void addTransaction(Account receiver, double value) {
 		receiver.setAmount(receiver.getAmount() + value);
-		accountDao.updateAccount(receiver);
+		accountDao.update(receiver);
 
 		DepositTransaction transaction = new DepositTransaction();
 		transaction.setReceiverAccount(receiver);
 		transaction.setValue(value);
 
-		depositTransactionDao.createTransaction(transaction);
+		depositTransactionDao.create(transaction);
 	}
 
 }

@@ -28,7 +28,7 @@ public class AccountServiceImpl implements AccountService {
 	@Override
 	@Transactional
 	public void createAccount(Account account) {
-		accountDao.createAccount(account);
+		accountDao.create(account);
 	}
 	
 	@Override
@@ -38,7 +38,7 @@ public class AccountServiceImpl implements AccountService {
 
 	@Override
 	public Account updateAccount(Account account) {
-		return accountDao.updateAccount(account);
+		return accountDao.update(account);
 	}
 
 }

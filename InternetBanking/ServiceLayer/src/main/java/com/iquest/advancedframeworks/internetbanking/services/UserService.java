@@ -3,9 +3,7 @@ package com.iquest.advancedframeworks.internetbanking.services;
 import java.util.List;
 
 import com.iquest.advancedframeworks.internetbanking.model.Account;
-import com.iquest.advancedframeworks.internetbanking.model.Address;
 import com.iquest.advancedframeworks.internetbanking.model.User;
-import com.iquest.advancedframeworks.internetbanking.model.UserDetails;
 
 /**
  * The UserService interface represents a service which can do operations with
@@ -26,7 +24,7 @@ public interface UserService {
 	 * @param address
 	 *            the user address
 	 */
-	void insertUser(User user, UserDetails userDetails, Address address);
+	void insertUser(User user);
 
 	/**
 	 * Gets an user by an id.

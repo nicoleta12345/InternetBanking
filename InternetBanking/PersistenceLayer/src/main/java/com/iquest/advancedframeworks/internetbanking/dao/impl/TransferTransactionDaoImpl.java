@@ -8,33 +8,22 @@ import org.springframework.stereotype.Repository;
 import com.iquest.advancedframeworks.internetbanking.dao.TransferTransactionDao;
 import com.iquest.advancedframeworks.internetbanking.model.TransferTransaction;
 
+/**
+ * The TransferTransactionDaoImpl class implements TransferTransactionDao
+ * interface and extends the abstract class GenericDaoImpl taking benefits of
+ * its methods and adding more specific ones.
+ * 
+ * @author Nicoleta Barbulescu
+ *
+ */
 @Repository
-public class TransferTransactionDaoImpl implements TransferTransactionDao {
+public class TransferTransactionDaoImpl extends
+    GenericDaoImpl<TransferTransaction> implements TransferTransactionDao {
 
-	@PersistenceContext
-	private EntityManager entityManager;
-
-	@Override
-	public void createTransaction(TransferTransaction transferTransaction) {
-		entityManager.persist(transferTransaction);
-	}
-
-	@Override
-	public TransferTransaction readTransaction(Integer id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public TransferTransaction updateTransaction(TransferTransaction transferTransaction) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void deleteTransaction(TransferTransaction transferTransaction) {
-		// TODO Auto-generated method stub
-
-	}
+  /**
+   * EntityManager is used to do operations with the database.
+   */
+  @PersistenceContext
+  private EntityManager entityManager;
 
 }

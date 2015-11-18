@@ -19,30 +19,67 @@ import com.iquest.advancedframeworks.internetbanking.services.TransferTransactio
 import com.iquest.advancedframeworks.internetbanking.services.UserService;
 import com.iquest.advancedframeworks.internetbanking.services.WithdrawalTransactionService;
 
+/**
+ * The TransactionController class represents a controller which interacts with
+ * the transaction specific views and the service implementations. It is mapped
+ * to a certain url.
+ * 
+ * @author Nicoleta Barbulescu
+ *
+ */
 @Controller
 @RequestMapping("/transaction")
 public class TransactionController {
 
+  /**
+   * The account services.
+   */
   @Autowired
   AccountService accountService;
 
+  /**
+   * The user services.
+   */
   @Autowired
   UserService userService;
 
+  /**
+   * The deposit transaction services.
+   */
   @Autowired
   DepositTransactionService depositTransactionService;
 
+  /**
+   * The transfer transaction services.
+   */
   @Autowired
   TransferTransactionService transferTransactionService;
 
+  /**
+   * The withdrawal transaction services
+   */
   @Autowired
   WithdrawalTransactionService withdrawalTransactionService;
 
+  /**
+   * Shows a form to make a deposit transaction.
+   * 
+   * @return the name of the view which will be rendered
+   */
   @RequestMapping(value = "/depositForm", method = RequestMethod.GET)
   public String showFormDeposit() {
     return "deposit";
   }
 
+  /**
+   * Makes a deposit transaction.
+   * 
+   * @param session
+   * @param receiverNumberAccount
+   *          the number account of the receiver
+   * @param valueSent
+   *          the value sent
+   */
   @RequestMapping(value = "/deposit", method = RequestMethod.POST)
   public void doDeposit(HttpSession session,
       @RequestParam String receiverNumberAccount,
@@ -57,6 +94,11 @@ public class TransactionController {
     // will return the name of the view with the transfer details
   }
 
+  /**
+   * Shows a form to make a transfer transaction.
+   * 
+   * @return the name of the view which will be rendered
+   */
   @RequestMapping(value = "/transferForm", method = RequestMethod.GET)
   public String showFormTransfer(HttpSession session, Model model) {
     User currentUser = (User) session.getAttribute("user");
@@ -67,6 +109,18 @@ public class TransactionController {
     return "transfer";
   }
 
+  /**
+   * Makes a transfer transaction. It first checks if the sender account is one
+   * of the current user accounts.
+   * 
+   * @param session
+   * @param senderNumberAccount
+   *          the number account of the sender
+   * @param receiverNumberAccount
+   *          the number account of the receiver
+   * @param valueSent
+   *          the value sent
+   */
   @RequestMapping(value = "/transfer", method = RequestMethod.POST)
   public void makeTransfer(HttpSession session,
       @RequestParam String senderNumberAccount,
@@ -80,12 +134,16 @@ public class TransactionController {
       // throw...
     }
 
-    transferTransactionService.addTransaction(sender, receiver,
-        valueSent);
+    transferTransactionService.addTransaction(sender, receiver, valueSent);
 
     // will return the name of the view with the transfer details
   }
 
+  /**
+   * Shows a form to make a withdrawal transaction.
+   * 
+   * @return the name of the view which will be rendered
+   */
   @RequestMapping(value = "/withdrawalForm", method = RequestMethod.GET)
   public String showFormwithdrawal(HttpSession session, Model model) {
     User currentUser = (User) session.getAttribute("user");
@@ -96,13 +154,23 @@ public class TransactionController {
     return "withdrawal";
   }
 
+  /**
+   * Makes a withdrawal transaction. It first checks if the sender account is
+   * one of the current user accounts.
+   * 
+   * @param session
+   * @param senderNumberAccount
+   *          the number account of the sender
+   * @param valueSent
+   *          the value sent
+   */
   @RequestMapping(value = "/withdrawal", method = RequestMethod.POST)
   public void doWithdrawal(HttpSession session,
       @RequestParam String senderNumberAccount, @RequestParam double valueSent) {
 
     User currentUser = (User) session.getAttribute("user");
     Account sender = accountService.getAccountByNo(senderNumberAccount);
-    
+
     if (userService.getUserByAccount(sender) != currentUser) {
       // throw...
     }

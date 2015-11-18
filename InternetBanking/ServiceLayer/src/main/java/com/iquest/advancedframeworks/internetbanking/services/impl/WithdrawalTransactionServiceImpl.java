@@ -24,13 +24,13 @@ public class WithdrawalTransactionServiceImpl implements
   @Transactional
   public void addTransaction(Account sender, double value) {
     sender.setAmount(sender.getAmount() - value);
-    accountDao.updateAccount(sender);
+    accountDao.update(sender);
 
     WithdrawalTransaction transaction = new WithdrawalTransaction();
     transaction.setSenderAccount(sender);
     transaction.setValue(value);
 
-    withdrawalTransactionDao.createTransaction(transaction);
+    withdrawalTransactionDao.create(transaction);
   }
 
 }

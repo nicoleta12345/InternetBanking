@@ -8,9 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.iquest.advancedframeworks.internetbanking.dao.UserDao;
 import com.iquest.advancedframeworks.internetbanking.model.Account;
-import com.iquest.advancedframeworks.internetbanking.model.Address;
 import com.iquest.advancedframeworks.internetbanking.model.User;
-import com.iquest.advancedframeworks.internetbanking.model.UserDetails;
 import com.iquest.advancedframeworks.internetbanking.services.UserService;
 
 /**
@@ -23,35 +21,36 @@ import com.iquest.advancedframeworks.internetbanking.services.UserService;
 @Service
 public class UserServiceImpl implements UserService {
 
-	/**
-	 * An UserDao injected object used to make operations with the User objects
-	 * into the database.
-	 */
-	@Autowired
-	private UserDao userDao;
+  /**
+   * An UserDao injected object used to make operations with the User objects
+   * into the database.
+   */
+  @Autowired
+  private UserDao userDao;
 
-	@Override
-	@Transactional
-	public User getUserbyId(Integer id) {
-		return userDao.readUser(id);
-	}
+  @Override
+  @Transactional
+  public User getUserbyId(Integer id) {
+    return userDao.read(id);
+  }
 
-	@Override
-	@Transactional
-	public void insertUser(User user, UserDetails userDetails, Address address) {
-		userDao.createUser(user, userDetails, address);
+  @Override
+  @Transactional
+  public void insertUser(User user) {
 
-	}
+    userDao.create(user);
 
-	@Override
-	public User getUserByAccount(Account sender) {
-		return userDao.getUserByAccount(sender);
-		
-	}
+  }
+
+  @Override
+  public User getUserByAccount(Account sender) {
+    return userDao.getUserByAccount(sender);
+
+  }
 
   @Override
   public List<Account> getAccountsNo(User user) {
-   return userDao.getAccountsNo(user);
+    return userDao.getAccountsNo(user);
   }
 
 }

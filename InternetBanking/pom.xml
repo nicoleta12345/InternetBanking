@@ -8,9 +8,9 @@
 	<packaging>pom</packaging>
 
 	<modules>
-		<module>./ControllerLayer</module>
-		<module>./ServiceLayer</module>
-		<module>./PersistenceLayer</module>
+		<module>./InternetBanking-webapp</module>
+		<module>./InternetBanking-serviceLayer</module>
+		<module>./InternetBanking-persistenceLayer</module>
 	</modules>
 
 	<properties>
@@ -23,7 +23,7 @@
 		<dependencies>
 			<dependency>
 				<groupId>com.iquestgroup.advancedframeworks</groupId>
-				<artifactId>persistenceLayer</artifactId>
+				<artifactId>InternetBanking-persistenceLayer</artifactId>
 				<version>1.0.0-SNAPSHOT</version>
 			</dependency>
 
@@ -128,7 +128,7 @@
 
 			<dependency>
 				<groupId>com.iquestgroup.advancedframeworks</groupId>
-				<artifactId>serviceLayer</artifactId>
+				<artifactId>InternetBanking-serviceLayer</artifactId>
 				<version>1.0.0-SNAPSHOT</version>
 			</dependency>
 

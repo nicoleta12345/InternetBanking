@@ -23,17 +23,17 @@ public class TransferTransactionServiceImpl implements TransferTransactionServic
 	@Transactional
 	public void addTransaction(Account sender, Account receiver, double value) {
 		sender.setAmount(sender.getAmount() - value);
-		accountDao.updateAccount(sender);
+		accountDao.update(sender);
 		
 		receiver.setAmount(receiver.getAmount() + value);
-		accountDao.updateAccount(receiver);
+		accountDao.update(receiver);
 
 		TransferTransaction transaction = new TransferTransaction();
 		transaction.setSenderAccount(sender);
 		transaction.setReceiverAccount(receiver);
 		transaction.setValue(value);
 
-		transferTransactionDao.createTransaction(transaction);		
+		transferTransactionDao.create(transaction);		
 	}
 
 }

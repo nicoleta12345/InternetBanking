@@ -11,19 +11,19 @@
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 	
-	<artifactId>serviceLayer</artifactId>
+	<artifactId>InternetBanking-serviceLayer</artifactId>
 	<packaging>jar</packaging>
-	<name>serviceLayer Maven Webapp</name>
+	<name>InternetBanking-serviceLayer Maven Webapp</name>
 	<url>http://maven.apache.org</url>
 
 	<dependencies>
 		<dependency>
 			<groupId>com.iquestgroup.advancedframeworks</groupId>
-			<artifactId>persistenceLayer</artifactId>
+			<artifactId>InternetBanking-persistenceLayer</artifactId>
 		</dependency>			
 	</dependencies>
 
 	<build>
-		<finalName>serviceLayer</finalName>
+		<finalName>InternetBanking-serviceLayer</finalName>
 	</build>
 </project>

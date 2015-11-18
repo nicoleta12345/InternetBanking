@@ -18,7 +18,8 @@ import com.iquest.advancedframeworks.internetbanking.services.UserService;
 
 /**
  * The UserController class represents a controller which interacts with the
- * views and the service implementations. It is mapped to a certain url.
+ * user specific views and the service implementations. It is mapped to a
+ * certain url.
  * 
  * @author Nicoleta Barbulescu
  *
@@ -41,9 +42,15 @@ public class UserController {
   @Autowired
   AccountService accountService;
 
+  /**
+   * Simulates the login of a user. This will be replaced with a proper
+   * authentication.
+   * 
+   * @param session
+   *          informations about the current user are kept into the session
+   */
   @RequestMapping("/login")
   public void login(HttpSession session) {
-    /**/
     User user = userService.getUserbyId(1);
     if (user == null) {
       user = new User();
@@ -76,7 +83,7 @@ public class UserController {
       // creates an account
       accountService.createAccount(account);
       // inserts a user into a database
-      userService.insertUser(user, userDetails, address);
+      userService.insertUser(user);
     }
 
     session.setAttribute("user", user);

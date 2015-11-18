@@ -13,47 +13,22 @@ import com.iquest.advancedframeworks.internetbanking.dao.AccountDao;
 import com.iquest.advancedframeworks.internetbanking.model.Account;
 
 /**
- * The AccountDaoImpl class implements AccountDao interface. It makes CRUD
- * operations on Account objects.
+ * The AccountDaoImpl class implements AccountDao interface and extends the
+ * abstract class GenericDaoImpl taking benefits of its methods and adding more
+ * specific ones.
  * 
  * @author Nicoleta Barbulescu
  *
  */
 @Repository
-public class AccountDaoImpl implements AccountDao {
+public class AccountDaoImpl extends GenericDaoImpl<Account> implements
+    AccountDao {
 
   /**
-   * EntityManager is used to do operation on the database.
+   * EntityManager is used to do operations with the database.
    */
   @PersistenceContext
   private EntityManager entityManager;
-
-  @Override
-  public void createAccount(Account account) {
-    this.entityManager.persist(account);
-    this.entityManager.flush();
-  }
-
-  @Override
-  public Account readAccount(Integer id) {
-    // TODO Auto-generated method stub
-    return null;
-  }
-
-  @Override
-  public Account updateAccount(Account account) {
-    Account accountUpdated = this.entityManager.merge(account);
-    this.entityManager.flush();
-
-    System.out.println("update account");
-    return accountUpdated;
-  }
-
-  @Override
-  public void deleteAccount(Account account) {
-    // TODO Auto-generated method stub
-
-  }
 
   @Override
   public Account getAccountByNo(String accountNumber) {

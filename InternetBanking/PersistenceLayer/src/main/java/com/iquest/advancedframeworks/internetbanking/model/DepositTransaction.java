@@ -7,45 +7,34 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+/**
+ * The DepositTransaction class represents a transaction of type deposit.
+ * 
+ * @author Nicoleta Barbulescu
+ *
+ */
 @Entity
 @Table(name = "transaction_deposit")
 public class DepositTransaction extends Transaction implements Serializable {
 
-	/**
+  /**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 1L;
 
-//	@Id
-//	@GeneratedValue
-//	private int id;
+  /**
+   * The receiver account.
+   */
+  @OneToOne
+  @JoinColumn(name = "receiver_idAccount")
+  private Account receiverAccount;
 
-	@OneToOne
-	@JoinColumn(name = "receiver_idAccount")
-	private Account receiverAccount;
+  public Account getReceiverAccount() {
+    return receiverAccount;
+  }
 
-	public Account getReceiverAccount() {
-		return receiverAccount;
-	}
-
-	public void setReceiverAccount(Account receiverAccount) {
-		this.receiverAccount = receiverAccount;
-	}
-
-//	public int getId() {
-//		return id;
-//	}
-//
-//	public void setId(int id) {
-//		this.id = id;
-//	}
-	
-//	public double getValue() {
-//		return super.getValue();
-//	}
-//
-//	public void setValue(double value) {
-//		super.setValue(value);
-//	}	
+  public void setReceiverAccount(Account receiverAccount) {
+    this.receiverAccount = receiverAccount;
+  }
 
 }

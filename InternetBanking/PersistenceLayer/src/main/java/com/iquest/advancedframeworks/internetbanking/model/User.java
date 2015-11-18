@@ -58,7 +58,7 @@ public class User {
 	 * The user accounts. Into the database the account primary key(id) will be
 	 * set as a foreign key into the table generated for this class.
 	 */
-	@OneToMany(fetch = FetchType.EAGER)
+	@OneToMany()
 	@JoinTable(joinColumns = @JoinColumn(name = "user_Id") , inverseJoinColumns = @JoinColumn(name = "account_Id") )
 	private List<Account> accounts = new ArrayList<>();
 
@@ -106,7 +106,6 @@ public class User {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((accounts == null) ? 0 : accounts.hashCode());
 		result = prime * result + id;
 		result = prime * result + ((password == null) ? 0 : password.hashCode());
 		result = prime * result + ((userCode == null) ? 0 : userCode.hashCode());
@@ -123,11 +122,6 @@ public class User {
 		if (getClass() != obj.getClass())
 			return false;
 		User other = (User) obj;
-		if (accounts == null) {
-			if (other.accounts != null)
-				return false;
-		} else if (!accounts.equals(other.accounts))
-			return false;
 		if (id != other.id)
 			return false;
 		if (password == null) {
