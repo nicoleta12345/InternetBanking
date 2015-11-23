@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Set;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -50,7 +51,7 @@ public class User {
   /**
    * The user role for authentication.
    */
-  @ManyToMany()
+  @ManyToMany(fetch=FetchType.LAZY)
   @JoinTable(joinColumns = @JoinColumn(name = "role_Id"), inverseJoinColumns = @JoinColumn(name = "user_Id"))
   private Set<UserRole> roles;
 
@@ -66,7 +67,7 @@ public class User {
    * The user accounts. Into the database the account primary key(id) will be
    * set as a foreign key into the table generated for this class.
    */
-  @OneToMany()
+  @OneToMany(fetch=FetchType.LAZY)
   @JoinTable(joinColumns = @JoinColumn(name = "user_Id"), inverseJoinColumns = @JoinColumn(name = "account_Id"))
   private List<Account> accounts = new ArrayList<>();
 
