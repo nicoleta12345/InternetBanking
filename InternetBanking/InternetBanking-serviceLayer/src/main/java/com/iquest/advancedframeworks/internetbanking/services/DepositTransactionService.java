@@ -1,6 +1,6 @@
 package com.iquest.advancedframeworks.internetbanking.services;
 
-import com.iquest.advancedframeworks.internetbanking.model.Account;
+import com.iquest.advancedframeworks.internetbanking.persistence.model.Account;
 
 /**
  * The DepositTransactionService interface specifies services for

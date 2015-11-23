@@ -1,6 +1,6 @@
 package com.iquest.advancedframeworks.internetbanking.services;
 
-import com.iquest.advancedframeworks.internetbanking.model.UserRole;
+import com.iquest.advancedframeworks.internetbanking.persistence.model.UserRole;
 
 /**
  * The UserRoleService defines services for UserRole objects.

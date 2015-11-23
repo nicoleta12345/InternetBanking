@@ -1,7 +1,7 @@
 package com.iquest.advancedframeworks.internetbanking.services;
 
-import com.iquest.advancedframeworks.internetbanking.model.Account;
-import com.iquest.advancedframeworks.internetbanking.model.User;
+import com.iquest.advancedframeworks.internetbanking.persistence.model.Account;
+import com.iquest.advancedframeworks.internetbanking.persistence.model.User;
 
 /**
  * The UserService interface represents a service which can do operations with User objects.

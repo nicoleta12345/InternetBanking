@@ -4,9 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.iquest.advancedframeworks.internetbanking.dao.UserDao;
-import com.iquest.advancedframeworks.internetbanking.model.Account;
-import com.iquest.advancedframeworks.internetbanking.model.User;
+import com.iquest.advancedframeworks.internetbanking.persistence.dao.UserDao;
+import com.iquest.advancedframeworks.internetbanking.persistence.model.Account;
+import com.iquest.advancedframeworks.internetbanking.persistence.model.User;
 import com.iquest.advancedframeworks.internetbanking.services.UserService;
 
 /**

@@ -2,8 +2,8 @@ package com.iquest.advancedframeworks.internetbanking.services;
 
 import java.util.List;
 
-import com.iquest.advancedframeworks.internetbanking.model.Account;
-import com.iquest.advancedframeworks.internetbanking.model.User;
+import com.iquest.advancedframeworks.internetbanking.persistence.model.Account;
+import com.iquest.advancedframeworks.internetbanking.persistence.model.User;
 
 /**
  * The AccountService interface represents a service which operates with Account objects.
