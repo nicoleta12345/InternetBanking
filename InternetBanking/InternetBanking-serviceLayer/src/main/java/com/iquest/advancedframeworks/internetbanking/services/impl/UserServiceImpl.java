@@ -1,5 +1,7 @@
 package com.iquest.advancedframeworks.internetbanking.services.impl;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,6 +23,11 @@ import com.iquest.advancedframeworks.internetbanking.services.exceptions.UserNot
 public class UserServiceImpl implements UserService {
 
   /**
+   * Logger instance used to log information from the UserServiceImpl.
+   */
+  private static final Logger LOGGER = LoggerFactory.getLogger(UserServiceImpl.class);
+
+  /**
    * An UserDao injected object used to make operations with the User objects into the database.
    */
   @Autowired
@@ -30,8 +37,9 @@ public class UserServiceImpl implements UserService {
   @Transactional
   public User getUserbyId(Integer id) throws UserNotFound {
     User user = userDao.read(id);
-    
+
     if (user == null) {
+      LOGGER.error("UserNotFound! The user with the id " + id + "could not be found!");
       throw new UserNotFound("The user could not be found into the database!");
     }
 
@@ -41,6 +49,7 @@ public class UserServiceImpl implements UserService {
   @Override
   @Transactional
   public void insertUser(User user) {
+    LOGGER.info("new User");
     userDao.create(user);
   }
 
@@ -50,6 +59,7 @@ public class UserServiceImpl implements UserService {
     User user = userDao.getUserByAccount(sender);
 
     if (user == null) {
+      LOGGER.error("UserNotFound! The user identified by the Account" + sender + "could not be found!");
       throw new UserNotFound("The user could not be found into the database!");
     }
 
@@ -62,6 +72,7 @@ public class UserServiceImpl implements UserService {
     User user = userDao.getUserByUsername(username);
 
     if (user == null) {
+      LOGGER.error("UserNotFound! The user with the username " + username + "could not be found!");
       throw new UserNotFound("The user could not be found into the database!");
     }
 

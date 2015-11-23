@@ -13,9 +13,17 @@ public class ApplicationException extends Exception {
    */
   private static final long serialVersionUID = 1L;
 
+  /**
+   * Default constructor.
+   */
   public ApplicationException() {
   };
 
+  /**
+   * Parametrized constructor.
+   * 
+   * @param message
+   */
   public ApplicationException(String message) {
     super(message);
   }

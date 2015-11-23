@@ -2,6 +2,8 @@ package com.iquest.advancedframeworks.internetbanking.webapp.controllers;
 
 import javax.servlet.http.HttpSession;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
@@ -16,6 +18,7 @@ import com.iquest.advancedframeworks.internetbanking.services.AccountService;
 import com.iquest.advancedframeworks.internetbanking.services.UserService;
 import com.iquest.advancedframeworks.internetbanking.services.exceptions.AccountNotFound;
 import com.iquest.advancedframeworks.internetbanking.services.exceptions.UserNotFound;
+import com.iquest.advancedframeworks.internetbanking.services.impl.DepositTransactionServiceImpl;
 
 /**
  * The AccountController class represents a controller which interacts with the account specific views and the service
@@ -27,6 +30,11 @@ import com.iquest.advancedframeworks.internetbanking.services.exceptions.UserNot
 @Controller
 @RequestMapping("/account")
 public class AccountController {
+
+  /**
+   * Logger instance used to log information from the DepositTransactionServiceImpl.
+   */
+  private static final Logger LOGGER = LoggerFactory.getLogger(AccountController.class);
 
   /**
    * The accounts service.

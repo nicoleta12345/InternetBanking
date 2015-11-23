@@ -3,6 +3,8 @@ package com.iquest.advancedframeworks.internetbanking.services.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -27,6 +29,11 @@ import com.iquest.advancedframeworks.internetbanking.services.exceptions.UserNot
 public class CustomUserDetailsService implements UserDetailsService {
 
   /**
+   * Logger instance used to log information from the CustomUserDetailsService.
+   */
+  private static final Logger LOGGER = LoggerFactory.getLogger(CustomUserDetailsService.class);
+  
+  /**
    * THe repository for the User objects.
    */
   @Autowired
@@ -38,11 +45,12 @@ public class CustomUserDetailsService implements UserDetailsService {
   @Transactional(readOnly = true)
   public UserDetails loadUserByUsername(String username) {
     User user = null;
+    
     try {
       user = userService.getUserByUsername(username);
     }
     catch (UserNotFound e) {
-      System.out.println("User not found");
+      LOGGER.error("UserNotFound! The user with the username: " + username + "could not be found");
     }
 
     boolean enabled = true;

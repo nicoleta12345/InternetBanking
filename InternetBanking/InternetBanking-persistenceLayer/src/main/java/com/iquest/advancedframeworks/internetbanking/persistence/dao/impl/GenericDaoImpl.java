@@ -5,6 +5,9 @@ import java.lang.reflect.ParameterizedType;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.iquest.advancedframeworks.internetbanking.persistence.dao.GenericDao;
 
 /**
@@ -16,6 +19,11 @@ import com.iquest.advancedframeworks.internetbanking.persistence.dao.GenericDao;
  * @param <T>
  */
 public abstract class GenericDaoImpl<T> implements GenericDao<T> {
+
+  /**
+   * Logger instance used to log information from the GenericDaoImpl class and from classes which extend this class.
+   */
+  protected static final Logger LOGGER = LoggerFactory.getLogger(GenericDaoImpl.class);
 
   /**
    * EntityManager is used to do operations with the database.
@@ -30,8 +38,7 @@ public abstract class GenericDaoImpl<T> implements GenericDao<T> {
 
   /**
    * Parameterized constructor. Sets the runtime class of the entity type.
-   */
-  
+   */  
   @SuppressWarnings("unchecked")
   public GenericDaoImpl() {
     classType = ((Class<T>) ((ParameterizedType) getClass()

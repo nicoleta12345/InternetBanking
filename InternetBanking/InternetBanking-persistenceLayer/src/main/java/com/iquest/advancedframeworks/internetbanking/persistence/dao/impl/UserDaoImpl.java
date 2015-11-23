@@ -55,6 +55,7 @@ public class UserDaoImpl extends GenericDaoImpl<User> implements UserDao {
     return result;
   }
 
+  @SuppressWarnings("unchecked")
   @Override
   public List<Account> getAccountsNo(User user) {
     System.out.println("in query " + user.getId());
@@ -92,6 +93,7 @@ public class UserDaoImpl extends GenericDaoImpl<User> implements UserDao {
 
   }
 
+  @SuppressWarnings("unchecked")
   @Override
   public List<UserRole> getUserRoles(User user) {
     CriteriaBuilder cb = entityManager.getCriteriaBuilder();
