@@ -1,0 +1,137 @@
+//package com.iquest.remotelearning.internetbanking.dao;
+//
+//import java.util.ArrayList;
+//import java.util.HashSet;
+//import java.util.List;
+//import java.util.Set;
+//
+//import org.junit.Test;
+//import org.junit.runner.RunWith;
+//import org.springframework.beans.factory.annotation.Autowired;
+//import org.springframework.test.context.ContextConfiguration;
+//import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+//import org.springframework.test.context.support.AnnotationConfigContextLoader;
+//import org.springframework.test.context.transaction.TransactionConfiguration;
+//import org.springframework.transaction.annotation.Transactional;
+//
+//import com.iquest.advancedframeworks.internetbanking.configuration.PersistenceConfiguration;
+//import com.iquest.advancedframeworks.internetbanking.model.Account;
+//import com.iquest.advancedframeworks.internetbanking.model.Address;
+//import com.iquest.advancedframeworks.internetbanking.model.User;
+//import com.iquest.advancedframeworks.internetbanking.model.UserDetails;
+//import com.iquest.advancedframeworks.internetbanking.model.UserRole;
+//import com.iquest.advancedframeworks.internetbanking.services.AccountService;
+//import com.iquest.advancedframeworks.internetbanking.services.UserRoleService;
+//import com.iquest.advancedframeworks.internetbanking.services.UserService;
+//
+//@RunWith(SpringJUnit4ClassRunner.class)
+//@ContextConfiguration(classes = PersistenceConfiguration.class, loader = AnnotationConfigContextLoader.class)
+//@TransactionConfiguration(defaultRollback = false)
+//public class UserDaoTest {
+//
+//  @Autowired
+//  UserService userService;
+//
+//  @Autowired
+//  AccountService accountService;
+//  
+//  @Autowired
+//  UserRoleService userRoleService;
+//
+//  @Test
+//  @Transactional
+//  public void createUser() {
+//    User user = userService.getUserbyId(1);
+//    if (user == null) {
+//      user = new User();
+//      Account account = new Account();
+//      UserDetails userDetails = new UserDetails();
+//      Address address = new Address();
+//      List<Account> accounts = new ArrayList<>();
+//      
+//      UserRole userRole = new UserRole();
+//      userRole.setRole("ROLE_USER");
+//      userRoleService.addUserRole(userRole);
+//     
+//      Set<UserRole> roles = new HashSet<>();
+//      roles.add(userRole);
+//
+//      account.setAccountNumber("123");
+//      account.setAmount(100.5);
+//      accounts.add(account);
+//
+//      address.setStreetName("Strada Merilor");
+//      address.setStreetNumber(21);
+//      address.setTown("Craiova");
+//      address.setPostalCode(Long.valueOf(123));
+//
+//      userDetails.setFirstName("Ana");
+//      userDetails.setLastName("Popescu");
+//      userDetails.setCnp("12345678901234");
+//      userDetails.setAge(22);
+//      userDetails.setEmail("lala@yahoo.com");
+//      userDetails.setAddress(address);
+//
+//      user.setPassword("user");
+//      user.setUsername("user");
+//      user.setRoles(roles);
+//      user.setAccounts(accounts);
+//      user.setUserDetails(userDetails);
+//
+//      
+//      // creates an account
+//      accountService.createAccount(account);
+//      // inserts a user into a database
+//      userService.insertUser(user);
+//    }
+//  }
+//
+//  @Test
+//  @Transactional
+//  public void createAdmin() {
+//    User user = userService.getUserbyId(1);
+//    if (user == null) {
+//      user = new User();
+//      Account account = new Account();
+//      UserDetails userDetails = new UserDetails();
+//      Address address = new Address();
+//      List<Account> accounts = new ArrayList<>();
+//      
+//      UserRole userRole = new UserRole();
+//      userRole.setRole("ROLE_ADMIN");
+//      userRoleService.addUserRole(userRole);
+//     
+//      Set<UserRole> roles = new HashSet<>();
+//      roles.add(userRole);
+//
+//
+//      account.setAccountNumber("150");
+//      account.setAmount(100.5);
+//      accounts.add(account);
+//
+//      address.setStreetName("Strada Merilor");
+//      address.setStreetNumber(21);
+//      address.setTown("Craiova");
+//      address.setPostalCode(Long.valueOf(123));
+//
+//      userDetails.setFirstName("Ana");
+//      userDetails.setLastName("Popescu");
+//      userDetails.setCnp("12345678901234");
+//      userDetails.setAge(22);
+//      userDetails.setEmail("lala@yahoo.com");
+//      userDetails.setAddress(address);
+//
+//      user.setPassword("admin");
+//      user.setUsername("admin");
+//      user.setRoles(roles);
+//      user.setAccounts(accounts);
+//      user.setUserDetails(userDetails);
+//
+//      // creates an account
+//      accountService.createAccount(account);
+//      // inserts a user into a database
+//      userService.insertUser(user);
+//    }
+//  }
+//
+//}
