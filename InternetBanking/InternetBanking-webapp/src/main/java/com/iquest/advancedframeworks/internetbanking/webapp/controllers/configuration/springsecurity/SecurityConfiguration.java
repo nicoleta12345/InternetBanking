@@ -15,7 +15,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(securedEnabled = true)
 @ComponentScan(basePackages = {
-		"com.iquest.advancedframeworks.internetbanking.controllers.configuration.springsecurity" })
+		"com.iquest.advancedframeworks.internetbanking.webapp.controllers.configuration.springsecurity" })
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 	@Autowired
