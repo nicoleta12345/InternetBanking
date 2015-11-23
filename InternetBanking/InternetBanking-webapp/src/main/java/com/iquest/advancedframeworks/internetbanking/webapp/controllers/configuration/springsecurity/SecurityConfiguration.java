@@ -13,7 +13,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true)
+@EnableGlobalMethodSecurity(securedEnabled = true)
 @ComponentScan(basePackages = {
 		"com.iquest.advancedframeworks.internetbanking.controllers.configuration.springsecurity" })
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {

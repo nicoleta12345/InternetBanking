@@ -1,10 +1,8 @@
 package com.iquest.advancedframeworks.internetbanking.persistence.model;
 
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
@@ -31,12 +29,10 @@ public class Account {
    */
   private String accountNumber;
 
-  @OneToOne(fetch=FetchType.LAZY)
-  private User user;
   /**
    * The amount of the account.
    */
-  @NotNull  
+  @NotNull
   private double amount;
 
   public Account() {
