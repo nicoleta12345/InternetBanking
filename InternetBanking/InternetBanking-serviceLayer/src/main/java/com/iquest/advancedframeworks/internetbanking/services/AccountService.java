@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.iquest.advancedframeworks.internetbanking.persistence.model.Account;
 import com.iquest.advancedframeworks.internetbanking.persistence.model.User;
+import com.iquest.advancedframeworks.internetbanking.services.exceptions.AccountNotFound;
 
 /**
  * The AccountService interface represents a service which operates with Account objects.
@@ -25,8 +26,9 @@ public interface AccountService {
    * 
    * @param accountNo the account identifier(the account number)
    * @return the Account object identified by its number
+   * @throws AccountNotFound if the account could not be found
    */
-  Account getAccountByNo(String accountNo);
+  Account getAccountByNo(String accountNo) throws AccountNotFound;
 
   /**
    * Updates an account.
@@ -41,7 +43,8 @@ public interface AccountService {
    * 
    * @param user the identifier for the accounts
    * @return a list with Account objects
+   * @throws AccountNotFound if the account can not be found
    */
-  List<Account> getAccountsNo(User user);
+  List<Account> getAccountsNo(User user) throws AccountNotFound;
   
 }

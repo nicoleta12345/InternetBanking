@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.iquest.advancedframeworks.internetbanking.persistence.model.User;
 import com.iquest.advancedframeworks.internetbanking.persistence.model.UserRole;
 import com.iquest.advancedframeworks.internetbanking.services.UserService;
+import com.iquest.advancedframeworks.internetbanking.services.exceptions.UserNotFound;
 
 /**
  * The CustomUserDetailsService class represent a custom implementation for UserDetailsService. It is used to
@@ -36,16 +37,18 @@ public class CustomUserDetailsService implements UserDetailsService {
    */
   @Transactional(readOnly = true)
   public UserDetails loadUserByUsername(String username) {
-    User user = userService.getUserByUsername(username);
+    User user = null;
+    try {
+      user = userService.getUserByUsername(username);
+    }
+    catch (UserNotFound e) {
+      System.out.println("User not found");
+    }
 
     boolean enabled = true;
     boolean accountNonExpired = true;
     boolean credentialsNonExpired = true;
     boolean accountNonLocked = true;
-
-    if (user == null) {
-      System.out.println("User not found");
-    }
 
     return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), enabled,
         accountNonExpired, credentialsNonExpired, accountNonLocked, getGrantedAuthorities(user));

@@ -31,6 +31,8 @@ public abstract class GenericDaoImpl<T> implements GenericDao<T> {
   /**
    * Parameterized constructor. Sets the runtime class of the entity type.
    */
+  
+  @SuppressWarnings("unchecked")
   public GenericDaoImpl() {
     classType = ((Class<T>) ((ParameterizedType) getClass()
         .getGenericSuperclass()).getActualTypeArguments()[0]);

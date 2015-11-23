@@ -11,6 +11,7 @@ import com.iquest.advancedframeworks.internetbanking.persistence.dao.UserDao;
 import com.iquest.advancedframeworks.internetbanking.persistence.model.Account;
 import com.iquest.advancedframeworks.internetbanking.persistence.model.User;
 import com.iquest.advancedframeworks.internetbanking.services.AccountService;
+import com.iquest.advancedframeworks.internetbanking.services.exceptions.AccountNotFound;
 
 /**
  * The AccountServiceImpl class implements AccountService interface and calls an AccountDAo object to perform operations
@@ -41,8 +42,14 @@ public class AccountServiceImpl implements AccountService {
   }
 
   @Override
-  public Account getAccountByNo(String accountNo) {
-    return accountDao.getAccountByNo(accountNo);
+  public Account getAccountByNo(String accountNo) throws AccountNotFound {
+    Account account = accountDao.getAccountByNo(accountNo);
+    
+    if(account == null) {
+      throw new AccountNotFound("The account could not be found!");
+    }
+    
+    return account;
   }
 
   @Override
@@ -52,8 +59,14 @@ public class AccountServiceImpl implements AccountService {
 
   @Override
   @Transactional
-  public List<Account> getAccountsNo(User user) {
-    return userDao.getAccountsNo(user);
+  public List<Account> getAccountsNo(User user) throws AccountNotFound {
+    List<Account> accounts = userDao.getAccountsNo(user);
+    
+    if(accounts == null) {
+      throw new AccountNotFound("The account could not be found!");
+    }
+    
+    return accounts;
   }
 
 }

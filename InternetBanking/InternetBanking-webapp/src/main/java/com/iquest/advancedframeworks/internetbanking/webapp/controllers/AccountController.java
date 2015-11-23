@@ -14,11 +14,12 @@ import com.iquest.advancedframeworks.internetbanking.persistence.model.Account;
 import com.iquest.advancedframeworks.internetbanking.persistence.model.User;
 import com.iquest.advancedframeworks.internetbanking.services.AccountService;
 import com.iquest.advancedframeworks.internetbanking.services.UserService;
+import com.iquest.advancedframeworks.internetbanking.services.exceptions.AccountNotFound;
+import com.iquest.advancedframeworks.internetbanking.services.exceptions.UserNotFound;
 
 /**
- * The AccountController class represents a controller which interacts with the
- * account specific views and the service implementations. It is mapped to a
- * certain url.
+ * The AccountController class represents a controller which interacts with the account specific views and the service
+ * implementations. It is mapped to a certain url.
  * 
  * @author Nicoleta Barbulescu
  *
@@ -51,28 +52,37 @@ public class AccountController {
   }
 
   /**
-   * Gets a searched account from the database and displays informations about
-   * it in a jsp view. The account is identified by its number.
+   * Gets a searched account from the database and displays informations about it in a jsp view. The account is
+   * identified by its number.
    * 
    * @param session
-   * @param accountNumber
-   *          the identifier of the account
-   * @param model
-   *          the Model object used to set attributes in the returned view
+   * @param accountNumber the identifier of the account
+   * @param model the Model object used to set attributes in the returned view
    * @return the name of the view which will be rendered
    */
   @Secured("ROLE_USER")
   @RequestMapping(value = "/getAccount", method = RequestMethod.POST)
-  public String getUser(HttpSession session,
-      @RequestParam String accountNumber, Model model) {
-    Account account = accountService.getAccountByNo(accountNumber);
-
+  public String getUser(HttpSession session, @RequestParam String accountNumber, Model model) {
     String loggedUserUsername = (String) session.getAttribute("user");
+    Account account;
+    User user = null;
     
-    User user = userService.getUserByAccount(account);
-    if (user.getUsername() != loggedUserUsername) {
-      // throw ...
+    try {
+      account = accountService.getAccountByNo(accountNumber);
+      user = userService.getUserByAccount(account);
     }
+    catch (AccountNotFound | UserNotFound e) {
+      model.addAttribute("errorMessage", "Something went wrong, please try again later!");
+
+      return "error";
+    }    
+
+    if (user.getUsername() != loggedUserUsername) {
+      model.addAttribute("errorMessage", "Something went wrong, please try again later!");
+
+      return "error";
+    }
+    
     model.addAttribute("accountNo", accountNumber);
     model.addAttribute("amount", account.getAmount());
 

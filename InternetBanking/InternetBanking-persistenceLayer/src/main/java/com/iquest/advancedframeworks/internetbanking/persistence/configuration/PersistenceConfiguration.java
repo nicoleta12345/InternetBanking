@@ -51,7 +51,7 @@ public class PersistenceConfiguration {
 
     factory.setDataSource(dataSource());
     factory.setJpaVendorAdapter(vendorAdapter);
-    factory.setPackagesToScan("com.iquest.advancedframeworks.internetbanking.model");
+    factory.setPackagesToScan("com.iquest.advancedframeworks.internetbanking.persistence.model");
 
     factory.afterPropertiesSet();
     factory.setLoadTimeWeaver(new InstrumentationLoadTimeWeaver());
