@@ -1,6 +1,8 @@
 package com.iquest.advancedframeworks.internetbanking.persistence.configuration;
 
 
+import java.util.Properties;
+
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 
@@ -52,6 +54,7 @@ public class PersistenceConfiguration {
     factory.setDataSource(dataSource());
     factory.setJpaVendorAdapter(vendorAdapter);
     factory.setPackagesToScan("com.iquest.advancedframeworks.internetbanking.persistence.model");
+    factory.setJpaProperties(additionalProperties());
 
     factory.afterPropertiesSet();
     factory.setLoadTimeWeaver(new InstrumentationLoadTimeWeaver());
@@ -73,6 +76,13 @@ public class PersistenceConfiguration {
       dataSource.setPassword(environment.getRequiredProperty("jdbc.password"));
       
       return dataSource;
+  }
+  
+  Properties additionalProperties() {
+    Properties properties = new Properties();
+    properties.setProperty("hibernate.dialect",
+        environment.getRequiredProperty("hibernate.dialect"));
+    return properties;
   }
 
 }

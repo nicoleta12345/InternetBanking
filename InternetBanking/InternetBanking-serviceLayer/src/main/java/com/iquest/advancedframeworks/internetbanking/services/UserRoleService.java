@@ -1,6 +1,7 @@
 package com.iquest.advancedframeworks.internetbanking.services;
 
-import com.iquest.advancedframeworks.internetbanking.persistence.model.UserRole;
+import com.iquest.advancedframeworks.internetbanking.services.dto.UserRoleDto;
+import com.iquest.advancedframeworks.internetbanking.services.exceptions.UserRoleRegisteredException;
 
 /**
  * The UserRoleService defines services for UserRole objects.
@@ -11,10 +12,11 @@ import com.iquest.advancedframeworks.internetbanking.persistence.model.UserRole;
 public interface UserRoleService {
 
   /**
-   * Adds a new UserRole object.
+   * Adds a new UserRole object, constructed with the information from a UserRoleDto.
    * 
-   * @param userRole the UserRole object
+   * @param userRoleDto the UserRoleDto object
+   * @throws UserRoleRegisteredException thrown if the UserRole already exists
    */
-  void addUserRole(UserRole userRole);
+  void addUserRole(UserRoleDto userRole) throws UserRoleRegisteredException;
 
 }

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -14,61 +15,58 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 
 /**
- * The User class represents a customer for an online banking application. Due
- * to @Entity annotation there will be generated a table for this class into a
- * database.
+ * The User class represents a customer for an online banking application.
  * 
  * @author Nicoleta Barbulescu
  *
  */
 @Entity
-@Table(name = "user")
+@Table(name = "USERS")
 public class User {
 
   /**
-   * The id of the user. It represents the primary key for the table which will
-   * be generated.
+   * The id of the user. It represents the primary key for the table which will be generated.
    */
   @Id
   @GeneratedValue
+  @Column(name = "ID")
   private int id;
 
   /**
    * The user code used for authentication.
    */
-  @NotNull
+  @Column(name = "USERNAME", nullable = false, unique = true)
   private String username;
 
   /**
    * The password used for authentication.
    */
-  @NotNull
+  @Column(name = "PASSWORD", nullable = false, unique = true)
   private String password;
 
   /**
    * The user role for authentication.
    */
-  @ManyToMany(fetch=FetchType.LAZY)
-  @JoinTable(joinColumns = @JoinColumn(name = "role_Id"), inverseJoinColumns = @JoinColumn(name = "user_Id"))
+  @ManyToMany(fetch = FetchType.LAZY)
+  @JoinTable(joinColumns = @JoinColumn(name = "ROLE_ID") , inverseJoinColumns = @JoinColumn(name = "USER_ID") )
   private Set<UserRole> roles;
 
   /**
-   * The user details. Into the database the userdetails primary key(id) will be
-   * set as a foreign key into the table generated for this class.
+   * The user details. Into the database the userdetails primary key(id) will be set as a foreign key into the table
+   * generated for this class.
    */
-  @OneToOne
-  @JoinColumn(name = "userDetails_Id")
+  @OneToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "USER_DETAILS_ID")
   private UserDetails userDetails;
 
   /**
-   * The user accounts. Into the database the account primary key(id) will be
-   * set as a foreign key into the table generated for this class.
+   * The user accounts. Into the database the account primary key(id) will be set as a foreign key into the table
+   * generated for this class.
    */
-  @OneToMany(fetch=FetchType.LAZY)
-  @JoinTable(joinColumns = @JoinColumn(name = "user_Id"), inverseJoinColumns = @JoinColumn(name = "account_Id"))
+  @OneToMany(fetch = FetchType.LAZY)
+  @JoinTable(joinColumns = @JoinColumn(name = "USER_ID") , inverseJoinColumns = @JoinColumn(name = "ACCOUNT_ID") )
   private List<Account> accounts = new ArrayList<>();
 
   public List<Account> getAccounts() {
@@ -126,8 +124,7 @@ public class User {
     result = prime * result + id;
     result = prime * result + ((password == null) ? 0 : password.hashCode());
     result = prime * result + ((username == null) ? 0 : username.hashCode());
-    result = prime * result
-        + ((userDetails == null) ? 0 : userDetails.hashCode());
+    result = prime * result + ((userDetails == null) ? 0 : userDetails.hashCode());
     return result;
   }
 
@@ -145,26 +142,28 @@ public class User {
     if (password == null) {
       if (other.password != null)
         return false;
-    } else if (!password.equals(other.password))
+    }
+    else if (!password.equals(other.password))
       return false;
     if (username == null) {
       if (other.username != null)
         return false;
-    } else if (!username.equals(other.username))
+    }
+    else if (!username.equals(other.username))
       return false;
     if (userDetails == null) {
       if (other.userDetails != null)
         return false;
-    } else if (!userDetails.equals(other.userDetails))
+    }
+    else if (!userDetails.equals(other.userDetails))
       return false;
     return true;
   }
 
   @Override
   public String toString() {
-    return "User [id=" + id + ", username=" + username + ", password="
-        + password + ", userDetails=" + userDetails + ", accounts=" + accounts
-        + "]";
+    return "User [id=" + id + ", username=" + username + ", password=" + password + ", userDetails=" + userDetails
+        + ", accounts=" + accounts + "]";
   }
 
 }

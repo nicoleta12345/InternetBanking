@@ -8,11 +8,11 @@
 <title>Deposit</title>
 </head>
 <body>
-	<form:form action="deposit" method="post">
+	<form:form modelAttribute = "depositTransfer" action="deposit" method="post">
 		<label>Receiver Account</label>
-		<input type="text" name="receiverNumberAccount" />
+		<input type="text" name="receiverAccountNumber" />
 		<label>Value</label>
-		<input type="text" name="valueSent" />
+		<input type="text" name="value" />
 
 		<button type="submit">Make Transaction</button>
 

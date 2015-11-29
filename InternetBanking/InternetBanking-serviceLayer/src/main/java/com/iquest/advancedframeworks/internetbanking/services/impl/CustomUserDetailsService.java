@@ -13,9 +13,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.iquest.advancedframeworks.internetbanking.persistence.model.User;
 import com.iquest.advancedframeworks.internetbanking.persistence.model.UserRole;
 import com.iquest.advancedframeworks.internetbanking.services.UserService;
+import com.iquest.advancedframeworks.internetbanking.services.dto.UserDto;
 import com.iquest.advancedframeworks.internetbanking.services.exceptions.UserNotFound;
 
 /**
@@ -44,7 +44,7 @@ public class CustomUserDetailsService implements UserDetailsService {
    */
   @Transactional(readOnly = true)
   public UserDetails loadUserByUsername(String username) {
-    User user = null;
+    UserDto user = null;
     
     try {
       user = userService.getUserByUsername(username);
@@ -68,7 +68,7 @@ public class CustomUserDetailsService implements UserDetailsService {
    * @param user the user for witch the granted authorities are requested
    * @return a list with the user authorities
    */
-  private List<GrantedAuthority> getGrantedAuthorities(User user) {
+  private List<GrantedAuthority> getGrantedAuthorities(UserDto user) {
     List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
 
     for (UserRole userRole : user.getRoles()) {

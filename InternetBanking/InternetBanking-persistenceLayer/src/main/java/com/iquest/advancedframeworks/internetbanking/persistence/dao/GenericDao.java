@@ -1,5 +1,8 @@
 package com.iquest.advancedframeworks.internetbanking.persistence.dao;
 
+import com.iquest.advancedframeworks.internetbanking.persistence.dao.exception.EntityDeletedException;
+import com.iquest.advancedframeworks.internetbanking.persistence.dao.exception.EntityRegisteredException;
+
 /**
  * The GenericDao interface defines the CRUD operations for any type of entity.
  * 
@@ -12,16 +15,15 @@ public interface GenericDao<T> {
   /**
    * Creates a new entry for the given object into the database.
    * 
-   * @param t
-   *          the object which will be inserted into the database
+   * @param t the object which will be inserted into the database
+   * @throws EntityRegisteredException if the entity already exists into the database
    */
-  void create(T t);
+  void create(T t) throws EntityRegisteredException;
 
   /**
    * Reads an object of type T with the primary key id, from the database.
    * 
-   * @param id
-   *          the primary key of the object
+   * @param id the primary key of the object
    * @return an object of type T identified by its id
    */
   T read(Object id);
@@ -29,18 +31,16 @@ public interface GenericDao<T> {
   /**
    * Updates an entry into the database with the updated informations given.
    * 
-   * @param t
-   *          the object which contains the updated details
+   * @param t the object which contains the updated details
    * @return the updated object
+   * @throws EntityDeletedException
    */
-  T update(T t);
+  T update(T t) throws EntityDeletedException;
 
   /**
    * Deletes an object from the database.
    * 
-   * @param t
-   *          the object of type T corresponding to the entry form the database
-   *          which will be deleted
+   * @param t the object of type T corresponding to the entry form the database which will be deleted
    */
   void delete(T t);
 

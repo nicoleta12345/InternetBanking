@@ -2,7 +2,9 @@ package com.iquest.advancedframeworks.internetbanking.persistence.dao.impl;
 
 import java.util.List;
 
+import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -12,13 +14,14 @@ import javax.persistence.criteria.Root;
 import org.springframework.stereotype.Repository;
 
 import com.iquest.advancedframeworks.internetbanking.persistence.dao.UserDao;
+import com.iquest.advancedframeworks.internetbanking.persistence.dao.exception.EntityRegisteredException;
 import com.iquest.advancedframeworks.internetbanking.persistence.model.Account;
 import com.iquest.advancedframeworks.internetbanking.persistence.model.User;
 import com.iquest.advancedframeworks.internetbanking.persistence.model.UserRole;
 
 /**
- * The CustomerDaoImpl class implements CustomerDao interface and extends the abstract class GenericDaoImpl taking
- * benefits of its methods and adding more specific ones.
+ * The UserDaoImpl class implements UserDao interface and extends the abstract class GenericDaoImpl taking benefits of
+ * its methods and adding more specific ones.
  * 
  * @author Nicoleta Barbulescu
  *
@@ -33,64 +36,50 @@ public class UserDaoImpl extends GenericDaoImpl<User> implements UserDao {
   EntityManager entityManager;
 
   @Override
-  public void create(User t) {
-    entityManager.persist(t.getUserDetails());
-    entityManager.persist(t.getUserDetails().getAddress());
-    entityManager.persist(t);
+  public void create(User t) throws EntityRegisteredException {
+    try {
+      entityManager.persist(t.getUserDetails());
+      entityManager.persist(t.getUserDetails().getAddress());
+      entityManager.persist(t);
+    } catch (EntityExistsException e) {
+      throw new EntityRegisteredException("The user already exists into the database!");
+    }
   }
 
   @Override
   public User getUserByAccount(Account account) {
     CriteriaBuilder cb = entityManager.getCriteriaBuilder();
     CriteriaQuery<User> cq = cb.createQuery(User.class);
-
     Root<User> userRoot = cq.from(User.class);
-
     cq.select(userRoot).where(cb.equal(userRoot.join("accounts").get("id"), account.getAccountId()));
-
     Query q = entityManager.createQuery(cq);
 
-    User result = (User) q.getSingleResult();
-
-    return result;
-  }
-
-  @SuppressWarnings("unchecked")
-  @Override
-  public List<Account> getAccountsNo(User user) {
-    System.out.println("in query " + user.getId());
-    CriteriaBuilder cb = entityManager.getCriteriaBuilder();
-    CriteriaQuery<Account> cq = cb.createQuery(Account.class);
-
-    Root<Account> accountRoot = cq.from(Account.class);
-    //Root<User> userRoot = cq.from(User.class);
-
-    cq.select(accountRoot).where(cb.equal(accountRoot.join("user").get("id"), user.getId()));
-
-    Query q = entityManager.createQuery(cq);
-
-    List<Account> result = (List<Account>) q.getResultList();
+    User result = null;
+    try {
+      result = (User) q.getSingleResult();
+    } catch (NoResultException e) {
+      // do nothing, null will be returned
+    }
 
     return result;
   }
 
   @Override
   public User getUserByUsername(String username) {
-    System.out.println("get user by username");
     CriteriaBuilder cb = entityManager.getCriteriaBuilder();
     CriteriaQuery<User> cq = cb.createQuery(User.class);
-
     Root<User> userRoot = cq.from(User.class);
-
     cq.select(userRoot).where(cb.equal(userRoot.get("username"), username));
-
     Query q = entityManager.createQuery(cq);
 
-    User result = (User) q.getSingleResult();
-    System.out.println("User searched" + result);
+    User result = null;
+    try {
+      result = (User) q.getSingleResult();
+    } catch (NoResultException e) {
+      // do nothing, null will be returned
+    }
 
     return result;
-
   }
 
   @SuppressWarnings("unchecked")
@@ -98,17 +87,13 @@ public class UserDaoImpl extends GenericDaoImpl<User> implements UserDao {
   public List<UserRole> getUserRoles(User user) {
     CriteriaBuilder cb = entityManager.getCriteriaBuilder();
     CriteriaQuery<UserRole> cq = cb.createQuery(UserRole.class);
-
     Root<UserRole> userRoleRoot = cq.from(UserRole.class);
     Root<User> userRoot = cq.from(User.class);
-
     cq.select(userRoleRoot).where(cb.equal(userRoot.get("id"), user.getId()));
-
     Query q = entityManager.createQuery(cq);
 
     List<UserRole> result = q.getResultList();
 
-    System.out.println(result);
     return result;
   }
 

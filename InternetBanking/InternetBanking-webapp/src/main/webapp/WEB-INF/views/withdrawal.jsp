@@ -15,17 +15,17 @@
 	<c:if test="${not empty errorMessage}">
 		<c:out value="${errorMessage}" />
 	</c:if>
-	<form:form action="withdrawal" method="post">
+	<form:form modelAttribute ="withdrawalTransaction" action="withdrawal" method="post">
 
 		<label>Sender Account</label>
-		<select id="account" name="senderNumberAccount">
-			<c:forEach items="${accounts}" var="account">
+		<select id="account" name="senderAccountNumber">
+			<c:forEach items="${userAccountsDto.userAccounts}" var="account">
 				<option value="${account.accountNumber}">${account.accountNumber}</option>
 			</c:forEach>
 		</select>
 
 		<label>Value</label>
-		<input type="text" name="valueSent" />
+		<input type="text" name="value" />
 
 		<button type="submit">Make Withdrawal</button>
 

@@ -8,6 +8,9 @@ package com.iquest.advancedframeworks.internetbanking.services.exceptions;
  */
 public class UserNotFound extends ServicesException {
 
+  /**
+   * The serial version.
+   */
   private static final long serialVersionUID = 1L;
 
   /**
@@ -24,5 +27,5 @@ public class UserNotFound extends ServicesException {
   public UserNotFound(String message) {
     super(message);
   }
-  
+
 }

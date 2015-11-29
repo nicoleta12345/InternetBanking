@@ -1,10 +1,12 @@
 package com.iquest.advancedframeworks.internetbanking.services;
 
-import com.iquest.advancedframeworks.internetbanking.persistence.model.Account;
+import com.iquest.advancedframeworks.internetbanking.services.dto.TransactionAccounts;
+import com.iquest.advancedframeworks.internetbanking.services.dto.TransferTransactionDto;
+import com.iquest.advancedframeworks.internetbanking.services.exceptions.AccountAccessDenied;
+import com.iquest.advancedframeworks.internetbanking.services.exceptions.AccountNotFound;
 
 /**
- * The TransferTransactionService interface specifies services for
- * TransferTransaction objects.
+ * The TransferTransactionService interface specifies services for TransferTransaction objects.
  * 
  * @author Nicoleta Barbulescu
  *
@@ -12,14 +14,22 @@ import com.iquest.advancedframeworks.internetbanking.persistence.model.Account;
 public interface TransferTransactionService {
 
   /**
+   * Gets the informations which will be displayed into the transfer page.
+   * 
+   * @param username the current user username
+   * @return the information needed to display into the transfer page
+   */
+  TransactionAccounts getFormData(String username);
+
+  /**
    * Adds a transfer transaction.
    * 
-   * @param sender
-   *          the sender account
-   * @param receiver
-   *          the receiver account
-   * @param value
-   *          the value of the transaction
+   * @param transferTransaction the details about the transfer
+   * @param currentUserUsername the username of the current logged in user
+   * @throws AccountAccessDenied if the current user is not the owner of the sender account involved in the transfer
+   * @throws AccountNotFound if the sender account is not found
    */
-  void addTransaction(Account sender, Account receiver, double value);
+  void addTransaction(TransferTransactionDto transferTransaction, String currentUserUsername)
+      throws AccountAccessDenied, AccountNotFound;
+
 }

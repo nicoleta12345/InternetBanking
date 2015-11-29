@@ -14,11 +14,11 @@ import javax.persistence.Table;
  *
  */
 @Entity
-@Table(name = "transaction_deposit")
+@Table(name = "TRANSACTION_DEPOSIT")
 public class DepositTransaction extends Transaction implements Serializable {
 
   /**
-	 * 
+	 * The serial version.
 	 */
   private static final long serialVersionUID = 1L;
 
@@ -26,7 +26,7 @@ public class DepositTransaction extends Transaction implements Serializable {
    * The receiver account.
    */
   @OneToOne
-  @JoinColumn(name = "receiver_idAccount")
+  @JoinColumn(name = "RECEIVER_ACCOUNT_ID")
   private Account receiverAccount;
 
   public Account getReceiverAccount() {

@@ -1,7 +1,10 @@
 package com.iquest.advancedframeworks.internetbanking.services.impl;
 
+import java.lang.reflect.Type;
 import java.util.List;
 
+import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,10 +13,16 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.iquest.advancedframeworks.internetbanking.persistence.dao.AccountDao;
 import com.iquest.advancedframeworks.internetbanking.persistence.dao.UserDao;
+import com.iquest.advancedframeworks.internetbanking.persistence.dao.exception.EntityDeletedException;
+import com.iquest.advancedframeworks.internetbanking.persistence.dao.exception.EntityRegisteredException;
 import com.iquest.advancedframeworks.internetbanking.persistence.model.Account;
 import com.iquest.advancedframeworks.internetbanking.persistence.model.User;
 import com.iquest.advancedframeworks.internetbanking.services.AccountService;
+import com.iquest.advancedframeworks.internetbanking.services.dto.AccountDetailsDto;
+import com.iquest.advancedframeworks.internetbanking.services.dto.AccountFormDataDto;
+import com.iquest.advancedframeworks.internetbanking.services.exceptions.AccountAccessDenied;
 import com.iquest.advancedframeworks.internetbanking.services.exceptions.AccountNotFound;
+import com.iquest.advancedframeworks.internetbanking.services.exceptions.AccountRegisteredException;
 
 /**
  * The AccountServiceImpl class implements AccountService interface and calls an AccountDAo object to perform operations
@@ -44,13 +53,22 @@ public class AccountServiceImpl implements AccountService {
 
   @Override
   @Transactional
-  public void createAccount(Account account) {
+  public void createAccount(AccountDetailsDto accountDetails) throws AccountRegisteredException {
+    ModelMapper modelMapper = new ModelMapper();
+    Account account = modelMapper.map(accountDetails, Account.class);
+
+    try {
+      accountDao.create(account);
+    }
+    catch (EntityRegisteredException e) {
+      throw new AccountRegisteredException("The account already exists!");
+    }
+
     LOGGER.info("AccountServiceImpl creates account: " + account);
-    accountDao.create(account);
   }
 
   @Override
-  public Account getAccountByNo(String accountNo) throws AccountNotFound {
+  public AccountDetailsDto getAccountByNo(String accountNo) throws AccountNotFound {
     Account account = accountDao.getAccountByNo(accountNo);
 
     if (account == null) {
@@ -58,26 +76,78 @@ public class AccountServiceImpl implements AccountService {
       throw new AccountNotFound("The account could not be found!");
     }
 
-    return account;
-  }
+    ModelMapper modelMapper = new ModelMapper();
+    AccountDetailsDto accountDetails = modelMapper.map(account, AccountDetailsDto.class);
 
-  @Override
-  public Account updateAccount(Account account) {
-    LOGGER.info("Updates the account:" + account);
-    return accountDao.update(account);
+    return accountDetails;
   }
 
   @Override
   @Transactional
-  public List<Account> getAccountsNo(User user) throws AccountNotFound {
-    List<Account> accounts = userDao.getAccountsNo(user);
+  public AccountDetailsDto updateAccount(AccountDetailsDto accountDetails) throws AccountNotFound {
+    Account updatedAccount = null;
+    ModelMapper modelMapper = new ModelMapper();
+    Account account = modelMapper.map(accountDetails, Account.class);
 
-    if (accounts == null) {
-      LOGGER.error("AccountNotFound! The accountd of the user " + user + "could not be found");
-      throw new AccountNotFound("The account could not be found!");
+    try {
+      updatedAccount = accountDao.update(account);
+    }
+    catch (EntityDeletedException e) {
+      LOGGER.error("AccountNotFound The account doesn't exist!");
+      throw new AccountNotFound("The account doesn't exist!");
     }
 
-    return accounts;
+    LOGGER.info("Updated the account:" + account);
+
+    AccountDetailsDto accountUpdatedDetails = modelMapper.map(updatedAccount, AccountDetailsDto.class);
+    return accountUpdatedDetails;
+  }
+
+  @Override
+  @Transactional
+  public AccountDetailsDto getAccountDetails(String accountNumber, String currentUserUsername)
+      throws AccountAccessDenied {
+    Account account = accountDao.getAccountByNo(accountNumber);
+    validateOwnerAccount(account, currentUserUsername);
+
+    ModelMapper modelMapper = new ModelMapper();
+    AccountDetailsDto accountDetails = modelMapper.map(account, AccountDetailsDto.class);
+
+    return accountDetails;
+  }
+
+  /**
+   * Checks if the current logged in user is the same with the owner of the passed Account object.
+   * 
+   * @param account the Account object used
+   * @param currentUserUsername the username of the current user logged in
+   * @throws AccountAccessDenied if the logged in user is not the same with the owner of the account
+   */
+  private void validateOwnerAccount(Account account, String currentUserUsername) throws AccountAccessDenied {
+    User user = userDao.getUserByAccount(account);
+    User currentUser = userDao.getUserByUsername(currentUserUsername);
+
+    if (user != currentUser) {
+      LOGGER.error("AccountAccessDenied The current logged user is not the owner of the account!");
+      throw new AccountAccessDenied("The current logged user is not the owner of the account!");
+    }
+  }
+
+  @Override
+  @Transactional
+  public AccountFormDataDto getFormData(String username) {
+    User currentUser = userDao.getUserByUsername(username);
+
+    List<Account> userAccounts = currentUser.getAccounts();
+
+    ModelMapper modelMapper = new ModelMapper();
+    Type listType = new TypeToken<List<AccountDetailsDto>>() {}.getType();
+    List<AccountDetailsDto> accountDetailsDto = modelMapper.map(userAccounts, listType);
+    
+    AccountFormDataDto accountFormDataDto = new AccountFormDataDto();
+    accountFormDataDto.setUserAccounts(accountDetailsDto);
+
+    return accountFormDataDto;
   }
 
 }

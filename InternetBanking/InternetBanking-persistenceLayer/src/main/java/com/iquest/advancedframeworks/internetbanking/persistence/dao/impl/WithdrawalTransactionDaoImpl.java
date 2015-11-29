@@ -9,16 +9,15 @@ import com.iquest.advancedframeworks.internetbanking.persistence.dao.WithdrawalT
 import com.iquest.advancedframeworks.internetbanking.persistence.model.WithdrawalTransaction;
 
 /**
- * The WithdrawalTransactionDaoImpl class implements WithdrawalTransactionDao
- * interface and extends the abstract class GenericDaoImpl taking benefits of
- * its methods and adding more specific ones.
+ * The WithdrawalTransactionDaoImpl class implements WithdrawalTransactionDao interface and extends the abstract class
+ * GenericDaoImpl taking benefits of its methods and adding more specific ones.
  * 
  * @author Nicoleta Barbulescu
  *
  */
 @Repository
-public class WithdrawalTransactionDaoImpl extends
-    GenericDaoImpl<WithdrawalTransaction> implements WithdrawalTransactionDao {
+public class WithdrawalTransactionDaoImpl extends GenericDaoImpl<WithdrawalTransaction>
+    implements WithdrawalTransactionDao {
 
   /**
    * EntityManager is used to do operation on the database.

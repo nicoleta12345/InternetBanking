@@ -1,14 +1,13 @@
 package com.iquest.advancedframeworks.internetbanking.persistence.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 
 /**
- * The Account class represent an account of an user. It will be generated a table into the database with the specified
- * name and the fields of this class as attributes.
+ * The Account class represent an account of an user.
  * 
  * @author Nicoleta Barbulescu
  *
@@ -22,19 +21,24 @@ public class Account {
    */
   @Id
   @GeneratedValue
+  @Column(name = "ID")
   private int id;
 
   /**
    * The number of the account.
    */
+  @Column(name = "ACCOUNT_NUMBER", nullable = false, unique = true)
   private String accountNumber;
 
   /**
    * The amount of the account.
    */
-  @NotNull
+  @Column(name = "AMOUNT", nullable = false)
   private double amount;
 
+  /**
+   * Default constructor.
+   */
   public Account() {
   };
 

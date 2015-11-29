@@ -1,10 +1,10 @@
 package com.iquest.advancedframeworks.internetbanking.services;
 
-import java.util.List;
-
-import com.iquest.advancedframeworks.internetbanking.persistence.model.Account;
-import com.iquest.advancedframeworks.internetbanking.persistence.model.User;
+import com.iquest.advancedframeworks.internetbanking.services.dto.AccountDetailsDto;
+import com.iquest.advancedframeworks.internetbanking.services.dto.AccountFormDataDto;
+import com.iquest.advancedframeworks.internetbanking.services.exceptions.AccountAccessDenied;
 import com.iquest.advancedframeworks.internetbanking.services.exceptions.AccountNotFound;
+import com.iquest.advancedframeworks.internetbanking.services.exceptions.AccountRegisteredException;
 
 /**
  * The AccountService interface represents a service which operates with Account objects.
@@ -18,8 +18,9 @@ public interface AccountService {
    * Calls certain methods to insert a new entry into the database for a certain Account object.
    * 
    * @param account the account which will be inserted into the database
+   * @throws AccountRegisteredException if the account already exists
    */
-  void createAccount(Account account);
+  void createAccount(AccountDetailsDto account) throws AccountRegisteredException;
 
   /**
    * Gets an account by its number.
@@ -28,23 +29,19 @@ public interface AccountService {
    * @return the Account object identified by its number
    * @throws AccountNotFound if the account could not be found
    */
-  Account getAccountByNo(String accountNo) throws AccountNotFound;
+  AccountDetailsDto getAccountByNo(String accountNo) throws AccountNotFound;
 
   /**
    * Updates an account.
    * 
    * @param account the updated details of the account
    * @return the updated Account object
+   * @throws AccountNotFound thrown if the account doesn't exists
    */
-  Account updateAccount(Account account);
+  AccountDetailsDto updateAccount(AccountDetailsDto account) throws AccountNotFound;
 
-  /**
-   * Gets a list with Account objects for a specific user.
-   * 
-   * @param user the identifier for the accounts
-   * @return a list with Account objects
-   * @throws AccountNotFound if the account can not be found
-   */
-  List<Account> getAccountsNo(User user) throws AccountNotFound;
-  
+  AccountDetailsDto getAccountDetails(String accountNumber, String currentUserUsername) throws AccountAccessDenied;
+
+  AccountFormDataDto getFormData(String currentUserUsername);
+
 }

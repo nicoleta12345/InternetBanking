@@ -1,26 +1,25 @@
 package com.iquest.advancedframeworks.internetbanking.webapp.controllers;
 
-import java.util.List;
-
+import javax.security.auth.login.AccountNotFoundException;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 
-import com.iquest.advancedframeworks.internetbanking.persistence.model.Account;
-import com.iquest.advancedframeworks.internetbanking.persistence.model.User;
-import com.iquest.advancedframeworks.internetbanking.services.AccountService;
 import com.iquest.advancedframeworks.internetbanking.services.DepositTransactionService;
 import com.iquest.advancedframeworks.internetbanking.services.TransferTransactionService;
-import com.iquest.advancedframeworks.internetbanking.services.UserService;
 import com.iquest.advancedframeworks.internetbanking.services.WithdrawalTransactionService;
+import com.iquest.advancedframeworks.internetbanking.services.dto.DepositTransactionDto;
+import com.iquest.advancedframeworks.internetbanking.services.dto.TransactionAccounts;
+import com.iquest.advancedframeworks.internetbanking.services.dto.TransferTransactionDto;
+import com.iquest.advancedframeworks.internetbanking.services.dto.WithdrawalTransactionDto;
+import com.iquest.advancedframeworks.internetbanking.services.exceptions.AccountAccessDenied;
 import com.iquest.advancedframeworks.internetbanking.services.exceptions.AccountNotFound;
-import com.iquest.advancedframeworks.internetbanking.services.exceptions.UserNotFound;
 
 /**
  * The TransactionController class represents a controller which interacts with the transaction specific views and the
@@ -32,18 +31,6 @@ import com.iquest.advancedframeworks.internetbanking.services.exceptions.UserNot
 @Controller
 @RequestMapping("/transaction")
 public class TransactionController {
-
-  /**
-   * The account services.
-   */
-  @Autowired
-  AccountService accountService;
-
-  /**
-   * The user services.
-   */
-  @Autowired
-  UserService userService;
 
   /**
    * The deposit transaction services.
@@ -68,6 +55,7 @@ public class TransactionController {
    * 
    * @return the name of the view which will be rendered
    */
+  @Secured("ROLE_USER")
   @RequestMapping(value = "/depositForm", method = RequestMethod.GET)
   public String showFormDeposit() {
     return "deposit";
@@ -82,24 +70,17 @@ public class TransactionController {
    */
   @Secured("ROLE_USER")
   @RequestMapping(value = "/deposit", method = RequestMethod.POST)
-  public String doDeposit(HttpSession session, @RequestParam String receiverNumberAccount,
-      @RequestParam double valueSent, Model model) {
-
-    model.addAttribute("receiver", receiverNumberAccount);
-    model.addAttribute("value", valueSent);
-
-    Account receiver = null;
+  public String doDeposit(HttpSession session, @ModelAttribute DepositTransactionDto depositTransaction, Model model) {
     try {
-      receiver = accountService.getAccountByNo(receiverNumberAccount);
+      depositTransactionService.addTransaction(depositTransaction);
     }
-    catch (AccountNotFound e) {
+    catch (AccountNotFoundException | AccountNotFound e) {
       model.addAttribute("errorMessage", "Something went wrong, please try again later!");
       return "error";
     }
 
-    depositTransactionService.addTransaction(receiver, valueSent);
-
-    return "depositDetails";
+    model.addAttribute("message", "The transaction was made!");
+    return "operationSuccess";
   }
 
   /**
@@ -107,23 +88,14 @@ public class TransactionController {
    * 
    * @return the name of the view which will be rendered
    */
+  @Secured("ROLE_USER")
   @RequestMapping(value = "/transferForm", method = RequestMethod.GET)
   public String showFormTransfer(HttpSession session, Model model) {
     String username = (String) session.getAttribute("username");
-    User currentUser;
-    List<Account> userAccounts;
-
-    try {
-      currentUser = userService.getUserByUsername(username);
-      userAccounts = accountService.getAccountsNo(currentUser);
-    }
-    catch (UserNotFound | AccountNotFound e) {
-      model.addAttribute("errorMessage", "Something went wrong, please try again later!");
-      return "error";
-    }
-
-    model.addAttribute("accounts", userAccounts);
-
+    
+    TransactionAccounts userAccountsDto = transferTransactionService.getFormData(username);
+    model.addAttribute("userAccountsDto", userAccountsDto);
+    
     return "transfer";
   }
 
@@ -135,32 +107,26 @@ public class TransactionController {
    * @param receiverNumberAccount the number account of the receiver
    * @param valueSent the value sent
    */
+  @Secured("ROLE_USER")
   @RequestMapping(value = "/transfer", method = RequestMethod.POST)
-  public String makeTransfer(HttpSession session, @RequestParam String senderNumberAccount,
-      @RequestParam String receiverNumberAccount, @RequestParam double valueSent, Model model) {
+  public String makeTransfer(HttpSession session, @ModelAttribute TransferTransactionDto transferTransaction,
+      Model model) {
     String username = (String) session.getAttribute("username");
-    Account sender = null;
-    Account receiver;
-    User senderUser;
 
     try {
-      sender = accountService.getAccountByNo(senderNumberAccount);
-      receiver = accountService.getAccountByNo(receiverNumberAccount);
-      senderUser = userService.getUserByAccount(sender);
+      transferTransactionService.addTransaction(transferTransaction, username);
     }
-    catch (AccountNotFound | UserNotFound e) {
+    catch (AccountAccessDenied e) {
+      model.addAttribute("user", username);
+      return "accessDenied";
+    }
+    catch (AccountNotFound e) {
       model.addAttribute("errorMessage", "Something went wrong, please try again later!");
       return "error";
     }
 
-    if (senderUser.getUsername() != username) {
-      model.addAttribute("errorMessage", "Something went wrong, please try again later!");
-      return "error";
-    }
-
-    transferTransactionService.addTransaction(sender, receiver, valueSent);
-
-    return "transferDetails";
+    model.addAttribute("message", "The transfer was made!");
+    return "operationSuccess";
   }
 
   /**
@@ -168,23 +134,14 @@ public class TransactionController {
    * 
    * @return the name of the view which will be rendered
    */
+  @Secured("ROLE_USER")
   @RequestMapping(value = "/withdrawalForm", method = RequestMethod.GET)
   public String showFormWithdrawal(HttpSession session, Model model) {
     String username = (String) session.getAttribute("username");
-    User currentUser;
-    List<Account> userAccounts;
     
-    try {
-      currentUser = userService.getUserByUsername(username);
-      userAccounts = accountService.getAccountsNo(currentUser);
-    }
-    catch (UserNotFound | AccountNotFound e) {
-      model.addAttribute("errorMessage", "Something went wrong, please try again later!");
-      return "error";
-    }    
-
-    model.addAttribute("accounts", userAccounts);
-
+    TransactionAccounts userAccountsDto = withdrawalTransactionService.getFormData(username);
+    model.addAttribute("userAccountsDto", userAccountsDto);
+    
     return "withdrawal";
   }
 
@@ -195,33 +152,26 @@ public class TransactionController {
    * @param senderNumberAccount the number account of the sender
    * @param valueSent the value sent
    */
+  @Secured("ROLE_USER")
   @RequestMapping(value = "/withdrawal", method = RequestMethod.POST)
-  public String doWithdrawal(HttpSession session, @RequestParam String senderNumberAccount,
-      @RequestParam double valueSent, Model model) {
-    String username = (String) session.getAttribute("username");
-    User senderUser;
-    
-    Account sender;
+  public String doWithdrawal(HttpSession session, @ModelAttribute WithdrawalTransactionDto withdrawalTransaction,
+      Model model) {
+    String currentUserUsername = (String) session.getAttribute("username");
+
     try {
-      sender = accountService.getAccountByNo(senderNumberAccount);
-      senderUser = userService.getUserByAccount(sender);
+      withdrawalTransactionService.addTransaction(withdrawalTransaction, currentUserUsername);
     }
-    catch (AccountNotFound | UserNotFound e) {
+    catch (AccountAccessDenied e) {
+      model.addAttribute("user", currentUserUsername);
+      return "accessDenied";
+    }
+    catch (AccountNotFound e) {
       model.addAttribute("errorMessage", "Something went wrong, please try again later!");
       return "error";
     }
 
-    if (senderUser.getUsername() != username) {
-      model.addAttribute("errorMessage", "There was a problem, please try again!");
-      return showFormWithdrawal(session, model);
-    }
-
-    withdrawalTransactionService.addTransaction(sender, valueSent);
-
-    model.addAttribute("accountNo", senderNumberAccount);
-    model.addAttribute("value", valueSent);
-
-    return "withdrawalDetails";
+    model.addAttribute("message", "The transaction was made!");
+    return "operationSuccess";
   }
 
 }

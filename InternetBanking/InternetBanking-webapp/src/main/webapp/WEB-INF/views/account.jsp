@@ -11,12 +11,18 @@
 <%@ page isELIgnored="false"%>
 </head>
 <body>
-	<form:form action="getAccount" method="post">
+	<form:form action="getAccount"
+		method="post">
 
-		<label>Account Number</label>
-		<input type="text" name="accountNumber" />
+		<label>Select an account</label>
+		<select id="account" name="accountNumber">
+			<c:forEach items="${accountFormDataDto.userAccounts}" var="account">
+				<option value="${account.accountNumber}">${account.accountNumber}</option>
+			</c:forEach>
+		</select>
 
-		<button type="submit">Search</button>
+		<button type="submit">Details</button>
+
 	</form:form>
 </body>
 </html>

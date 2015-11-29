@@ -2,28 +2,22 @@ package com.iquest.advancedframeworks.internetbanking.persistence.dao.impl;
 
 import java.lang.reflect.ParameterizedType;
 
+import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.iquest.advancedframeworks.internetbanking.persistence.dao.GenericDao;
+import com.iquest.advancedframeworks.internetbanking.persistence.dao.exception.EntityDeletedException;
+import com.iquest.advancedframeworks.internetbanking.persistence.dao.exception.EntityRegisteredException;
 
 /**
- * The GenericDaoImpl class implements CRUD operations for any T entity on the
- * database.
+ * The GenericDaoImpl class implements CRUD operations on the database for any T entity type.
  * 
  * @author Nicoleta Barbulescu
  *
  * @param <T>
  */
 public abstract class GenericDaoImpl<T> implements GenericDao<T> {
-
-  /**
-   * Logger instance used to log information from the GenericDaoImpl class and from classes which extend this class.
-   */
-  protected static final Logger LOGGER = LoggerFactory.getLogger(GenericDaoImpl.class);
 
   /**
    * EntityManager is used to do operations with the database.
@@ -38,33 +32,43 @@ public abstract class GenericDaoImpl<T> implements GenericDao<T> {
 
   /**
    * Parameterized constructor. Sets the runtime class of the entity type.
-   */  
+   */
   @SuppressWarnings("unchecked")
   public GenericDaoImpl() {
-    classType = ((Class<T>) ((ParameterizedType) getClass()
-        .getGenericSuperclass()).getActualTypeArguments()[0]);
+    classType = ((Class<T>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0]);
   }
 
   @Override
-  public void create(T t) {
-    entityManager.persist(t);
+  public void create(T t) throws EntityRegisteredException {
+    try {
+      entityManager.persist(t);
+    } catch (EntityExistsException e) {
+      throw new EntityRegisteredException("The entity already exists!");
+    }
   }
 
   @Override
   public T read(Object id) {
-
     return entityManager.find(classType, id);
   }
 
   @Override
-  public T update(T t) {
-    return entityManager.merge(t);
+  public T update(T t) throws EntityDeletedException {
+    T entity = null;
+
+    try {
+      t = entityManager.merge(t);
+    }
+    catch (IllegalArgumentException e) {
+      throw new EntityDeletedException("This entity is already removed!");
+    }
+
+    return entity;
   }
 
   @Override
   public void delete(T t) {
     // TODO Auto-generated method stub
-
   }
 
 }

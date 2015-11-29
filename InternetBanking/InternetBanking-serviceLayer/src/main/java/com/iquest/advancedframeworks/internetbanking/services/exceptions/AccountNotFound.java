@@ -1,7 +1,7 @@
 package com.iquest.advancedframeworks.internetbanking.services.exceptions;
 
 /**
- * The AccountNotFound should be thrown when the user searches for an Account object which doesn't exist in the database.
+ * The AccountNotFound should be thrown when the user searches for an Account object which doesn't exist into the database.
  * 
  * @author Nicoleta Barbulescu
  *

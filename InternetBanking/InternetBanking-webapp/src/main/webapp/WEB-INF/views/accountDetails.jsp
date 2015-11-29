@@ -11,10 +11,8 @@
 <body>
 	<h2>Account Details</h2>
 	<ul>
-		<li>Account Number: ${accountNo}</li>
-
-
-		<li>Account Value: ${amount}</li>
+		<li>Account Number: ${accountDetailsDto.accountNumber}</li>
+		<li>Account Value: ${accountDetailsDto.amount}</li>
 	</ul>
 
 </body>

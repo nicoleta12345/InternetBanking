@@ -1,20 +1,24 @@
 package com.iquest.advancedframeworks.internetbanking.persistence.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
+@Table(name = "USER_ROLE")
 public class UserRole {
 
   /**
-   * The id of the role. It represents the primary key for the table which will
-   * be generated.
+   * The id of the role. It represents the primary key for the table which will be generated.
    */
   @Id
   @GeneratedValue
+  @Column(name = "ID")
   private int id;
-  
+
+  @Column(name = "ROLE", nullable = false)
   private String role;
 
   public int getId() {
@@ -37,5 +41,5 @@ public class UserRole {
   public String toString() {
     return "UserRole [id=" + id + ", role=" + role + "]";
   }
-  
+
 }

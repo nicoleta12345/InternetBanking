@@ -1,7 +1,7 @@
 package com.iquest.advancedframeworks.internetbanking.persistence.dao.exception;
 
 /**
- * The ApplicationException class represents the base class for the exceptions from application.
+ * The ApplicationException class represents the base class for the exceptions from the application.
  * 
  * @author Nicoleta Barbulescu
  *
@@ -20,7 +20,7 @@ public class ApplicationException extends Exception {
   };
 
   /**
-   * Parametrized constructor.
+   * Parameterized constructor.
    * 
    * @param message
    */

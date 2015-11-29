@@ -2,8 +2,6 @@ package com.iquest.advancedframeworks.internetbanking.webapp.controllers;
 
 import javax.servlet.http.HttpSession;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
@@ -12,13 +10,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.iquest.advancedframeworks.internetbanking.persistence.model.Account;
-import com.iquest.advancedframeworks.internetbanking.persistence.model.User;
 import com.iquest.advancedframeworks.internetbanking.services.AccountService;
-import com.iquest.advancedframeworks.internetbanking.services.UserService;
-import com.iquest.advancedframeworks.internetbanking.services.exceptions.AccountNotFound;
-import com.iquest.advancedframeworks.internetbanking.services.exceptions.UserNotFound;
-import com.iquest.advancedframeworks.internetbanking.services.impl.DepositTransactionServiceImpl;
+import com.iquest.advancedframeworks.internetbanking.services.dto.AccountDetailsDto;
+import com.iquest.advancedframeworks.internetbanking.services.dto.AccountFormDataDto;
+import com.iquest.advancedframeworks.internetbanking.services.exceptions.AccountAccessDenied;
 
 /**
  * The AccountController class represents a controller which interacts with the account specific views and the service
@@ -32,21 +27,10 @@ import com.iquest.advancedframeworks.internetbanking.services.impl.DepositTransa
 public class AccountController {
 
   /**
-   * Logger instance used to log information from the DepositTransactionServiceImpl.
-   */
-  private static final Logger LOGGER = LoggerFactory.getLogger(AccountController.class);
-
-  /**
    * The accounts service.
    */
   @Autowired
   AccountService accountService;
-
-  /**
-   * The users service.
-   */
-  @Autowired
-  UserService userService;
 
   /**
    * Displays the jsp view corresponding to the search account.
@@ -55,7 +39,11 @@ public class AccountController {
    */
   @Secured("ROLE_USER")
   @RequestMapping(value = "/accountForm", method = RequestMethod.GET)
-  public String showFormGetIdUser() {
+  public String showFormGetIdUser(HttpSession session, Model model) {
+    String username = (String) session.getAttribute("username");
+    AccountFormDataDto accountFormDataDto = accountService.getFormData(username);
+
+    model.addAttribute(accountFormDataDto);
     return "account";
   }
 
@@ -63,7 +51,7 @@ public class AccountController {
    * Gets a searched account from the database and displays informations about it in a jsp view. The account is
    * identified by its number.
    * 
-   * @param session
+   * @param session the HttpSession object
    * @param accountNumber the identifier of the account
    * @param model the Model object used to set attributes in the returned view
    * @return the name of the view which will be rendered
@@ -71,29 +59,19 @@ public class AccountController {
   @Secured("ROLE_USER")
   @RequestMapping(value = "/getAccount", method = RequestMethod.POST)
   public String getUser(HttpSession session, @RequestParam String accountNumber, Model model) {
-    String loggedUserUsername = (String) session.getAttribute("user");
-    Account account;
-    User user = null;
+    String currentUserUsername = (String) session.getAttribute("username");
+
+    AccountDetailsDto accountDetailsDto;
     
-    try {
-      account = accountService.getAccountByNo(accountNumber);
-      user = userService.getUserByAccount(account);
-    }
-    catch (AccountNotFound | UserNotFound e) {
-      model.addAttribute("errorMessage", "Something went wrong, please try again later!");
+      try {
+        accountDetailsDto = accountService.getAccountDetails(accountNumber, currentUserUsername);
+      }
+      catch (AccountAccessDenied e) {
+        model.addAttribute("user", currentUserUsername);
+        return "accessDenied";
+      }
 
-      return "error";
-    }    
-
-    if (user.getUsername() != loggedUserUsername) {
-      model.addAttribute("errorMessage", "Something went wrong, please try again later!");
-
-      return "error";
-    }
-    
-    model.addAttribute("accountNo", accountNumber);
-    model.addAttribute("amount", account.getAmount());
-
+    model.addAttribute(accountDetailsDto);
     return "accountDetails";
   }
 

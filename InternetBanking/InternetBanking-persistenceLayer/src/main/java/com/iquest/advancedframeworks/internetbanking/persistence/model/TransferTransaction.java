@@ -9,26 +9,25 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 /**
- * The TransferTransaction class represents specific type of transaction, a
- * transaction from an account to another.
+ * The TransferTransaction class represents specific type of transaction, a transaction from an account to another.
  * 
  * @author Nicoleta Barbulescu
  *
  */
 @Entity
-@Table(name = "transaction_transfer")
+@Table(name = "TRANSACTION_TRANSFER")
 public class TransferTransaction extends Transaction implements Serializable {
 
   /**
-	 * 
-	 */
+   * 
+   */
   private static final long serialVersionUID = 1L;
 
   /**
    * The sender account.
    */
   @OneToOne
-  @JoinColumn(name = "sender_idAccount")
+  @JoinColumn(name = "SENDER_ACCOUNT_ID")
   @NotNull
   private Account senderAccount;
 

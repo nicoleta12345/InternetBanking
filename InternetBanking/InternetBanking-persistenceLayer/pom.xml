@@ -58,12 +58,17 @@
 			<artifactId>hsqldb</artifactId>
 		</dependency>
 
-
 		<dependency>
 			<groupId>javax.validation</groupId>
 			<artifactId>validation-api</artifactId>
 		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-jdbc</artifactId>
+		</dependency>
 	</dependencies>
+	
 	<profiles>
 		<profile>
 			<id>dev</id>
@@ -79,8 +84,7 @@
 								</goals>
 								<configuration>
 									<tasks>
-										<delete
-											file="src/main/resources/config.properties" />
+										<delete file="src/main/resources/config.properties" />
 										<copy file="src/main/resources/dev/config.properties"
 											tofile="src/main/resources/config.properties" />
 									</tasks>
@@ -120,14 +124,13 @@
 						<artifactId>maven-antrun-plugin</artifactId>
 						<executions>
 							<execution>
-								<!--  <phase>test</phase> -->
+								<!-- <phase>test</phase> -->
 								<goals>
 									<goal>run</goal>
 								</goals>
 								<configuration>
 									<tasks>
-										<delete
-											file="src/main/resources/config.properties" />
+										<delete file="src/main/resources/config.properties" />
 										<copy file="src/main/resources/prod/config.properties"
 											tofile="src/main/resources/config.properties" />
 									</tasks>

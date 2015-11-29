@@ -3,8 +3,6 @@ package com.iquest.advancedframeworks.internetbanking.webapp.controllers;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -25,11 +23,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class LoginController {
 
   /**
-   * Logger instance used to log information from the DepositTransactionServiceImpl.
-   */
-  private static final Logger LOGGER = LoggerFactory.getLogger(LoginController.class);
-
-  /**
    * Take decisions about the home page about a user home page. This method can be invoked if only the authenticated
    * user has ROLE_USER as one of their granted authorities.
    * 
@@ -40,6 +33,7 @@ public class LoginController {
   @RequestMapping(value = "/user", method = RequestMethod.GET)
   public String userPage(Model model) {
     model.addAttribute("user", getPrincipal());
+
     return "user";
   }
 
@@ -54,6 +48,7 @@ public class LoginController {
   @RequestMapping(value = "/admin", method = RequestMethod.GET)
   public String adminPage(Model model) {
     model.addAttribute("user", getPrincipal());
+
     return "admin";
   }
 
@@ -93,6 +88,7 @@ public class LoginController {
     if (auth != null) {
       new SecurityContextLogoutHandler().logout(request, response, auth);
     }
+
     return "redirect:/login?logout";
   }
 

@@ -1,6 +1,7 @@
 package com.iquest.advancedframeworks.internetbanking.persistence.dao.impl;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -13,16 +14,14 @@ import com.iquest.advancedframeworks.internetbanking.persistence.dao.AccountDao;
 import com.iquest.advancedframeworks.internetbanking.persistence.model.Account;
 
 /**
- * The AccountDaoImpl class implements AccountDao interface and extends the
- * abstract class GenericDaoImpl taking benefits of its methods and adding more
- * specific ones.
+ * The AccountDaoImpl class implements AccountDao interface and extends the abstract class GenericDaoImpl taking
+ * benefits of its methods and adding more specific ones.
  * 
  * @author Nicoleta Barbulescu
  *
  */
 @Repository
-public class AccountDaoImpl extends GenericDaoImpl<Account> implements
-    AccountDao {
+public class AccountDaoImpl extends GenericDaoImpl<Account> implements AccountDao {
 
   /**
    * EntityManager is used to do operations with the database.
@@ -36,10 +35,14 @@ public class AccountDaoImpl extends GenericDaoImpl<Account> implements
     CriteriaQuery<Account> cq = cb.createQuery(Account.class);
     Root<Account> root = cq.from(Account.class);
     cq.select(root).where(cb.equal(root.get("accountNumber"), accountNumber));
-
     Query q = entityManager.createQuery(cq);
 
-    Account result = (Account) q.getSingleResult();
+    Account result = null;
+    try {
+      result = (Account) q.getSingleResult();
+    } catch (NoResultException e) {
+      // stay silent, null will be returned
+    }
 
     return result;
   }

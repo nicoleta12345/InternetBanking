@@ -9,16 +9,14 @@ import com.iquest.advancedframeworks.internetbanking.persistence.dao.TransferTra
 import com.iquest.advancedframeworks.internetbanking.persistence.model.TransferTransaction;
 
 /**
- * The TransferTransactionDaoImpl class implements TransferTransactionDao
- * interface and extends the abstract class GenericDaoImpl taking benefits of
- * its methods and adding more specific ones.
+ * The TransferTransactionDaoImpl class implements TransferTransactionDao interface and extends the abstract class
+ * GenericDaoImpl taking benefits of its methods and adding more specific ones.
  * 
  * @author Nicoleta Barbulescu
  *
  */
 @Repository
-public class TransferTransactionDaoImpl extends
-    GenericDaoImpl<TransferTransaction> implements TransferTransactionDao {
+public class TransferTransactionDaoImpl extends GenericDaoImpl<TransferTransaction> implements TransferTransactionDao {
 
   /**
    * EntityManager is used to do operations with the database.

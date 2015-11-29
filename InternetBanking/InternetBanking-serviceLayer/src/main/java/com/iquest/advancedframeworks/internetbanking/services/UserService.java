@@ -1,8 +1,9 @@
 package com.iquest.advancedframeworks.internetbanking.services;
 
-import com.iquest.advancedframeworks.internetbanking.persistence.model.Account;
-import com.iquest.advancedframeworks.internetbanking.persistence.model.User;
+import com.iquest.advancedframeworks.internetbanking.services.dto.AccountDetailsDto;
+import com.iquest.advancedframeworks.internetbanking.services.dto.UserDto;
 import com.iquest.advancedframeworks.internetbanking.services.exceptions.UserNotFound;
+import com.iquest.advancedframeworks.internetbanking.services.exceptions.UserRegisteredException;
 
 /**
  * The UserService interface represents a service which can do operations with User objects.
@@ -18,8 +19,9 @@ public interface UserService {
    * @param user the information which will be inserted into the new entry
    * @param userDetails the user details
    * @param address the user address
+   * @throws UserRegisteredException
    */
-  void insertUser(User user);
+  void insertUser(UserDto user) throws UserRegisteredException;
 
   /**
    * Gets an user by an id.
@@ -28,7 +30,7 @@ public interface UserService {
    * @return the User object with the given id
    * @throws UserNotFound if the user could not be found
    */
-  User getUserbyId(Integer id) throws UserNotFound;
+  UserDto getUserbyId(Integer id) throws UserNotFound;
 
   /**
    * Gets an user by its username
@@ -37,7 +39,7 @@ public interface UserService {
    * @return the user with the given username
    * @throws UserNotFound if the user could not be found
    */
-  User getUserByUsername(String username) throws UserNotFound;
+  UserDto getUserByUsername(String username) throws UserNotFound;
 
   /**
    * Gets an user by an Account object.
@@ -46,6 +48,6 @@ public interface UserService {
    * @return the user which has the specified account
    * @throws UserNotFound if the user could not be found
    */
-  User getUserByAccount(Account account) throws UserNotFound;
+  UserDto getUserByAccount(AccountDetailsDto accountDetails) throws UserNotFound;
 
 }

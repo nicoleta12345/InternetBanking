@@ -7,8 +7,8 @@ import com.iquest.advancedframeworks.internetbanking.persistence.model.User;
 import com.iquest.advancedframeworks.internetbanking.persistence.model.UserRole;
 
 /**
- * The UserDao interface adds operations which can be performed with User
- * entities besides the CRUD operations inherited from the GenericDao interface.
+ * The UserDao interface adds operations which can be performed with User entities besides the CRUD operations inherited
+ * from the GenericDao interface.
  * 
  * @author Nicoleta Barbulescu
  *
@@ -18,22 +18,24 @@ public interface UserDao extends GenericDao<User> {
   /**
    * Gets a user using as an identifier a number of an account.
    * 
-   * @param account
-   *          the Account object which identifies the user
+   * @param account the Account object which identifies the user
    * @return the user identified by it's account
    */
   User getUserByAccount(Account account);
 
   /**
-   * Gets the number of the account of a specific user.
+   * Gets a user using as an identifier the username.
    * 
-   * @param user
-   *          the user for which the accounts are requested
-   * @return a List with the user Accounts
+   * @param username the identifier of the user
+   * @return the user identified by it's username
    */
-  List<Account> getAccountsNo(User user);
-
   User getUserByUsername(String username);
-  
+
+  /**
+   * Gets the roles of an user.
+   * 
+   * @param user the User object used
+   * @return a list with the user roles
+   */
   List<UserRole> getUserRoles(User user);
 }
