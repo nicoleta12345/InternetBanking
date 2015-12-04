@@ -1,7 +1,5 @@
 package com.iquest.advancedframeworks.internetbanking.persistence.model;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -12,18 +10,24 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.DiscriminatorOptions;
+import org.hibernate.validator.constraints.Email;
+
+import com.iquest.advancedframeworks.internetbanking.persistence.model.customconstraints.Cnp;
+import com.iquest.advancedframeworks.internetbanking.persistence.model.customconstraints.UserAge;
+
 /**
- * The User class represents a customer for an online banking application.
+ * The abstract class User contains the basic details about a user for an online banking application.
  * 
  * @author Nicoleta Barbulescu
  *
  */
 @Entity
 @Table(name = "USERS")
+@DiscriminatorOptions(force = true)
 public class User {
 
   /**
@@ -47,35 +51,51 @@ public class User {
   private String password;
 
   /**
+   * The first name of the user.
+   */
+  @Column(name = "FIRST_NAME", nullable = false)
+  private String firstName;
+
+  /**
+   * The last name of the user.
+   */
+  @Column(name = "LAST_NAME", nullable = false)
+  private String lastName;
+
+  /**
+   * The cnp of the user.
+   */
+  @Cnp
+  @Column(name = "CNP", nullable = false, unique = true)
+  private String cnp;
+
+  /**
+   * The email of the user.
+   */
+  @Email
+  private String email;
+
+  /**
+   * The age of the user.
+   */
+  @UserAge
+  @Column(name = "AGE")
+  private int age;
+
+  /**
+   * The address of the user. The address primary key will be set as a foreign key into the table generated for this
+   * class.
+   */
+  @OneToOne
+  @JoinColumn(name = "ADDRESS_ID")
+  private Address address;
+
+  /**
    * The user role for authentication.
    */
   @ManyToMany(fetch = FetchType.LAZY)
   @JoinTable(joinColumns = @JoinColumn(name = "ROLE_ID") , inverseJoinColumns = @JoinColumn(name = "USER_ID") )
   private Set<UserRole> roles;
-
-  /**
-   * The user details. Into the database the userdetails primary key(id) will be set as a foreign key into the table
-   * generated for this class.
-   */
-  @OneToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "USER_DETAILS_ID")
-  private UserDetails userDetails;
-
-  /**
-   * The user accounts. Into the database the account primary key(id) will be set as a foreign key into the table
-   * generated for this class.
-   */
-  @OneToMany(fetch = FetchType.LAZY)
-  @JoinTable(joinColumns = @JoinColumn(name = "USER_ID") , inverseJoinColumns = @JoinColumn(name = "ACCOUNT_ID") )
-  private List<Account> accounts = new ArrayList<>();
-
-  public List<Account> getAccounts() {
-    return accounts;
-  }
-
-  public void setAccounts(List<Account> accounts) {
-    this.accounts = accounts;
-  }
 
   public String getPassword() {
     return password;
@@ -101,14 +121,6 @@ public class User {
     this.roles = roles;
   }
 
-  public UserDetails getUserDetails() {
-    return userDetails;
-  }
-
-  public void setUserDetails(UserDetails userDetails) {
-    this.userDetails = userDetails;
-  }
-
   public int getId() {
     return id;
   }
@@ -117,53 +129,59 @@ public class User {
     this.id = id;
   }
 
-  @Override
-  public int hashCode() {
-    final int prime = 31;
-    int result = 1;
-    result = prime * result + id;
-    result = prime * result + ((password == null) ? 0 : password.hashCode());
-    result = prime * result + ((username == null) ? 0 : username.hashCode());
-    result = prime * result + ((userDetails == null) ? 0 : userDetails.hashCode());
-    return result;
+  public String getFirstName() {
+    return firstName;
   }
 
-  @Override
-  public boolean equals(Object obj) {
-    if (this == obj)
-      return true;
-    if (obj == null)
-      return false;
-    if (getClass() != obj.getClass())
-      return false;
-    User other = (User) obj;
-    if (id != other.id)
-      return false;
-    if (password == null) {
-      if (other.password != null)
-        return false;
-    }
-    else if (!password.equals(other.password))
-      return false;
-    if (username == null) {
-      if (other.username != null)
-        return false;
-    }
-    else if (!username.equals(other.username))
-      return false;
-    if (userDetails == null) {
-      if (other.userDetails != null)
-        return false;
-    }
-    else if (!userDetails.equals(other.userDetails))
-      return false;
-    return true;
+  public void setFirstName(String firstName) {
+    this.firstName = firstName;
+  }
+
+  public String getLastName() {
+    return lastName;
+  }
+
+  public void setLastName(String lastName) {
+    this.lastName = lastName;
+  }
+
+  public String getCnp() {
+    return cnp;
+  }
+
+  public void setCnp(String cnp) {
+    this.cnp = cnp;
+  }
+
+  public String getEmail() {
+    return email;
+  }
+
+  public void setEmail(String email) {
+    this.email = email;
+  }
+
+  public Integer getAge() {
+    return age;
+  }
+
+  public void setAge(Integer age) {
+    this.age = age;
+  }
+
+  public Address getAddress() {
+    return address;
+  }
+
+  public void setAddress(Address address) {
+    this.address = address;
   }
 
   @Override
   public String toString() {
-    return "User [id=" + id + ", username=" + username + ", password=" + password + ", userDetails=" + userDetails
-        + ", accounts=" + accounts + "]";
+    return "User [id=" + id + ", username=" + username + ", password=" + password + ", firstName=" + firstName
+        + ", lastName=" + lastName + ", cnp=" + cnp + ", email=" + email + ", age=" + age + ", address=" + address
+        + ", roles=" + roles + "]";
   }
 
 }

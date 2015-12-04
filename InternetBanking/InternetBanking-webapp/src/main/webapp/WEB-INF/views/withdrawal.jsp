@@ -4,7 +4,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ page isELIgnored="false"%>
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
@@ -15,7 +15,8 @@
 	<c:if test="${not empty errorMessage}">
 		<c:out value="${errorMessage}" />
 	</c:if>
-	<form:form modelAttribute ="withdrawalTransaction" action="withdrawal" method="post">
+	<form:form modelAttribute="withdrawalTransaction" action="withdrawal"
+		method="post">
 
 		<label>Sender Account</label>
 		<select id="account" name="senderAccountNumber">

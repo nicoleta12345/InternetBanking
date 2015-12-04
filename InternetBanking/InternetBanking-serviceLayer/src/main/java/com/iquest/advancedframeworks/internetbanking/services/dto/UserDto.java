@@ -1,12 +1,6 @@
 package com.iquest.advancedframeworks.internetbanking.services.dto;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Set;
-
-import com.iquest.advancedframeworks.internetbanking.persistence.model.Account;
-import com.iquest.advancedframeworks.internetbanking.persistence.model.UserDetails;
-import com.iquest.advancedframeworks.internetbanking.persistence.model.UserRole;
 
 /**
  * The UserDto class represents a DTO which contains details about a user.
@@ -15,6 +9,34 @@ import com.iquest.advancedframeworks.internetbanking.persistence.model.UserRole;
  *
  */
 public class UserDto {
+
+  private String firstName;
+
+  /**
+   * The last name of the user.
+   */
+  private String lastName;
+
+  /**
+   * The cnp of the user.
+   */
+  private String cnp;
+
+  /**
+   * The email of the user.
+   */
+  private String email;
+
+  /**
+   * The age of the user.
+   */
+  private Integer age;
+
+  /**
+   * The address of the user. The address primary key will be set as a foreign key into the table generated for this
+   * class.
+   */
+  private AddressDto address;
 
   /**
    * The username of the user
@@ -29,19 +51,7 @@ public class UserDto {
   /**
    * The user role for authentication.
    */
-  private Set<UserRole> roles;
-
-  /**
-   * The user details. Into the database the userdetails primary key(id) will be set as a foreign key into the table
-   * generated for this class.
-   */
-  private UserDetails userDetails;
-
-  /**
-   * The user accounts. Into the database the account primary key(id) will be set as a foreign key into the table
-   * generated for this class.
-   */
-  private List<Account> accounts = new ArrayList<>();
+  private Set<UserRoleDto> roles;
 
   public String getUsername() {
     return username;
@@ -51,36 +61,74 @@ public class UserDto {
     this.username = username;
   }
 
-  public Set<UserRole> getRoles() {
-    return roles;
-  }
-
-  public void setRoles(Set<UserRole> roles) {
-    this.roles = roles;
-  }
-
-  public UserDetails getUserDetails() {
-    return userDetails;
-  }
-
-  public void setUserDetails(UserDetails userDetails) {
-    this.userDetails = userDetails;
-  }
-
-  public List<Account> getAccounts() {
-    return accounts;
-  }
-
-  public void setAccounts(List<Account> accounts) {
-    this.accounts = accounts;
-  }
-
   public String getPassword() {
     return password;
   }
 
   public void setPassword(String password) {
     this.password = password;
+  }
+
+  public Set<UserRoleDto> getRoles() {
+    return roles;
+  }
+
+  public void setRoles(Set<UserRoleDto> roles) {
+    this.roles = roles;
+  }
+
+  public String getFirstName() {
+    return firstName;
+  }
+
+  public void setFirstName(String firstName) {
+    this.firstName = firstName;
+  }
+
+  public String getLastName() {
+    return lastName;
+  }
+
+  public void setLastName(String lastName) {
+    this.lastName = lastName;
+  }
+
+  public String getCnp() {
+    return cnp;
+  }
+
+  public void setCnp(String cnp) {
+    this.cnp = cnp;
+  }
+
+  public String getEmail() {
+    return email;
+  }
+
+  public void setEmail(String email) {
+    this.email = email;
+  }
+
+  public Integer getAge() {
+    return age;
+  }
+
+  public void setAge(Integer age) {
+    this.age = age;
+  }
+
+  public AddressDto getAddress() {
+    return address;
+  }
+
+  public void setAddress(AddressDto address) {
+    this.address = address;
+  }
+
+  @Override
+  public String toString() {
+    return "UserDto [firstName=" + firstName + ", lastName=" + lastName + ", cnp=" + cnp + ", email=" + email + ", age="
+        + age + ", address=" + address + ", username=" + username + ", password=" + password + ", roles=" + roles + "]";
   }
 
 }

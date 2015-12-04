@@ -1,7 +1,7 @@
 package com.iquest.advancedframeworks.internetbanking.services;
 
 import com.iquest.advancedframeworks.internetbanking.services.dto.AccountDetailsDto;
-import com.iquest.advancedframeworks.internetbanking.services.dto.UserDto;
+import com.iquest.advancedframeworks.internetbanking.services.dto.ClientDto;
 import com.iquest.advancedframeworks.internetbanking.services.exceptions.UserNotFound;
 import com.iquest.advancedframeworks.internetbanking.services.exceptions.UserRegisteredException;
 
@@ -11,17 +11,17 @@ import com.iquest.advancedframeworks.internetbanking.services.exceptions.UserReg
  * @author Nicoleta Barbulescu
  *
  */
-public interface UserService {
+public interface ClientService {
 
   /**
-   * Calls methods from a repository to insert a new User into a database.
+   * Inserts a new user.
    * 
    * @param user the information which will be inserted into the new entry
    * @param userDetails the user details
    * @param address the user address
    * @throws UserRegisteredException
    */
-  void insertUser(UserDto user) throws UserRegisteredException;
+  void insertUser(ClientDto user) throws UserRegisteredException;
 
   /**
    * Gets an user by an id.
@@ -30,16 +30,16 @@ public interface UserService {
    * @return the User object with the given id
    * @throws UserNotFound if the user could not be found
    */
-  UserDto getUserbyId(Integer id) throws UserNotFound;
+  ClientDto getUserbyId(Integer id) throws UserNotFound;
 
   /**
-   * Gets an user by its username
+   * Gets an user by its username.
    * 
    * @param username the username of the user
    * @return the user with the given username
    * @throws UserNotFound if the user could not be found
    */
-  UserDto getUserByUsername(String username) throws UserNotFound;
+  ClientDto getUserByUsername(String username) throws UserNotFound;
 
   /**
    * Gets an user by an Account object.
@@ -48,6 +48,6 @@ public interface UserService {
    * @return the user which has the specified account
    * @throws UserNotFound if the user could not be found
    */
-  UserDto getUserByAccount(AccountDetailsDto accountDetails) throws UserNotFound;
+  ClientDto getUserByAccount(AccountDetailsDto accountDetails) throws UserNotFound;
 
 }

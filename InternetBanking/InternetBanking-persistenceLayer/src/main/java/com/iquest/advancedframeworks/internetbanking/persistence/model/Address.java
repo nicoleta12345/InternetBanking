@@ -7,7 +7,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 /**
- * The Address class represents addresses mapped into objects. 
+ * The Address class represents a address of an user.
  * 
  * @author Nicoleta Barbulescu
  *
@@ -42,12 +42,6 @@ public class Address {
   @Column(name = "STREET_NUMBER")
   private int streetNumber;
 
-  /**
-   * The postal code of the address.
-   */
-  @Column(name = "POSTAL_CODE")
-  private Long postalCode;
-
   public String getTown() {
     return town;
   }
@@ -72,12 +66,10 @@ public class Address {
     this.streetNumber = streetNumber;
   }
 
-  public Long getPostalCode() {
-    return postalCode;
-  }
-
-  public void setPostalCode(Long postalCode) {
-    this.postalCode = postalCode;
+  @Override
+  public String toString() {
+    return "Address [id=" + id + ", town=" + town + ", streetName=" + streetName + ", streetNumber=" + streetNumber
+        + "]";
   }
 
 }

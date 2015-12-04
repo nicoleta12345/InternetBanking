@@ -2,10 +2,10 @@ package com.iquest.advancedframeworks.internetbanking.persistence.model;
 
 import java.io.Serializable;
 
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
-import javax.persistence.Table;
 
 /**
  * The DepositTransaction class represents a transaction of type deposit.
@@ -14,8 +14,8 @@ import javax.persistence.Table;
  *
  */
 @Entity
-@Table(name = "TRANSACTION_DEPOSIT")
-public class DepositTransaction extends Transaction implements Serializable {
+@DiscriminatorValue("Deposit")
+public class Deposit extends Transaction implements Serializable {
 
   /**
 	 * The serial version.

@@ -25,23 +25,29 @@ public class CnpValidator implements ConstraintValidator<Cnp, String> {
     String regex = "[0-9]+";
 
     if (cnpField == null) {
+      System.out.println("null");
       return true;
     }
 
     if (cnpField.matches(regex) == false) {
+      System.out.println("regex");
       return false;
     }
 
     if (cnpField.length() != 13) {
+      System.out.println("!13");
       return false;
     }
 
     char firstDigit = cnpField.charAt(0);
-
-    if ((firstDigit != '0') || (firstDigit != '1')) {
+    
+    if ((firstDigit != '1') && (firstDigit != '2')) {
+      System.out.println(cnpField.charAt(0));
+      System.out.println("firstDigit");
       return false;
     }
 
+    System.out.println("true constraint");
     return true;
   }
 

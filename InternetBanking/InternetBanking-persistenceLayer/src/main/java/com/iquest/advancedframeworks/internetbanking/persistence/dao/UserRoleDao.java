@@ -11,4 +11,11 @@ import com.iquest.advancedframeworks.internetbanking.persistence.model.UserRole;
  */
 public interface UserRoleDao extends GenericDao<UserRole> {
 
+  /**
+   * Gets a UserRole object identified by its role.
+   * 
+   * @param role the role
+   * @return a UserRole object
+   */
+  UserRole getUserRolebyRole(String role);
 }

@@ -58,8 +58,7 @@ public abstract class GenericDaoImpl<T> implements GenericDao<T> {
 
     try {
       t = entityManager.merge(t);
-    }
-    catch (IllegalArgumentException e) {
+    } catch (IllegalArgumentException e) {
       throw new EntityDeletedException("This entity is already removed!");
     }
 

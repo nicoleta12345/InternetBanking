@@ -6,7 +6,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.view.JstlView;
 import org.springframework.web.servlet.view.UrlBasedViewResolver;
 
@@ -17,7 +18,7 @@ import com.iquest.advancedframeworks.internetbanking.webapp.controllers.configur
 @EnableWebMvc
 @EnableGlobalMethodSecurity(securedEnabled = true)
 @Import({ SecurityConfiguration.class })
-public class Config extends WebMvcConfigurationSupport {
+public class Config extends WebMvcConfigurerAdapter {
 
 	@Bean
 	public UrlBasedViewResolver setupViewResolver() {
@@ -28,4 +29,9 @@ public class Config extends WebMvcConfigurationSupport {
 		return resolver;
 	}
 
+	@Override
+  public void addResourceHandlers(ResourceHandlerRegistry registry) {
+      registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
+  }
+	
 }

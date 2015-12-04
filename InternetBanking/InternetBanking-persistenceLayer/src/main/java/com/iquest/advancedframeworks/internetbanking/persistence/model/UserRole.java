@@ -6,6 +6,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+/**
+ * The UserRole class represents the role of a user.
+ * 
+ * @author Nicoleta Barbulescu
+ *
+ */
 @Entity
 @Table(name = "USER_ROLE")
 public class UserRole {
@@ -18,6 +24,9 @@ public class UserRole {
   @Column(name = "ID")
   private int id;
 
+  /**
+   * The role of the user.
+   */
   @Column(name = "ROLE", nullable = false)
   private String role;
 

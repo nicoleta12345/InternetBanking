@@ -2,10 +2,10 @@ package com.iquest.advancedframeworks.internetbanking.persistence.model;
 
 import java.io.Serializable;
 
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
-import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -15,8 +15,8 @@ import javax.validation.constraints.NotNull;
  *
  */
 @Entity
-@Table(name = "TRANSACTION_WITHDRAWAL")
-public class WithdrawalTransaction extends Transaction implements Serializable {
+@DiscriminatorValue("Withdrawal")
+public class Withdrawal extends Transaction implements Serializable {
 
   /**
    * The serial version.

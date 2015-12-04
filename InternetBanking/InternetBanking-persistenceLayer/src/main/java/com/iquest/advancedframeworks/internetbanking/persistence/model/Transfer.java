@@ -2,10 +2,11 @@ package com.iquest.advancedframeworks.internetbanking.persistence.model;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
-import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -15,8 +16,8 @@ import javax.validation.constraints.NotNull;
  *
  */
 @Entity
-@Table(name = "TRANSACTION_TRANSFER")
-public class TransferTransaction extends Transaction implements Serializable {
+@DiscriminatorValue("Transfer")
+public class Transfer extends Transaction implements Serializable {
 
   /**
    * 
@@ -35,8 +36,15 @@ public class TransferTransaction extends Transaction implements Serializable {
    * The receiver account.
    */
   @OneToOne
-  @JoinColumn(name = "receiver_idAccount")
+  @JoinColumn(name = "RECEIVER_ACCOUNT_ID")
   private Account receiverAccount;
+
+  /**
+   * This field is set to true if the receiver account is external. It change its state when the transaction is approved
+   * or declined.
+   */
+  @Column(name = "PENDING")
+  private Boolean pending;
 
   public Account getSenderAccount() {
     return senderAccount;
@@ -52,6 +60,14 @@ public class TransferTransaction extends Transaction implements Serializable {
 
   public void setReceiverAccount(Account receiverAccount) {
     this.receiverAccount = receiverAccount;
+  }
+
+  public Boolean getPending() {
+    return pending;
+  }
+
+  public void setPending(Boolean pending) {
+    this.pending = pending;
   }
 
 }

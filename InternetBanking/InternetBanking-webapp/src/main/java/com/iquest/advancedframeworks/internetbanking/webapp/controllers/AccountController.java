@@ -23,7 +23,7 @@ import com.iquest.advancedframeworks.internetbanking.services.exceptions.Account
  *
  */
 @Controller
-@RequestMapping("/account")
+@RequestMapping("/user/account")
 public class AccountController {
 
   /**

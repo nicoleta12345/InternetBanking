@@ -1,17 +1,22 @@
 package com.iquest.advancedframeworks.internetbanking.persistence.model;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
+import javax.persistence.Table;
+
+import org.hibernate.annotations.DiscriminatorOptions;
 
 /**
- * The Transaction class contains common attributes and functionalities of an operation of transaction.
+ * The abstract class Transaction contains common attributes and functionalities of an operation of transaction.
  * 
  * @author Nicoleta Barbulescu
  *
  */
-@MappedSuperclass
+@Entity
+@Table(name = "TRANSACTIONS")
+@DiscriminatorOptions(force = true)
 public class Transaction {
 
   /**

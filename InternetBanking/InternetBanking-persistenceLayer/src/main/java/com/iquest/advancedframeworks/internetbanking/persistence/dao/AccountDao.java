@@ -12,7 +12,7 @@ import com.iquest.advancedframeworks.internetbanking.persistence.model.Account;
 public interface AccountDao extends GenericDao<Account> {
 
   /**
-   * Gets an account by its number.
+   * Gets an Account object identified by its number.
    * 
    * @param accountNo the identifier of the Account object
    * @return the Account object with the specified identifier

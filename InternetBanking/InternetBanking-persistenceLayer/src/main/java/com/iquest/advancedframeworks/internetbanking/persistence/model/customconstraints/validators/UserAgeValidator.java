@@ -11,7 +11,7 @@ import com.iquest.advancedframeworks.internetbanking.persistence.model.customcon
  * @author Nicoleta Barbulescu
  *
  */
-public class UserAgeValidator implements ConstraintValidator<UserAge, String> {
+public class UserAgeValidator implements ConstraintValidator<UserAge, Integer> {
 
   @Override
   public void initialize(UserAge arg0) {
@@ -21,24 +21,19 @@ public class UserAgeValidator implements ConstraintValidator<UserAge, String> {
    * Validates the age field.
    */
   @Override
-  public boolean isValid(String ageField, ConstraintValidatorContext constraintContext) {
-    int age;
+  public boolean isValid(Integer ageField, ConstraintValidatorContext constraintContext) {
 
     if (ageField == null) {
+      System.out.println("null");
       return false;
     }
 
-    try {
-      age = Integer.parseInt(ageField);
-    }
-    catch (NumberFormatException e) {
+    if (ageField < 18) {
+      System.out.println("<18");
       return false;
     }
 
-    if (age < 18) {
-      return false;
-    }
-
+    System.out.println("true age");
     return true;
   }
 

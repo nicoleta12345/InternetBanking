@@ -13,10 +13,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.iquest.advancedframeworks.internetbanking.persistence.dao.UserDao;
+import com.iquest.advancedframeworks.internetbanking.persistence.model.User;
 import com.iquest.advancedframeworks.internetbanking.persistence.model.UserRole;
-import com.iquest.advancedframeworks.internetbanking.services.UserService;
-import com.iquest.advancedframeworks.internetbanking.services.dto.UserDto;
-import com.iquest.advancedframeworks.internetbanking.services.exceptions.UserNotFound;
 
 /**
  * The CustomUserDetailsService class represent a custom implementation for UserDetailsService. It is used to
@@ -32,26 +31,24 @@ public class CustomUserDetailsService implements UserDetailsService {
    * Logger instance used to log information from the CustomUserDetailsService.
    */
   private static final Logger LOGGER = LoggerFactory.getLogger(CustomUserDetailsService.class);
-  
-  /**
-   * THe repository for the User objects.
-   */
-  @Autowired
-  private UserService userService;
 
   /**
-   * Loads a user by it's username.
+   * The repository for the Client objects.
+   */
+  @Autowired
+  private UserDao userDao;
+
+  /**
+   * Loads a client by it's username.
    */
   @Transactional(readOnly = true)
   public UserDetails loadUserByUsername(String username) {
-    UserDto user = null;
-    
-    try {
-      user = userService.getUserByUsername(username);
-    }
-    catch (UserNotFound e) {
-      LOGGER.error("UserNotFound! The user with the username: " + username + "could not be found");
-    }
+    User user = (User) userDao.getUserByUsername(username);
+
+     if(user == null) {
+       //throw new UserNotFound("The user could not be found");
+       LOGGER.error("UserNotFound! The user with the username: " + username + "could not be found");
+     }
 
     boolean enabled = true;
     boolean accountNonExpired = true;
@@ -68,13 +65,13 @@ public class CustomUserDetailsService implements UserDetailsService {
    * @param user the user for witch the granted authorities are requested
    * @return a list with the user authorities
    */
-  private List<GrantedAuthority> getGrantedAuthorities(UserDto user) {
+  private List<GrantedAuthority> getGrantedAuthorities(User user) {
     List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
 
     for (UserRole userRole : user.getRoles()) {
       authorities.add(new SimpleGrantedAuthority(userRole.getRole()));
     }
-    
+
     return authorities;
   }
 

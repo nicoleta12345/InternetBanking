@@ -12,11 +12,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.iquest.advancedframeworks.internetbanking.persistence.dao.AccountDao;
+import com.iquest.advancedframeworks.internetbanking.persistence.dao.ClientDao;
 import com.iquest.advancedframeworks.internetbanking.persistence.dao.UserDao;
 import com.iquest.advancedframeworks.internetbanking.persistence.dao.exception.EntityDeletedException;
 import com.iquest.advancedframeworks.internetbanking.persistence.dao.exception.EntityRegisteredException;
 import com.iquest.advancedframeworks.internetbanking.persistence.model.Account;
-import com.iquest.advancedframeworks.internetbanking.persistence.model.User;
+import com.iquest.advancedframeworks.internetbanking.persistence.model.Client;
 import com.iquest.advancedframeworks.internetbanking.services.AccountService;
 import com.iquest.advancedframeworks.internetbanking.services.dto.AccountDetailsDto;
 import com.iquest.advancedframeworks.internetbanking.services.dto.AccountFormDataDto;
@@ -40,16 +41,22 @@ public class AccountServiceImpl implements AccountService {
   private static final Logger LOGGER = LoggerFactory.getLogger(AccountServiceImpl.class);
 
   /**
-   * An AccountDao injected object used to perform operations with Account objects.
+   * The repository for Account objects.
    */
   @Autowired
   private AccountDao accountDao;
 
   /**
-   * The repository for User objects
+   * The repository for User objects.
    */
   @Autowired
   private UserDao userDao;
+
+  /**
+   * The repository for Client objects.
+   */
+  @Autowired
+  private ClientDao clientDao;
 
   @Override
   @Transactional
@@ -59,8 +66,7 @@ public class AccountServiceImpl implements AccountService {
 
     try {
       accountDao.create(account);
-    }
-    catch (EntityRegisteredException e) {
+    } catch (EntityRegisteredException e) {
       throw new AccountRegisteredException("The account already exists!");
     }
 
@@ -85,14 +91,13 @@ public class AccountServiceImpl implements AccountService {
   @Override
   @Transactional
   public AccountDetailsDto updateAccount(AccountDetailsDto accountDetails) throws AccountNotFound {
-    Account updatedAccount = null;
     ModelMapper modelMapper = new ModelMapper();
     Account account = modelMapper.map(accountDetails, Account.class);
+    Account updatedAccount = null;
 
     try {
       updatedAccount = accountDao.update(account);
-    }
-    catch (EntityDeletedException e) {
+    } catch (EntityDeletedException e) {
       LOGGER.error("AccountNotFound The account doesn't exist!");
       throw new AccountNotFound("The account doesn't exist!");
     }
@@ -124,8 +129,8 @@ public class AccountServiceImpl implements AccountService {
    * @throws AccountAccessDenied if the logged in user is not the same with the owner of the account
    */
   private void validateOwnerAccount(Account account, String currentUserUsername) throws AccountAccessDenied {
-    User user = userDao.getUserByAccount(account);
-    User currentUser = userDao.getUserByUsername(currentUserUsername);
+    Client user = clientDao.getClientByAccount(account);
+    Client currentUser = (Client) userDao.getUserByUsername(currentUserUsername);
 
     if (user != currentUser) {
       LOGGER.error("AccountAccessDenied The current logged user is not the owner of the account!");
@@ -136,14 +141,14 @@ public class AccountServiceImpl implements AccountService {
   @Override
   @Transactional
   public AccountFormDataDto getFormData(String username) {
-    User currentUser = userDao.getUserByUsername(username);
-
-    List<Account> userAccounts = currentUser.getAccounts();
+    Client currentUser = (Client) userDao.getUserByUsername(username);
+    List<Account> clientAccounts = currentUser.getAccounts();
 
     ModelMapper modelMapper = new ModelMapper();
-    Type listType = new TypeToken<List<AccountDetailsDto>>() {}.getType();
-    List<AccountDetailsDto> accountDetailsDto = modelMapper.map(userAccounts, listType);
-    
+    Type listType = new TypeToken<List<AccountDetailsDto>>() {
+    }.getType();
+    List<AccountDetailsDto> accountDetailsDto = modelMapper.map(clientAccounts, listType);
+
     AccountFormDataDto accountFormDataDto = new AccountFormDataDto();
     accountFormDataDto.setUserAccounts(accountDetailsDto);
 

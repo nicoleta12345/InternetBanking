@@ -14,8 +14,8 @@ import com.iquest.advancedframeworks.internetbanking.services.exceptions.Account
 public interface WithdrawalTransactionService {
 
   /**
-   *  Gets the details which will be displayed into the page of a withdrawal.
-   *  
+   * Gets the details which will be displayed into the page of a withdrawal.
+   * 
    * @param currentUserUsername the username of the current logged in user
    * @return the information needed to display into the withdrawal page
    */
@@ -26,7 +26,7 @@ public interface WithdrawalTransactionService {
    * 
    * @param withdrawalTransaction the details about the withdrawal transaction
    * @param currentUserUsername the username of the current user
-   * @throws AccountAccessDeniedif the current user is not the owner of the sender account involved in the transfer
+   * @throws AccountAccessDenied if the current user is not the owner of the sender account involved in the transfer
    * @throws AccountNotFound if the sender account is not found
    */
   void addTransaction(WithdrawalTransactionDto withdrawalTransaction, String currentUserUsername)

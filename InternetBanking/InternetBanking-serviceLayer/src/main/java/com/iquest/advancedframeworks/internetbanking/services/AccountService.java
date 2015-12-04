@@ -40,8 +40,23 @@ public interface AccountService {
    */
   AccountDetailsDto updateAccount(AccountDetailsDto account) throws AccountNotFound;
 
+  /**
+   * Gets an account identified by its number. This method also checks if the current logged in useris the owner of the
+   * account. If there was a mistake and this is not the case where they are the same there will be thrown an exception.
+   * 
+   * @param accountNumber the account number
+   * @param currentUserUsername the username of the current logged in user
+   * @return an object which contains details about the account
+   * @throws AccountAccessDenied if the current logged in user is not the owner of the account
+   */
   AccountDetailsDto getAccountDetails(String accountNumber, String currentUserUsername) throws AccountAccessDenied;
 
+  /**
+   * Gets an object used to fill fields into a specific view.
+   * 
+   * @param currentUserUsername the name of the current logged in user
+   * @return an object which contains informations about the accounts of an user
+   */
   AccountFormDataDto getFormData(String currentUserUsername);
 
 }

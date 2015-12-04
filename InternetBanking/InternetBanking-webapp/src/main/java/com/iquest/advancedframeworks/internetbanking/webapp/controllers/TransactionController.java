@@ -1,6 +1,5 @@
 package com.iquest.advancedframeworks.internetbanking.webapp.controllers;
 
-import javax.security.auth.login.AccountNotFoundException;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +28,7 @@ import com.iquest.advancedframeworks.internetbanking.services.exceptions.Account
  *
  */
 @Controller
-@RequestMapping("/transaction")
+@RequestMapping("/user/transaction")
 public class TransactionController {
 
   /**
@@ -73,8 +72,7 @@ public class TransactionController {
   public String doDeposit(HttpSession session, @ModelAttribute DepositTransactionDto depositTransaction, Model model) {
     try {
       depositTransactionService.addTransaction(depositTransaction);
-    }
-    catch (AccountNotFoundException | AccountNotFound e) {
+    } catch (AccountNotFound e) {
       model.addAttribute("errorMessage", "Something went wrong, please try again later!");
       return "error";
     }
@@ -100,9 +98,9 @@ public class TransactionController {
   }
 
   /**
-   * Makes a transfer transaction. It first checks if the sender account is one of the current user accounts.
+   * Makes a transfer transaction. 
    * 
-   * @param session
+   * @param session the HttpSession object
    * @param senderNumberAccount the number account of the sender
    * @param receiverNumberAccount the number account of the receiver
    * @param valueSent the value sent
@@ -115,8 +113,7 @@ public class TransactionController {
 
     try {
       transferTransactionService.addTransaction(transferTransaction, username);
-    }
-    catch (AccountAccessDenied e) {
+    } catch (AccountAccessDenied e) {
       model.addAttribute("user", username);
       return "accessDenied";
     }
@@ -146,7 +143,7 @@ public class TransactionController {
   }
 
   /**
-   * Makes a withdrawal transaction. It first checks if the sender account is one of the current user accounts.
+   * Makes a withdrawal transaction. 
    * 
    * @param session
    * @param senderNumberAccount the number account of the sender
@@ -160,8 +157,7 @@ public class TransactionController {
 
     try {
       withdrawalTransactionService.addTransaction(withdrawalTransaction, currentUserUsername);
-    }
-    catch (AccountAccessDenied e) {
+    } catch (AccountAccessDenied e) {
       model.addAttribute("user", currentUserUsername);
       return "accessDenied";
     }

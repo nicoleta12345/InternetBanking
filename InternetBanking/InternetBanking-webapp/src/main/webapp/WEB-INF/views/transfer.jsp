@@ -11,7 +11,12 @@
 </head>
 <body>
 
-	<form:form modelAttribute ="transferTransactionDto" action="transfer" method="post">
+	<c:if test="${not empty errorMessage}">
+		<c:out value="${errorMessage}" />
+	</c:if>
+
+	<form:form modelAttribute="transferTransactionDto" action="transfer"
+		method="post">
 
 		<label>Sender Account</label>
 		<select id="account" name="senderAccountNumber">

@@ -33,7 +33,7 @@ public interface GenericDao<T> {
    * 
    * @param t the object which contains the updated details
    * @return the updated object
-   * @throws EntityDeletedException
+   * @throws EntityDeletedException if the entity doesn't exist
    */
   T update(T t) throws EntityDeletedException;
 
