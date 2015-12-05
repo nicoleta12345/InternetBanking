@@ -1,2 +1,20 @@
 ROLE_USER: username: user password: user
 ROLE_ADMIN: username: admin password: admin
+
+-the admin creates an account
+http://localhost:8080/InternetBanking-webapp/admin/createAccount
+
+-the admin registers a new client
+http://localhost:8080/InternetBanking-webapp/admin/clientRegistrationForm
+
+-the client makes a deposit transaction
+http://localhost:8080/InternetBanking-webapp/user/transaction/depositForm
+
+-the client makes a withdrawal transactio
+http://localhost:8080/InternetBanking-webapp/user/transaction/withdrawalForm
+
+-the client makes a transfer transaction
+http://localhost:8080/InternetBanking-webapp/user/transaction/transferForm
+
+-the client sees the details about one of his accounts
+http://localhost:8080/InternetBanking-webapp/user/account/accountForm
