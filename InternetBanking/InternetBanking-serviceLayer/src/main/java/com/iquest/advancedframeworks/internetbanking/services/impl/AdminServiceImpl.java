@@ -53,6 +53,9 @@ public class AdminServiceImpl implements AdminService {
   @Autowired
   private UserRoleDao userRoleDao;
 
+  @Autowired
+  private MailSenderService mailSender;
+
   @Override
   @Transactional
   public void registerNewClient(UserDto userDto) throws UserRegisteredException {
@@ -67,6 +70,8 @@ public class AdminServiceImpl implements AdminService {
       LOGGER.error("UserRegisteredException The user already exists!");
       throw new UserRegisteredException("The user already exists!");
     }
+
+    sendRegistrationMail(user);
   }
 
   /**
@@ -83,7 +88,8 @@ public class AdminServiceImpl implements AdminService {
       clientRole.setRole(role);
       try {
         userRoleDao.create(clientRole);
-      } catch (EntityRegisteredException e) {
+      }
+      catch (EntityRegisteredException e) {
         // stay silent
       }
 
@@ -106,10 +112,33 @@ public class AdminServiceImpl implements AdminService {
 
     try {
       userDao.update(client);
-    } catch (EntityDeletedException e1) {
+    }
+    catch (EntityDeletedException e1) {
       // stay silent
     }
 
+  }
+
+  /**
+   * Sends a confirmation mail to the client with his username and password.
+   * 
+   * @param user the new registered user
+   */
+  private void sendRegistrationMail(Client user) {
+    String subject = "Registration confirmation";
+    StringBuilder msg = new StringBuilder();
+    String separator = " ";
+
+    msg.append("Dear ");
+    msg.append(user.getFirstName());
+    msg.append(separator);
+    msg.append("thank you for registrating.");
+    msg.append("Your account details are: username: ");
+    msg.append(user.getUsername());
+    msg.append(" password: ");
+    msg.append(user.getPassword());
+
+    mailSender.sendMail(user.getEmail(), subject, msg.toString());
   }
 
   /**
@@ -126,13 +155,15 @@ public class AdminServiceImpl implements AdminService {
 
     if (accountType.equals("Savings Account")) {
       account = modelMapper.map(accountDetails, SavingsAccount.class);
-    } else if (accountType.equals("Credit Account")) {
+    }
+    else if (accountType.equals("Credit Account")) {
       account = modelMapper.map(accountDetails, CreditAccount.class);
     }
 
     try {
       accountDao.create(account);
-    } catch (EntityRegisteredException e) {
+    }
+    catch (EntityRegisteredException e) {
       LOGGER.error("AccountRegisteredException The account already exists!");
       throw new AccountRegisteredException("The account already exists!");
     }

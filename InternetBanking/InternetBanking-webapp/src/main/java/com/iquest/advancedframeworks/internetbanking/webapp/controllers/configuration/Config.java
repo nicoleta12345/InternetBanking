@@ -17,7 +17,7 @@ import com.iquest.advancedframeworks.internetbanking.webapp.controllers.configur
 @ComponentScan("com.iquest.advancedframeworks")
 @EnableWebMvc
 @EnableGlobalMethodSecurity(securedEnabled = true)
-@Import({ SecurityConfiguration.class })
+@Import({ SecurityConfiguration.class})
 public class Config extends WebMvcConfigurerAdapter {
 
 	@Bean
