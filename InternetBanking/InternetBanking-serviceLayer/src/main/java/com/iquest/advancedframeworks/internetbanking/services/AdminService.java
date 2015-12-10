@@ -24,10 +24,10 @@ public interface AdminService {
   /**
    * Registers a new account.
    * 
-   * @param accountDetails the details about the new account
-   * @param clientIdentifier the identifier of the owner for the account
+   * @param accountRegistrationDto the details about the new account
+   * @param accountType the type of the account
    * @throws AccountRegisteredException if the account is already registered
    */
-  void registerNewAccount(AccountDetailsDto accountDetails, String accountType, String clientIdentifier) throws AccountRegisteredException;
+  void registerNewAccount(AccountDetailsDto accountRegistrationDto, String accountType) throws AccountRegisteredException;
 
 }

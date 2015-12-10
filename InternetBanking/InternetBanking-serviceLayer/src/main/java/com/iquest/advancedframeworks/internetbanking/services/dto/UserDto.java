@@ -2,6 +2,12 @@ package com.iquest.advancedframeworks.internetbanking.services.dto;
 
 import java.util.Set;
 
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotEmpty;
+
+import com.iquest.advancedframeworks.internetbanking.persistence.model.customconstraints.Cnp;
+import com.iquest.advancedframeworks.internetbanking.persistence.model.customconstraints.UserAge;
+
 /**
  * The UserDto class represents a DTO which contains details about a user.
  * 
@@ -10,26 +16,35 @@ import java.util.Set;
  */
 public class UserDto {
 
+  /**
+   * The first name of the user.
+   */
+  @NotEmpty(message = "{clientRegistrationForm.firstNameRequired}")
   private String firstName;
 
   /**
    * The last name of the user.
    */
+  @NotEmpty(message = "{clientRegistrationForm.lastNameRequired}")
   private String lastName;
 
   /**
    * The cnp of the user.
    */
+  @Cnp
+  @NotEmpty(message = "{clientRegistrationForm.cnpRequired}")
   private String cnp;
 
   /**
    * The email of the user.
    */
+  @Email(message = "{clientRegistrationForm.invalidEmail}")
   private String email;
 
   /**
    * The age of the user.
    */
+  @UserAge
   private Integer age;
 
   /**
@@ -41,11 +56,13 @@ public class UserDto {
   /**
    * The username of the user
    */
+  @NotEmpty(message = "{clientRegistrationForm.usernameRequired}")
   private String username;
 
   /**
    * The password of the user.
    */
+  @NotEmpty(message = "{clientRegistrationForm.passwordRequired}")
   private String password;
 
   /**

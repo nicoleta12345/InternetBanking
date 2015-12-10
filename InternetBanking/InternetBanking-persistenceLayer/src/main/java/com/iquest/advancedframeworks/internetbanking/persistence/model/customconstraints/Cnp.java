@@ -25,7 +25,7 @@ import com.iquest.advancedframeworks.internetbanking.persistence.model.customcon
 @Documented
 public @interface Cnp {
 
-  String message() default "{default message}";
+  String message() default "{invalidCnp}";
 
   Class<?>[] groups() default {};
 

@@ -65,8 +65,7 @@ public class AdminServiceImpl implements AdminService {
 
     try {
       userDao.create(user);
-    }
-    catch (EntityRegisteredException e) {
+    } catch (EntityRegisteredException e) {
       LOGGER.error("UserRegisteredException The user already exists!");
       throw new UserRegisteredException("The user already exists!");
     }
@@ -88,8 +87,7 @@ public class AdminServiceImpl implements AdminService {
       clientRole.setRole(role);
       try {
         userRoleDao.create(clientRole);
-      }
-      catch (EntityRegisteredException e) {
+      } catch (EntityRegisteredException e) {
         // stay silent
       }
 
@@ -102,21 +100,19 @@ public class AdminServiceImpl implements AdminService {
 
   @Override
   @Transactional
-  public void registerNewAccount(AccountDetailsDto accountDetails, String accountType, String cnpClient)
+  public void registerNewAccount(AccountDetailsDto accountRegistrationDto, String accountType)
       throws AccountRegisteredException {
-    Account account = createAccount(accountDetails, accountType);
+    Account account = createAccount(accountRegistrationDto, accountType);
 
-    Client client = (Client) userDao.getUserByCnp(cnpClient);
+    Client client = (Client) userDao.getUserByCnp(accountRegistrationDto.getOwnerCnp());
     List<Account> accounts = client.getAccounts();
     accounts.add(account);
 
     try {
       userDao.update(client);
-    }
-    catch (EntityDeletedException e1) {
+    } catch (EntityDeletedException e1) {
       // stay silent
     }
-
   }
 
   /**
@@ -155,15 +151,13 @@ public class AdminServiceImpl implements AdminService {
 
     if (accountType.equals("Savings Account")) {
       account = modelMapper.map(accountDetails, SavingsAccount.class);
-    }
-    else if (accountType.equals("Credit Account")) {
+    } else if (accountType.equals("Credit Account")) {
       account = modelMapper.map(accountDetails, CreditAccount.class);
     }
 
     try {
       accountDao.create(account);
-    }
-    catch (EntityRegisteredException e) {
+    } catch (EntityRegisteredException e) {
       LOGGER.error("AccountRegisteredException The account already exists!");
       throw new AccountRegisteredException("The account already exists!");
     }

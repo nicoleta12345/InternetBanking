@@ -25,7 +25,7 @@ import com.iquest.advancedframeworks.internetbanking.persistence.model.customcon
 @Documented
 public @interface UserAge {
 
-  String message() default "{default message}";
+  String message() default "{invalidAge}";
 
   Class<?>[] groups() default {};
 

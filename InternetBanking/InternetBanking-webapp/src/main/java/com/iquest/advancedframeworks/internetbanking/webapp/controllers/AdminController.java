@@ -1,9 +1,12 @@
 package com.iquest.advancedframeworks.internetbanking.webapp.controllers;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -53,7 +56,11 @@ public class AdminController {
    */
   @Secured("ROLE_ADMIN")
   @RequestMapping(value = "/registerClient", method = RequestMethod.POST)
-  public String registerNewClient(@ModelAttribute UserDto userDto, Model model) {
+  public String registerNewClient(@ModelAttribute @Valid UserDto userDto, BindingResult binding, Model model) {
+    if (binding.hasErrors()) {
+      return "clientRegistrationForm";
+    }
+
     try {
       adminService.registerNewClient(userDto);
     } catch (UserRegisteredException e) {
@@ -74,7 +81,6 @@ public class AdminController {
   @Secured("ROLE_ADMIN")
   @RequestMapping(value = "/createAccount", method = RequestMethod.GET)
   public String createAccountForm(Model model) {
-    model.addAttribute("message", "The account was registered!");
     return "accountRegistrationForm";
   }
 
@@ -88,13 +94,17 @@ public class AdminController {
    */
   @Secured("ROLE_ADMIN")
   @RequestMapping(value = "/registerAccount", method = RequestMethod.POST)
-  public String registerNewAccount(@ModelAttribute AccountDetailsDto accountDetails, @RequestParam String accountType,
-      @RequestParam String clientCnp, Model model) {
+  public String registerNewAccount(@ModelAttribute @Valid AccountDetailsDto accountDetailsDto,
+      BindingResult bindingResult, @RequestParam String accountType, Model model) {
+    if (bindingResult.hasErrors()) {
+      return "accountRegistrationForm";
+    }
+
     try {
-      adminService.registerNewAccount(accountDetails, accountType, clientCnp);
+      adminService.registerNewAccount(accountDetailsDto, accountType);
     } catch (AccountRegisteredException e) {
-        model.addAttribute("errorMessage", "The account is already registered!");
-        return "accountRegistrationForm";
+      model.addAttribute("errorMessage", "The account is already registered!");
+      return "accountRegistrationForm";
     }
 
     model.addAttribute("message", "The account was registered");

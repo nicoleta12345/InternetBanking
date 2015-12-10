@@ -47,7 +47,7 @@ public class User {
   /**
    * The password used for authentication.
    */
-  @Column(name = "PASSWORD", nullable = false, unique = true)
+  @Column(name = "PASSWORD", nullable = false)
   private String password;
 
   /**

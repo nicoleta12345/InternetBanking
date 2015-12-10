@@ -24,16 +24,13 @@ public class UserAgeValidator implements ConstraintValidator<UserAge, Integer> {
   public boolean isValid(Integer ageField, ConstraintValidatorContext constraintContext) {
 
     if (ageField == null) {
-      System.out.println("null");
       return false;
     }
 
     if (ageField < 18) {
-      System.out.println("<18");
       return false;
     }
 
-    System.out.println("true age");
     return true;
   }
 
