@@ -4,13 +4,12 @@ import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
-/**
- * The AccountDetailsDto class represents a DTO which contains details about an Account object.
- * 
- * @author Nicoleta Barbulescu
- *
- */
-public class AccountDetailsDto {
+import com.iquest.advancedframeworks.internetbanking.persistence.model.customconstraints.Cnp;
+
+public class RegistrationAccountInfDto {
+
+  @Cnp
+  private String ownerCnp;
 
   /**
    * The number of the account.
@@ -40,9 +39,17 @@ public class AccountDetailsDto {
     this.amount = amount;
   }
 
+  public String getOwnerCnp() {
+    return ownerCnp;
+  }
+
+  public void setOwnerCnp(String ownerCnp) {
+    this.ownerCnp = ownerCnp;
+  }
+
   @Override
   public String toString() {
-    return "AccountDetailsDto [accountNumber=" + accountNumber + ", amount=" + amount + "]";
+    return "AccountDetailsDto [ownerCnp=" + ownerCnp + ", accountNumber=" + accountNumber + ", amount=" + amount + "]";
   }
 
 }

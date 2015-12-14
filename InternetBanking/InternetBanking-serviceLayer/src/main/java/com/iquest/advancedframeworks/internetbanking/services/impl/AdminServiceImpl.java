@@ -22,7 +22,7 @@ import com.iquest.advancedframeworks.internetbanking.persistence.model.CreditAcc
 import com.iquest.advancedframeworks.internetbanking.persistence.model.SavingsAccount;
 import com.iquest.advancedframeworks.internetbanking.persistence.model.UserRole;
 import com.iquest.advancedframeworks.internetbanking.services.AdminService;
-import com.iquest.advancedframeworks.internetbanking.services.dto.AccountDetailsDto;
+import com.iquest.advancedframeworks.internetbanking.services.dto.RegistrationAccountInfDto;
 import com.iquest.advancedframeworks.internetbanking.services.dto.UserDto;
 import com.iquest.advancedframeworks.internetbanking.services.exceptions.AccountRegisteredException;
 import com.iquest.advancedframeworks.internetbanking.services.exceptions.UserRegisteredException;
@@ -100,7 +100,7 @@ public class AdminServiceImpl implements AdminService {
 
   @Override
   @Transactional
-  public void registerNewAccount(AccountDetailsDto accountRegistrationDto, String accountType)
+  public void registerNewAccount(RegistrationAccountInfDto accountRegistrationDto, String accountType)
       throws AccountRegisteredException {
     Account account = createAccount(accountRegistrationDto, accountType);
 
@@ -144,7 +144,7 @@ public class AdminServiceImpl implements AdminService {
    * @return the new account
    * @throws AccountRegisteredException if the account is already registered
    */
-  private Account createAccount(AccountDetailsDto accountDetails, String accountType)
+  private Account createAccount(RegistrationAccountInfDto accountDetails, String accountType)
       throws AccountRegisteredException {
     ModelMapper modelMapper = new ModelMapper();
     Account account = null;

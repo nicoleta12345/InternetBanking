@@ -43,6 +43,8 @@ public class CustomUserDetailsService implements UserDetailsService {
    */
   @Transactional(readOnly = true)
   public UserDetails loadUserByUsername(String username) {
+    
+    System.out.println("load by usernmae");
     User user = (User) userDao.getUserByUsername(username);
 
      if(user == null) {

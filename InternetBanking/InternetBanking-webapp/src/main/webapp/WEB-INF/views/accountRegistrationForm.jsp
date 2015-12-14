@@ -26,7 +26,7 @@
 		</c:if>
 
 
-		<form:form class="form-horizontal" modelAttribute="accountDetailsDto"
+		<form:form class="form-horizontal" modelAttribute="registrationAccountInfDto"
 			action="registerAccount" method="POST">
 			<div class="form-group">
 				

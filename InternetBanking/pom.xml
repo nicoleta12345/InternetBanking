@@ -9,6 +9,7 @@
 
 	<modules>
 		<module>./InternetBanking-webapp</module>
+		<module>./InternetBanking-webappRest</module>
 		<module>./InternetBanking-serviceLayer</module>
 		<module>./InternetBanking-persistenceLayer</module>
 	</modules>
@@ -241,8 +242,19 @@
 				<artifactId>mail</artifactId>
 				<version>1.4.7</version>
 			</dependency>
-		</dependencies>
 
+			<dependency>
+				<groupId>org.springframework.security.oauth</groupId>
+				<artifactId>spring-security-oauth2</artifactId>
+				<version>2.0.7.RELEASE</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.fasterxml.jackson.core</groupId>
+				<artifactId>jackson-databind</artifactId>
+				<version>2.5.3</version>
+			</dependency>
+		</dependencies>
 	</dependencyManagement>
 
 	<dependencies>

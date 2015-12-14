@@ -1,6 +1,9 @@
 package com.iquest.advancedframeworks.internetbanking.services;
 
+import java.util.List;
+
 import com.iquest.advancedframeworks.internetbanking.services.dto.TransactionAccounts;
+import com.iquest.advancedframeworks.internetbanking.services.dto.TransactionDto;
 import com.iquest.advancedframeworks.internetbanking.services.dto.TransferTransactionDto;
 import com.iquest.advancedframeworks.internetbanking.services.exceptions.AccountAccessDenied;
 import com.iquest.advancedframeworks.internetbanking.services.exceptions.AccountNotFound;
@@ -32,4 +35,13 @@ public interface TransferTransactionService {
   void addTransaction(TransferTransactionDto transferTransaction, String currentUserUsername)
       throws AccountAccessDenied, AccountNotFound;
 
+  /**
+   * Gets the pending transactions.
+   * 
+   * @return a list with the pending transactions
+   */
+  List<TransactionDto> getPendingTransactions();
+
+  void addTransaction(TransferTransactionDto transferDto, Integer clientId) throws AccountAccessDenied, AccountNotFound;
+  
 }

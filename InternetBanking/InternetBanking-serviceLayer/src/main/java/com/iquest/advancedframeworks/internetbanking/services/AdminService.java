@@ -1,6 +1,6 @@
 package com.iquest.advancedframeworks.internetbanking.services;
 
-import com.iquest.advancedframeworks.internetbanking.services.dto.AccountDetailsDto;
+import com.iquest.advancedframeworks.internetbanking.services.dto.RegistrationAccountInfDto;
 import com.iquest.advancedframeworks.internetbanking.services.dto.UserDto;
 import com.iquest.advancedframeworks.internetbanking.services.exceptions.AccountRegisteredException;
 import com.iquest.advancedframeworks.internetbanking.services.exceptions.UserRegisteredException;
@@ -28,6 +28,6 @@ public interface AdminService {
    * @param accountType the type of the account
    * @throws AccountRegisteredException if the account is already registered
    */
-  void registerNewAccount(AccountDetailsDto accountRegistrationDto, String accountType) throws AccountRegisteredException;
+  void registerNewAccount(RegistrationAccountInfDto accountRegistrationDto, String accountType) throws AccountRegisteredException;
 
 }

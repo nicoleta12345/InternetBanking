@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.iquest.advancedframeworks.internetbanking.services.AdminService;
-import com.iquest.advancedframeworks.internetbanking.services.dto.AccountDetailsDto;
+import com.iquest.advancedframeworks.internetbanking.services.dto.RegistrationAccountInfDto;
 import com.iquest.advancedframeworks.internetbanking.services.dto.UserDto;
 import com.iquest.advancedframeworks.internetbanking.services.exceptions.AccountRegisteredException;
 import com.iquest.advancedframeworks.internetbanking.services.exceptions.UserRegisteredException;
@@ -94,14 +94,14 @@ public class AdminController {
    */
   @Secured("ROLE_ADMIN")
   @RequestMapping(value = "/registerAccount", method = RequestMethod.POST)
-  public String registerNewAccount(@ModelAttribute @Valid AccountDetailsDto accountDetailsDto,
+  public String registerNewAccount(@ModelAttribute @Valid RegistrationAccountInfDto registrationAccountInfDto,
       BindingResult bindingResult, @RequestParam String accountType, Model model) {
     if (bindingResult.hasErrors()) {
       return "accountRegistrationForm";
     }
 
     try {
-      adminService.registerNewAccount(accountDetailsDto, accountType);
+      adminService.registerNewAccount(registrationAccountInfDto, accountType);
     } catch (AccountRegisteredException e) {
       model.addAttribute("errorMessage", "The account is already registered!");
       return "accountRegistrationForm";

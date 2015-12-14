@@ -20,9 +20,11 @@ import com.iquest.advancedframeworks.internetbanking.persistence.dao.exception.E
 import com.iquest.advancedframeworks.internetbanking.persistence.model.Account;
 import com.iquest.advancedframeworks.internetbanking.persistence.model.Client;
 import com.iquest.advancedframeworks.internetbanking.persistence.model.Transfer;
+import com.iquest.advancedframeworks.internetbanking.persistence.model.User;
 import com.iquest.advancedframeworks.internetbanking.services.TransferTransactionService;
 import com.iquest.advancedframeworks.internetbanking.services.dto.AccountDetailsDto;
 import com.iquest.advancedframeworks.internetbanking.services.dto.TransactionAccounts;
+import com.iquest.advancedframeworks.internetbanking.services.dto.TransactionDto;
 import com.iquest.advancedframeworks.internetbanking.services.dto.TransferTransactionDto;
 import com.iquest.advancedframeworks.internetbanking.services.exceptions.AccountAccessDenied;
 import com.iquest.advancedframeworks.internetbanking.services.exceptions.AccountNotFound;
@@ -58,7 +60,7 @@ public class TransferTransactionServiceImpl implements TransferTransactionServic
    */
   @Autowired
   ClientDao clientDao;
-  
+
   /**
    * The repository for the Account entities.
    */
@@ -104,7 +106,8 @@ public class TransferTransactionServiceImpl implements TransferTransactionServic
 
     try {
       transactionDao.create(transaction);
-    } catch (EntityRegisteredException e) {
+    }
+    catch (EntityRegisteredException e) {
       // stay silent
     }
     LOGGER.info("New transfer transaction");
@@ -119,10 +122,11 @@ public class TransferTransactionServiceImpl implements TransferTransactionServic
    */
   private void updateSenderDetails(TransferTransactionDto transferTransaction, Account sender) throws AccountNotFound {
     sender.setAmount(sender.getAmount() - transferTransaction.getValue());
-    
+
     try {
       accountDao.update(sender);
-    } catch (EntityDeletedException e1) {
+    }
+    catch (EntityDeletedException e1) {
       throw new AccountNotFound("The account doesn't exist!");
     }
   }
@@ -140,15 +144,17 @@ public class TransferTransactionServiceImpl implements TransferTransactionServic
     if (receiver == null) {
       double senderBlockedAmount = sender.getBlockedAmount();
       sender.setBlockedAmount(senderBlockedAmount + transferTransaction.getValue());
-    } else {
+    }
+    else {
       receiver.setAmount(receiver.getAmount() + transferTransaction.getValue());
-      
+
       try {
         accountDao.update(receiver);
-      } catch (EntityDeletedException e) {
+      }
+      catch (EntityDeletedException e) {
         // stay silent
       }
-      
+
     }
   }
 
@@ -167,6 +173,26 @@ public class TransferTransactionServiceImpl implements TransferTransactionServic
       throw new AccountAccessDenied("The current logged user is not the owner of the account!");
     }
 
+  }
+
+  @Override
+  public List<TransactionDto> getPendingTransactions() {
+    List<Transfer> pendingTransactions = transactionDao.getPendingTransactions();
+
+    ModelMapper modelMapper = new ModelMapper();
+    Type listType = new TypeToken<List<TransactionDto>>() {
+    }.getType();
+    List<TransactionDto> pendingTransactionsDto = modelMapper.map(pendingTransactions, listType);
+
+    return pendingTransactionsDto;
+  }
+
+  @Override
+  public void addTransaction(TransferTransactionDto transferDto, Integer clientId) throws AccountAccessDenied, AccountNotFound {
+    User currentUser = userDao.read(clientId);
+    String username = currentUser.getUsername();
+    
+    addTransaction(transferDto, username);
   }
 
 }
