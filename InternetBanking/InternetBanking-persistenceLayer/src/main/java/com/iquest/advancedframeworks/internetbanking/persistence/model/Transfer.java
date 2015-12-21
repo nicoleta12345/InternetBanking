@@ -40,11 +40,25 @@ public class Transfer extends Transaction implements Serializable {
   private Account receiverAccount;
 
   /**
+   * The external account number.
+   */
+  @Column(name = "EXTERNAL_ACCOUNT")
+  private String externalAccountNumber;
+
+  /**
    * This field is set to true if the receiver account is external. It change its state when the transaction is approved
    * or declined.
    */
   @Column(name = "PENDING")
   private Boolean pending;
+
+  public String getExternalAccountNumber() {
+    return externalAccountNumber;
+  }
+
+  public void setExternalAccountNumber(String externalAccountNumber) {
+    this.externalAccountNumber = externalAccountNumber;
+  }
 
   public Account getSenderAccount() {
     return senderAccount;
@@ -68,6 +82,12 @@ public class Transfer extends Transaction implements Serializable {
 
   public void setPending(Boolean pending) {
     this.pending = pending;
+  }
+
+  @Override
+  public String toString() {
+    return "Transfer [senderAccount=" + senderAccount + ", receiverAccount=" + receiverAccount
+        + ", externalAccountNumber=" + externalAccountNumber + ", pending=" + pending + "]";
   }
 
 }

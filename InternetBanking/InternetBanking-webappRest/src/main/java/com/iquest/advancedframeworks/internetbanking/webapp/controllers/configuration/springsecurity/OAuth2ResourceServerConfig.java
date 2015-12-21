@@ -11,7 +11,7 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Res
 public class OAuth2ResourceServerConfig extends ResourceServerConfigurerAdapter {
   @Override
   public void configure(ResourceServerSecurityConfigurer resources) {
-    resources.resourceId("QuickPoll_Resources");
+    resources.resourceId("InternetBanking_Resources");
   }
 
   @Override

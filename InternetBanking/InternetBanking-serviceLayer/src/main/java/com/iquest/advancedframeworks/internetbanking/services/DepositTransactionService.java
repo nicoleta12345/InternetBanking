@@ -1,7 +1,7 @@
 package com.iquest.advancedframeworks.internetbanking.services;
 
 import com.iquest.advancedframeworks.internetbanking.services.dto.DepositTransactionDto;
-import com.iquest.advancedframeworks.internetbanking.services.exceptions.AccountNotFound;
+import com.iquest.advancedframeworks.services.exceptions.AccountNotFound;
 
 /**
  * The DepositTransactionService interface specifies services for DepositTransaction objects.

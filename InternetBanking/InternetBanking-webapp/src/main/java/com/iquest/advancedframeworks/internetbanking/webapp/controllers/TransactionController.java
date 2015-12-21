@@ -2,6 +2,8 @@ package com.iquest.advancedframeworks.internetbanking.webapp.controllers;
 
 import javax.servlet.http.HttpSession;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
@@ -17,8 +19,8 @@ import com.iquest.advancedframeworks.internetbanking.services.dto.DepositTransac
 import com.iquest.advancedframeworks.internetbanking.services.dto.TransactionAccounts;
 import com.iquest.advancedframeworks.internetbanking.services.dto.TransferTransactionDto;
 import com.iquest.advancedframeworks.internetbanking.services.dto.WithdrawalTransactionDto;
-import com.iquest.advancedframeworks.internetbanking.services.exceptions.AccountAccessDenied;
-import com.iquest.advancedframeworks.internetbanking.services.exceptions.AccountNotFound;
+import com.iquest.advancedframeworks.services.exceptions.AccountAccessDenied;
+import com.iquest.advancedframeworks.services.exceptions.AccountNotFound;
 
 /**
  * The TransactionController class represents a controller which interacts with the transaction specific views and the
@@ -31,6 +33,11 @@ import com.iquest.advancedframeworks.internetbanking.services.exceptions.Account
 @RequestMapping("/user/transaction")
 public class TransactionController {
 
+  /**
+   * Logger object used to log informations in the methods.
+   */
+  private static final Logger LOGGER = LoggerFactory.getLogger(AccountController.class);
+  
   /**
    * The deposit transaction services.
    */
@@ -66,15 +73,16 @@ public class TransactionController {
    * @param session
    * @param receiverNumberAccount the number account of the receiver
    * @param valueSent the value sent
+   * @throws AccountNotFound if the account is not found
    */
   @Secured("ROLE_USER")
   @RequestMapping(value = "/deposit", method = RequestMethod.POST)
-  public String doDeposit(HttpSession session, @ModelAttribute DepositTransactionDto depositTransaction, Model model) {
+  public String doDeposit(HttpSession session, @ModelAttribute DepositTransactionDto depositTransaction, Model model) throws AccountNotFound {
     try {
       depositTransactionService.addTransaction(depositTransaction);
     } catch (AccountNotFound e) {
-      model.addAttribute("errorMessage", "Something went wrong, please try again later!");
-      return "error";
+      LOGGER.debug(e.getMessage(), e.getStackTrace());
+      throw e;
     }
 
     model.addAttribute("message", "The transaction was made!");
@@ -90,10 +98,9 @@ public class TransactionController {
   @RequestMapping(value = "/transferForm", method = RequestMethod.GET)
   public String showFormTransfer(HttpSession session, Model model) {
     String username = (String) session.getAttribute("username");
-    
     TransactionAccounts userAccountsDto = transferTransactionService.getFormData(username);
+
     model.addAttribute("userAccountsDto", userAccountsDto);
-    
     return "transfer";
   }
 
@@ -104,22 +111,20 @@ public class TransactionController {
    * @param senderNumberAccount the number account of the sender
    * @param receiverNumberAccount the number account of the receiver
    * @param valueSent the value sent
+   * @throws AccountAccessDenied if the current logged in user is not the owner of the account
+   * @throws AccountNotFound if the account is not found
    */
   @Secured("ROLE_USER")
   @RequestMapping(value = "/transfer", method = RequestMethod.POST)
   public String makeTransfer(HttpSession session, @ModelAttribute TransferTransactionDto transferTransaction,
-      Model model) {
+      Model model) throws AccountAccessDenied, AccountNotFound {
     String username = (String) session.getAttribute("username");
 
     try {
       transferTransactionService.addTransaction(transferTransaction, username);
-    } catch (AccountAccessDenied e) {
-      model.addAttribute("user", username);
-      return "accessDenied";
-    }
-    catch (AccountNotFound e) {
-      model.addAttribute("errorMessage", "Something went wrong, please try again later!");
-      return "error";
+    } catch (AccountAccessDenied | AccountNotFound e) {
+      LOGGER.debug(e.getMessage(), e.getStackTrace());
+      throw e;
     }
 
     model.addAttribute("message", "The transfer was made!");
@@ -135,10 +140,9 @@ public class TransactionController {
   @RequestMapping(value = "/withdrawalForm", method = RequestMethod.GET)
   public String showFormWithdrawal(HttpSession session, Model model) {
     String username = (String) session.getAttribute("username");
-    
     TransactionAccounts userAccountsDto = withdrawalTransactionService.getFormData(username);
+
     model.addAttribute("userAccountsDto", userAccountsDto);
-    
     return "withdrawal";
   }
 
@@ -148,22 +152,20 @@ public class TransactionController {
    * @param session
    * @param senderNumberAccount the number account of the sender
    * @param valueSent the value sent
+   * @throws AccountAccessDenied if the current logged in user is not the owner of the account
+   * @throws AccountNotFound if the account is not found
    */
   @Secured("ROLE_USER")
   @RequestMapping(value = "/withdrawal", method = RequestMethod.POST)
   public String doWithdrawal(HttpSession session, @ModelAttribute WithdrawalTransactionDto withdrawalTransaction,
-      Model model) {
+      Model model) throws AccountAccessDenied, AccountNotFound {
     String currentUserUsername = (String) session.getAttribute("username");
 
     try {
       withdrawalTransactionService.addTransaction(withdrawalTransaction, currentUserUsername);
-    } catch (AccountAccessDenied e) {
-      model.addAttribute("user", currentUserUsername);
-      return "accessDenied";
-    }
-    catch (AccountNotFound e) {
-      model.addAttribute("errorMessage", "Something went wrong, please try again later!");
-      return "error";
+    } catch (AccountAccessDenied | AccountNotFound e) {
+      LOGGER.debug(e.getMessage(), e.getStackTrace());
+      throw e;
     }
 
     model.addAttribute("message", "The transaction was made!");

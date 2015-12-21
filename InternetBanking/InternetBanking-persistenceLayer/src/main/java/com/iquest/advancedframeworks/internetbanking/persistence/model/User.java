@@ -97,6 +97,11 @@ public class User {
   @JoinTable(joinColumns = @JoinColumn(name = "ROLE_ID") , inverseJoinColumns = @JoinColumn(name = "USER_ID") )
   private Set<UserRole> roles;
 
+  
+  public void setAge(int age) {
+    this.age = age;
+  }
+
   public String getPassword() {
     return password;
   }

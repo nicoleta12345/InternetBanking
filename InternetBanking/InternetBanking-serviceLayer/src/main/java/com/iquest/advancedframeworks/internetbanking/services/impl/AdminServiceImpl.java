@@ -1,3 +1,4 @@
+
 package com.iquest.advancedframeworks.internetbanking.services.impl;
 
 import java.util.HashSet;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.iquest.advancedframeworks.internetbanking.persistence.dao.AccountDao;
+import com.iquest.advancedframeworks.internetbanking.persistence.dao.TransactionDao;
 import com.iquest.advancedframeworks.internetbanking.persistence.dao.UserDao;
 import com.iquest.advancedframeworks.internetbanking.persistence.dao.UserRoleDao;
 import com.iquest.advancedframeworks.internetbanking.persistence.dao.exception.EntityDeletedException;
@@ -19,13 +21,15 @@ import com.iquest.advancedframeworks.internetbanking.persistence.dao.exception.E
 import com.iquest.advancedframeworks.internetbanking.persistence.model.Account;
 import com.iquest.advancedframeworks.internetbanking.persistence.model.Client;
 import com.iquest.advancedframeworks.internetbanking.persistence.model.CreditAccount;
+import com.iquest.advancedframeworks.internetbanking.persistence.model.Role;
 import com.iquest.advancedframeworks.internetbanking.persistence.model.SavingsAccount;
+import com.iquest.advancedframeworks.internetbanking.persistence.model.Transfer;
 import com.iquest.advancedframeworks.internetbanking.persistence.model.UserRole;
 import com.iquest.advancedframeworks.internetbanking.services.AdminService;
 import com.iquest.advancedframeworks.internetbanking.services.dto.RegistrationAccountInfDto;
 import com.iquest.advancedframeworks.internetbanking.services.dto.UserDto;
-import com.iquest.advancedframeworks.internetbanking.services.exceptions.AccountRegisteredException;
-import com.iquest.advancedframeworks.internetbanking.services.exceptions.UserRegisteredException;
+import com.iquest.advancedframeworks.services.exceptions.AccountRegisteredException;
+import com.iquest.advancedframeworks.services.exceptions.UserRegisteredException;
 
 @Service
 public class AdminServiceImpl implements AdminService {
@@ -56,6 +60,9 @@ public class AdminServiceImpl implements AdminService {
   @Autowired
   private MailSenderService mailSender;
 
+  @Autowired
+  private TransactionDao transactionDao;
+  
   @Override
   @Transactional
   public void registerNewClient(UserDto userDto) throws UserRegisteredException {
@@ -84,7 +91,7 @@ public class AdminServiceImpl implements AdminService {
 
     if (clientRole == null) {
       clientRole = new UserRole();
-      clientRole.setRole(role);
+      clientRole.setRole(Role.ROLE_USER);
       try {
         userRoleDao.create(clientRole);
       } catch (EntityRegisteredException e) {
@@ -165,4 +172,53 @@ public class AdminServiceImpl implements AdminService {
     return account;
   }
 
+  @Override
+  @Transactional
+  public void acceptTransaction(int tranferId) {
+    Transfer transfer = (Transfer) transactionDao.read(tranferId);
+    transfer.setPending(false);
+    try {
+      transactionDao.update(transfer);
+    }
+    catch (EntityDeletedException e1) {
+      // TODO Auto-generated catch block
+      e1.printStackTrace();
+    }
+   
+    Account sender = transfer.getSenderAccount();
+    sender.setBlockedAmount(sender.getBlockedAmount() - transfer.getValue());
+    try {
+      accountDao.update(sender);
+    }
+    catch (EntityDeletedException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+    
+  }
+  
+  @Override
+  @Transactional
+  public void declineTransaction(int tranferId) {
+    Transfer transfer = (Transfer) transactionDao.read(tranferId);
+    transfer.setPending(false);
+    try {
+      transactionDao.update(transfer);
+    }
+    catch (EntityDeletedException e1) {
+      // TODO Auto-generated catch block
+      e1.printStackTrace();
+    }
+   
+    Account sender = transfer.getSenderAccount();
+    sender.setBlockedAmount(sender.getBlockedAmount() - transfer.getValue());
+    sender.setAmount(sender.getAmount() + transfer.getValue());
+    try {
+      accountDao.update(sender);
+    }
+    catch (EntityDeletedException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+  }
 }

@@ -1,13 +1,11 @@
 package com.iquest.advancedframeworks.internetbanking.services.config;
 
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 
-//@PropertySource("classpath:mailConfig.properties" )
 public class MailConfig {
 
   public JavaMailSenderImpl javaMailSender() {
@@ -16,18 +14,14 @@ public class MailConfig {
     JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
 
     try {
-
       input = MailConfig.class.getClassLoader().getResourceAsStream("mailConfig.properties");
-
-      // load a properties file
       prop.load(input);
 
       mailSender.setHost(prop.getProperty("email.host"));
       mailSender.setPort(Integer.parseInt(prop.getProperty("email.port")));
       mailSender.setUsername(prop.getProperty("email.username"));
       mailSender.setPassword(prop.getProperty("email.password"));
-      mailSender.setJavaMailProperties(getMailProperties());
-      
+      mailSender.setJavaMailProperties(getMailProperties());      
     } catch (IOException ex) {
       //stay silent 
     } finally {

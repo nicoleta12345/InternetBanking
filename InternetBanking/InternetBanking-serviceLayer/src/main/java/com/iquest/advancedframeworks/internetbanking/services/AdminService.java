@@ -2,8 +2,8 @@ package com.iquest.advancedframeworks.internetbanking.services;
 
 import com.iquest.advancedframeworks.internetbanking.services.dto.RegistrationAccountInfDto;
 import com.iquest.advancedframeworks.internetbanking.services.dto.UserDto;
-import com.iquest.advancedframeworks.internetbanking.services.exceptions.AccountRegisteredException;
-import com.iquest.advancedframeworks.internetbanking.services.exceptions.UserRegisteredException;
+import com.iquest.advancedframeworks.services.exceptions.AccountRegisteredException;
+import com.iquest.advancedframeworks.services.exceptions.UserRegisteredException;
 
 /**
  * The AdminService interface declares methods which represents services for the admin.
@@ -30,4 +30,7 @@ public interface AdminService {
    */
   void registerNewAccount(RegistrationAccountInfDto accountRegistrationDto, String accountType) throws AccountRegisteredException;
 
+  void acceptTransaction(int transferId);
+
+  void declineTransaction(int tranferId);
 }

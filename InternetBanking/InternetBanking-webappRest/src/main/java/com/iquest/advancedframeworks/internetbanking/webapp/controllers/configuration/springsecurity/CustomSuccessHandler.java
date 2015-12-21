@@ -24,14 +24,12 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
   private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 
   @Override
-  protected void handle(HttpServletRequest request,
-      HttpServletResponse response, Authentication authentication)
+  protected void handle(HttpServletRequest request, HttpServletResponse response, Authentication authentication)
       throws IOException {
     setUserOnSession(request.getSession());
     String targetUrl = determineTargetUrl(authentication);
 
     if (response.isCommitted()) {
-      System.out.println("Can't redirect");
       return;
     }
 
@@ -40,10 +38,7 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 
   protected String determineTargetUrl(Authentication authentication) {
     String url = "";
-
-    Collection<? extends GrantedAuthority> authorities = authentication
-        .getAuthorities();
-
+    Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
     List<String> roles = new ArrayList<String>();
 
     for (GrantedAuthority a : authorities) {
@@ -52,11 +47,14 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 
     if (isUser(roles)) {
       url = "/user";
-    } else if (isAdmin(roles)) {
+    }
+    else if (isAdmin(roles)) {
       url = "/admin";
-    } else if (isUser(roles)) {
+    }
+    else if (isUser(roles)) {
       url = "/home";
-    } else {
+    }
+    else {
       url = "/accessDenied";
     }
 
@@ -66,14 +64,13 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
   /**
    * Sets the userId in the HttpSession object.
    * 
-   * @param session
-   *          The HttpSession object
+   * @param session The HttpSession object
    */
   void setUserOnSession(HttpSession session) {
-    User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-    String username = user.getUsername(); //get logged in username
+    User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    String username = user.getUsername(); 
 
-     session.setAttribute("username", username);
+    session.setAttribute("username", username);
   }
 
   public void setRedirectStrategy(RedirectStrategy redirectStrategy) {
@@ -92,7 +89,7 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
   }
 
   private boolean isAdmin(List<String> roles) {
-	  System.out.println("Roles: " + roles);
+    System.out.println("Roles: " + roles);
     if (roles.contains("ROLE_ADMIN")) {
       return true;
     }

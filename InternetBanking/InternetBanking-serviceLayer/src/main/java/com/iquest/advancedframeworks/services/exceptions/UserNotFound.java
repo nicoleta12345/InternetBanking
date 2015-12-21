@@ -1,4 +1,4 @@
-package com.iquest.advancedframeworks.internetbanking.services.exceptions;
+package com.iquest.advancedframeworks.services.exceptions;
 
 /**
  * The UserNotFound exception is thrown when a user can not be found, when there is expected a result.

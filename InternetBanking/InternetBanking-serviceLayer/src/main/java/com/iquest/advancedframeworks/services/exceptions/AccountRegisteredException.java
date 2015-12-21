@@ -1,4 +1,4 @@
-package com.iquest.advancedframeworks.internetbanking.services.exceptions;
+package com.iquest.advancedframeworks.services.exceptions;
 
 /**
  * The AccountRegisteredException exception should be thrown when someone tries to register an account already

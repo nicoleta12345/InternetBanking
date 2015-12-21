@@ -16,18 +16,33 @@ import com.iquest.advancedframeworks.internetbanking.services.AccountService;
 import com.iquest.advancedframeworks.internetbanking.services.ClientService;
 import com.iquest.advancedframeworks.internetbanking.services.dto.AccountDetailsDto;
 import com.iquest.advancedframeworks.internetbanking.services.dto.ClientDto;
-import com.iquest.advancedframeworks.internetbanking.services.exceptions.AccountNotFound;
-import com.iquest.advancedframeworks.internetbanking.services.exceptions.UserNotFound;
+import com.iquest.advancedframeworks.services.exceptions.AccountNotFound;
+import com.iquest.advancedframeworks.services.exceptions.UserNotFound;
 
+/**
+ * The AccountController class expose services for user accounts.
+ * 
+ * @author Nicoleta Barbulescu
+ *
+ */
 @RestController
 @RequestMapping("/clients/{clientId}/accounts")
 public class AccountController {
 
+  /**
+   * Logger object used to log informations in the methods.
+   */
   private static final Logger LOGGER = LoggerFactory.getLogger(AccountController.class);
 
+  /**
+   * The account objects services.
+   */
   @Autowired
   AccountService accountService;
 
+  /**
+   * The client exposed services.
+   */
   @Autowired
   ClientService clientService;
 

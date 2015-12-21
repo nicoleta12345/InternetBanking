@@ -33,6 +33,16 @@ public class Transaction {
   @Column(name = "VALUE", nullable = false)
   private double value;
 
+  
+  
+  public int getId() {
+    return id;
+  }
+
+  public void setId(int id) {
+    this.id = id;
+  }
+
   public double getValue() {
     return value;
   }

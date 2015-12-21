@@ -1,7 +1,7 @@
 package com.iquest.advancedframeworks.internetbanking.services;
 
 import com.iquest.advancedframeworks.internetbanking.services.dto.UserRoleDto;
-import com.iquest.advancedframeworks.internetbanking.services.exceptions.UserRoleRegisteredException;
+import com.iquest.advancedframeworks.services.exceptions.UserRoleRegisteredException;
 
 /**
  * The UserRoleService defines services for UserRole objects.

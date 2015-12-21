@@ -1,4 +1,4 @@
-package com.iquest.advancedframeworks.internetbanking.services.exceptions;
+package com.iquest.advancedframeworks.services.exceptions;
 
 import com.iquest.advancedframeworks.internetbanking.persistence.dao.exception.ApplicationException;
 

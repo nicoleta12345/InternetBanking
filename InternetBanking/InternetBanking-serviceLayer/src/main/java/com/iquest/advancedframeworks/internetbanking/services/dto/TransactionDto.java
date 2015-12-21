@@ -8,6 +8,8 @@ package com.iquest.advancedframeworks.internetbanking.services.dto;
  */
 public class TransactionDto {
 
+  private int id;
+
   /**
    * The value of the transaction.
    */
@@ -18,6 +20,14 @@ public class TransactionDto {
    */
   private Boolean pending;
 
+  public int getId() {
+    return id;
+  }
+
+  public void setId(int id) {
+    this.id = id;
+  }
+  
   public double getValue() {
     return value;
   }

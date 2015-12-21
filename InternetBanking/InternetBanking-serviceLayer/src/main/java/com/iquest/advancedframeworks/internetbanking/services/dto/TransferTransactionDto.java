@@ -16,6 +16,8 @@ public class TransferTransactionDto extends TransactionDto {
   /**
    * The receiver account number.
    */
+  private String externalAccountNumber;
+
   private String receiverAccountNumber;
 
   public String getSenderAccountNumber() {
@@ -26,18 +28,26 @@ public class TransferTransactionDto extends TransactionDto {
     this.senderAccountNumber = senderAccountNumber;
   }
 
+  public String getExternalAccountNumber() {
+    return externalAccountNumber;
+  }
+
+  public void setExternalAccountNumber(String externalAccountNumber) {
+    this.externalAccountNumber = externalAccountNumber;
+  }
+
+  @Override
+  public String toString() {
+    return "TransferTransactionDto [senderAccountNumber=" + senderAccountNumber + ", externalAccountNumber="
+        + externalAccountNumber + ", getValue()=" + getValue() + ", getPending()=" + getPending() + "]";
+  }
+
   public String getReceiverAccountNumber() {
     return receiverAccountNumber;
   }
 
   public void setReceiverAccountNumber(String receiverAccountNumber) {
     this.receiverAccountNumber = receiverAccountNumber;
-  }
-
-  @Override
-  public String toString() {
-    return "TransferTransactionDto [senderAccountNumber=" + senderAccountNumber + ", receiverAccountNumber="
-        + receiverAccountNumber + "]";
   }
 
 }

@@ -1,4 +1,4 @@
-package com.iquest.advancedframeworks.internetbanking.services.exceptions;
+package com.iquest.advancedframeworks.services.exceptions;
 
 /**
  * The AccountAccessDenied class is a specific ServiceException which should be thrown if a user intends to make an

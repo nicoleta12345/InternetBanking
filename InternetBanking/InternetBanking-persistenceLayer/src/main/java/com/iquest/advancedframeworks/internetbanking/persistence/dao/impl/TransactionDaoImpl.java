@@ -16,7 +16,6 @@ import org.springframework.stereotype.Repository;
 import com.iquest.advancedframeworks.internetbanking.persistence.dao.TransactionDao;
 import com.iquest.advancedframeworks.internetbanking.persistence.model.Transaction;
 import com.iquest.advancedframeworks.internetbanking.persistence.model.Transfer;
-import com.iquest.advancedframeworks.internetbanking.persistence.model.User;
 
 /**
  * The TransactionDaoImpl class implements TransactionDao interface and extends the abstract class GenericDaoImpl taking
@@ -42,7 +41,7 @@ public class TransactionDaoImpl extends GenericDaoImpl<Transaction> implements T
       CriteriaBuilder cb = entityManager.getCriteriaBuilder();
       CriteriaQuery<Transfer> cq = cb.createQuery(Transfer.class);
       Root<Transfer> root = cq.from(Transfer.class);
-      cq.where(cb.equal(root.get("pending"), true));
+      cq.where(cb.equal(root.get("pending"), 1));
       Query q = entityManager.createQuery(cq);
 
       result = q.getResultList();

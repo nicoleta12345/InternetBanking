@@ -14,6 +14,11 @@ import com.iquest.advancedframeworks.internetbanking.persistence.model.Transfer;
  */
 public interface TransactionDao extends GenericDao<Transaction> {
 
+  /**
+   * Gets the pending transfer transactions.
+   * 
+   * @return a list with the pending transactions
+   */
   List<Transfer> getPendingTransactions();
-
+  
 }

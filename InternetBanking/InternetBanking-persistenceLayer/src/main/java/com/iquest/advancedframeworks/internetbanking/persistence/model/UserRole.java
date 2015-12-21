@@ -2,6 +2,8 @@ package com.iquest.advancedframeworks.internetbanking.persistence.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -13,7 +15,7 @@ import javax.persistence.Table;
  *
  */
 @Entity
-@Table(name = "USER_ROLE")
+@Table(name = "ROLES")
 public class UserRole {
 
   /**
@@ -28,7 +30,17 @@ public class UserRole {
    * The role of the user.
    */
   @Column(name = "ROLE", nullable = false)
-  private String role;
+  @Enumerated(EnumType.STRING)
+  private Role role;
+
+  
+  public Role getRole() {
+    return role;
+  }
+
+  public void setRole(Role role) {
+    this.role = role;
+  }
 
   public int getId() {
     return id;
@@ -36,14 +48,6 @@ public class UserRole {
 
   public void setId(int id) {
     this.id = id;
-  }
-
-  public String getRole() {
-    return role;
-  }
-
-  public void setRole(String role) {
-    this.role = role;
   }
 
   @Override

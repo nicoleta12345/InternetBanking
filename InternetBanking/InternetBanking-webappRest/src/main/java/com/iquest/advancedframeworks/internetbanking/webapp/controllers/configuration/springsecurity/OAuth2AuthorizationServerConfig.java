@@ -21,7 +21,7 @@ public class OAuth2AuthorizationServerConfig extends AuthorizationServerConfigur
 
   @Override
   public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-    clients.inMemory().withClient("quickpolliOSClient").secret("top_secret").authorizedGrantTypes("password").scopes(
-        "read", "write").resourceIds("QuickPoll_Resources");
+    clients.inMemory().withClient("Client").secret("top_secret").authorizedGrantTypes("password").scopes(
+        "read", "write").resourceIds("InternetBanking_Resources");
   }
 }

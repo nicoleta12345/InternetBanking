@@ -1,5 +1,7 @@
 package com.iquest.advancedframeworks.internetbanking.webapp.controllers;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,15 +10,18 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.iquest.advancedframeworks.internetbanking.services.AdminService;
+import com.iquest.advancedframeworks.internetbanking.services.TransferTransactionService;
 import com.iquest.advancedframeworks.internetbanking.services.dto.RegistrationAccountInfDto;
+import com.iquest.advancedframeworks.internetbanking.services.dto.TransferTransactionDto;
 import com.iquest.advancedframeworks.internetbanking.services.dto.UserDto;
-import com.iquest.advancedframeworks.internetbanking.services.exceptions.AccountRegisteredException;
-import com.iquest.advancedframeworks.internetbanking.services.exceptions.UserRegisteredException;
+import com.iquest.advancedframeworks.services.exceptions.AccountRegisteredException;
+import com.iquest.advancedframeworks.services.exceptions.UserRegisteredException;
 
 /**
  * The AdminController class represents a controller which interacts with the admin specific views and the service
@@ -35,6 +40,12 @@ public class AdminController {
    */
   @Autowired
   AdminService adminService;
+
+  /**
+   * The service which offers services for the transfer transactions.
+   */
+  @Autowired
+  TransferTransactionService transferService;
 
   /**
    * Displays the form to register a new client.
@@ -109,6 +120,47 @@ public class AdminController {
 
     model.addAttribute("message", "The account was registered");
     return "operationSuccess";
+  }
+
+  /**
+   * Gets the pending transactions.
+   * 
+   * @param model the Model object on which are set the attributes for the view
+   * @return the name of the view which will be rendered
+   */
+  @Secured("ROLE_ADMIN")
+  @RequestMapping(value = "/pendingTransactions", method = RequestMethod.GET)
+  public String getPendingTransactions(Model model) {
+    List<TransferTransactionDto> pendingTransactions = transferService.getPendingTransactions();
+
+    model.addAttribute("pendingTransactions", pendingTransactions);
+    return "pendingTransactions";
+  }
+
+  /**
+   * Makes the operations to accept a transfer transaction.
+   * 
+   * @param id the id of the transaction
+   * @return the name of the view which will be rendered
+   */
+  @Secured("ROLE_ADMIN")
+  @RequestMapping(value = "/acceptTransaction/{id}", method = RequestMethod.GET)
+  public String acceptTransaction(@PathVariable("id") int id) {
+    adminService.acceptTransaction(id);
+    return "redirect:/admin/pendingTransactions";
+  }
+
+  /**
+   * Makes the operations to decline a transfer transaction.
+   * 
+   * @param id the id of the transaction
+   * @return the name of the view which will be rendered
+   */
+  @Secured("ROLE_ADMIN")
+  @RequestMapping(value = "/declineTransaction/{id}", method = RequestMethod.GET)
+  public String declineTransaction(@PathVariable("id") int id) {
+    adminService.declineTransaction(id);
+    return "redirect:/admin/pendingTransactions";
   }
 
 }

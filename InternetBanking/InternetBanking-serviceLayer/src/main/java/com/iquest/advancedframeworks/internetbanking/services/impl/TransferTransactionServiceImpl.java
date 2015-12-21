@@ -24,10 +24,9 @@ import com.iquest.advancedframeworks.internetbanking.persistence.model.User;
 import com.iquest.advancedframeworks.internetbanking.services.TransferTransactionService;
 import com.iquest.advancedframeworks.internetbanking.services.dto.AccountDetailsDto;
 import com.iquest.advancedframeworks.internetbanking.services.dto.TransactionAccounts;
-import com.iquest.advancedframeworks.internetbanking.services.dto.TransactionDto;
 import com.iquest.advancedframeworks.internetbanking.services.dto.TransferTransactionDto;
-import com.iquest.advancedframeworks.internetbanking.services.exceptions.AccountAccessDenied;
-import com.iquest.advancedframeworks.internetbanking.services.exceptions.AccountNotFound;
+import com.iquest.advancedframeworks.services.exceptions.AccountAccessDenied;
+import com.iquest.advancedframeworks.services.exceptions.AccountNotFound;
 
 /**
  * The TransferTransactionServiceImpl offers services which interacts with TransferTransaction objects.
@@ -94,16 +93,19 @@ public class TransferTransactionServiceImpl implements TransferTransactionServic
     updateSenderDetails(transferTransaction, sender);
 
     Account receiver = accountDao.getAccountByNo(transferTransaction.getReceiverAccountNumber());
-    updateReceiverDetails(transferTransaction, sender, receiver);
-
+    
     Transfer transaction = new Transfer();
-    transaction.setSenderAccount(sender);
-    transaction.setReceiverAccount(receiver);
+    transaction.setSenderAccount(sender); 
     transaction.setValue(transferTransaction.getValue());
-    if (receiver == null) {
+    
+    if(receiver != null) {
+      updateReceiverDetails(transferTransaction, sender, receiver);
+      transaction.setReceiverAccount(receiver);
+    } else {
+      transaction.setExternalAccountNumber(transferTransaction.getReceiverAccountNumber());
       transaction.setPending(true);
     }
-
+    
     try {
       transactionDao.create(transaction);
     }
@@ -122,7 +124,8 @@ public class TransferTransactionServiceImpl implements TransferTransactionServic
    */
   private void updateSenderDetails(TransferTransactionDto transferTransaction, Account sender) throws AccountNotFound {
     sender.setAmount(sender.getAmount() - transferTransaction.getValue());
-
+    sender.setBlockedAmount(sender.getBlockedAmount() + transferTransaction.getValue());
+    
     try {
       accountDao.update(sender);
     }
@@ -176,13 +179,13 @@ public class TransferTransactionServiceImpl implements TransferTransactionServic
   }
 
   @Override
-  public List<TransactionDto> getPendingTransactions() {
+  public List<TransferTransactionDto> getPendingTransactions() {
     List<Transfer> pendingTransactions = transactionDao.getPendingTransactions();
-
+    System.out.println("transfer list: " + pendingTransactions);
     ModelMapper modelMapper = new ModelMapper();
-    Type listType = new TypeToken<List<TransactionDto>>() {
+    Type listType = new TypeToken<List<TransferTransactionDto>>() {
     }.getType();
-    List<TransactionDto> pendingTransactionsDto = modelMapper.map(pendingTransactions, listType);
+    List<TransferTransactionDto> pendingTransactionsDto = modelMapper.map(pendingTransactions, listType);
 
     return pendingTransactionsDto;
   }

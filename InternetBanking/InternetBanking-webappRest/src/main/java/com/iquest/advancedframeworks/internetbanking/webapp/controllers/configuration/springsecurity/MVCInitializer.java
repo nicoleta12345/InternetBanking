@@ -37,7 +37,6 @@ public class MVCInitializer extends AbstractAnnotationConfigDispatcherServletIni
     Dynamic servlet = servletContext.addServlet("dispatcher", new DispatcherServlet(ctx));
     servlet.addMapping("/");
     servlet.setLoadOnStartup(1);
-
   }
 
 }

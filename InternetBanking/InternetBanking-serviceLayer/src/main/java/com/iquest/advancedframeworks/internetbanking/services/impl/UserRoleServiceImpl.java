@@ -12,7 +12,7 @@ import com.iquest.advancedframeworks.internetbanking.persistence.dao.exception.E
 import com.iquest.advancedframeworks.internetbanking.persistence.model.UserRole;
 import com.iquest.advancedframeworks.internetbanking.services.UserRoleService;
 import com.iquest.advancedframeworks.internetbanking.services.dto.UserRoleDto;
-import com.iquest.advancedframeworks.internetbanking.services.exceptions.UserRoleRegisteredException;
+import com.iquest.advancedframeworks.services.exceptions.UserRoleRegisteredException;
 
 /**
  * The UserRoleServiceImpl class implements services declared in the UserRoleService interface.

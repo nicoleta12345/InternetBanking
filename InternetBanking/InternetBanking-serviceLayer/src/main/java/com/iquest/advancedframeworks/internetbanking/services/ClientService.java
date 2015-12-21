@@ -2,8 +2,8 @@ package com.iquest.advancedframeworks.internetbanking.services;
 
 import com.iquest.advancedframeworks.internetbanking.services.dto.AccountDetailsDto;
 import com.iquest.advancedframeworks.internetbanking.services.dto.ClientDto;
-import com.iquest.advancedframeworks.internetbanking.services.exceptions.UserNotFound;
-import com.iquest.advancedframeworks.internetbanking.services.exceptions.UserRegisteredException;
+import com.iquest.advancedframeworks.services.exceptions.UserNotFound;
+import com.iquest.advancedframeworks.services.exceptions.UserRegisteredException;
 
 /**
  * The UserService interface represents a service which can do operations with User objects.

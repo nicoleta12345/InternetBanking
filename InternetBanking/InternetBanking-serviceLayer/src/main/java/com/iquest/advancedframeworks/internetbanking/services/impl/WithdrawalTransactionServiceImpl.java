@@ -19,13 +19,14 @@ import com.iquest.advancedframeworks.internetbanking.persistence.dao.exception.E
 import com.iquest.advancedframeworks.internetbanking.persistence.dao.exception.EntityRegisteredException;
 import com.iquest.advancedframeworks.internetbanking.persistence.model.Account;
 import com.iquest.advancedframeworks.internetbanking.persistence.model.Client;
+import com.iquest.advancedframeworks.internetbanking.persistence.model.User;
 import com.iquest.advancedframeworks.internetbanking.persistence.model.Withdrawal;
 import com.iquest.advancedframeworks.internetbanking.services.WithdrawalTransactionService;
 import com.iquest.advancedframeworks.internetbanking.services.dto.AccountDetailsDto;
 import com.iquest.advancedframeworks.internetbanking.services.dto.TransactionAccounts;
 import com.iquest.advancedframeworks.internetbanking.services.dto.WithdrawalTransactionDto;
-import com.iquest.advancedframeworks.internetbanking.services.exceptions.AccountAccessDenied;
-import com.iquest.advancedframeworks.internetbanking.services.exceptions.AccountNotFound;
+import com.iquest.advancedframeworks.services.exceptions.AccountAccessDenied;
+import com.iquest.advancedframeworks.services.exceptions.AccountNotFound;
 
 /**
  * The WithdrawalTransactionServiceImpl implements services for WithdrawalTransaction objects.
@@ -141,6 +142,14 @@ public class WithdrawalTransactionServiceImpl implements WithdrawalTransactionSe
     if (senderClient != currentClient) {
       throw new AccountAccessDenied("The current logged user is not the owner of the account!");
     }
+  }
+
+  @Override
+  public void addTransaction(WithdrawalTransactionDto withdrawalDto, Integer clientId) throws AccountAccessDenied, AccountNotFound {
+    User currentUser = userDao.read(clientId);
+    String username = currentUser.getUsername();
+    
+    addTransaction(withdrawalDto, username);    
   }
 
 }

@@ -21,9 +21,9 @@ import com.iquest.advancedframeworks.internetbanking.persistence.model.Client;
 import com.iquest.advancedframeworks.internetbanking.services.AccountService;
 import com.iquest.advancedframeworks.internetbanking.services.dto.AccountDetailsDto;
 import com.iquest.advancedframeworks.internetbanking.services.dto.AccountFormDataDto;
-import com.iquest.advancedframeworks.internetbanking.services.exceptions.AccountAccessDenied;
-import com.iquest.advancedframeworks.internetbanking.services.exceptions.AccountNotFound;
-import com.iquest.advancedframeworks.internetbanking.services.exceptions.AccountRegisteredException;
+import com.iquest.advancedframeworks.services.exceptions.AccountAccessDenied;
+import com.iquest.advancedframeworks.services.exceptions.AccountNotFound;
+import com.iquest.advancedframeworks.services.exceptions.AccountRegisteredException;
 
 /**
  * The AccountServiceImpl class implements AccountService interface and calls an AccountDAo object to perform operations

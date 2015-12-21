@@ -2,9 +2,9 @@ package com.iquest.advancedframeworks.internetbanking.services;
 
 import com.iquest.advancedframeworks.internetbanking.services.dto.AccountDetailsDto;
 import com.iquest.advancedframeworks.internetbanking.services.dto.AccountFormDataDto;
-import com.iquest.advancedframeworks.internetbanking.services.exceptions.AccountAccessDenied;
-import com.iquest.advancedframeworks.internetbanking.services.exceptions.AccountNotFound;
-import com.iquest.advancedframeworks.internetbanking.services.exceptions.AccountRegisteredException;
+import com.iquest.advancedframeworks.services.exceptions.AccountAccessDenied;
+import com.iquest.advancedframeworks.services.exceptions.AccountNotFound;
+import com.iquest.advancedframeworks.services.exceptions.AccountRegisteredException;
 
 /**
  * The AccountService interface represents a service which operates with Account objects.

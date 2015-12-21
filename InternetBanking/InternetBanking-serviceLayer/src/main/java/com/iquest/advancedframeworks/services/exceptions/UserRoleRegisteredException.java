@@ -1,4 +1,4 @@
-package com.iquest.advancedframeworks.internetbanking.services.exceptions;
+package com.iquest.advancedframeworks.services.exceptions;
 
 /**
  * The UserRoleRegisteredException exception should be thrown if somebody tries to register a UserRole which is already

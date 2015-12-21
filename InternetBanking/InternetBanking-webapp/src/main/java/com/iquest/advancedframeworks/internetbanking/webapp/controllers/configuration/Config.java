@@ -1,7 +1,5 @@
 package com.iquest.advancedframeworks.internetbanking.webapp.controllers.configuration;
 
-import javax.validation.Validator;
-
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;

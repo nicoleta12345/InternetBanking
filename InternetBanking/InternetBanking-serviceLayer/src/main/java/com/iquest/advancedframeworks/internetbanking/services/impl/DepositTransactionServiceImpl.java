@@ -14,7 +14,7 @@ import com.iquest.advancedframeworks.internetbanking.persistence.model.Account;
 import com.iquest.advancedframeworks.internetbanking.persistence.model.Deposit;
 import com.iquest.advancedframeworks.internetbanking.services.DepositTransactionService;
 import com.iquest.advancedframeworks.internetbanking.services.dto.DepositTransactionDto;
-import com.iquest.advancedframeworks.internetbanking.services.exceptions.AccountNotFound;
+import com.iquest.advancedframeworks.services.exceptions.AccountNotFound;
 
 /**
  * The DepositTransactionServiceImpl offers services which interacts with DepositTransaction objects.

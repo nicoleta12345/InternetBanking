@@ -16,8 +16,8 @@ import com.iquest.advancedframeworks.internetbanking.persistence.model.User;
 import com.iquest.advancedframeworks.internetbanking.services.ClientService;
 import com.iquest.advancedframeworks.internetbanking.services.dto.AccountDetailsDto;
 import com.iquest.advancedframeworks.internetbanking.services.dto.ClientDto;
-import com.iquest.advancedframeworks.internetbanking.services.exceptions.UserNotFound;
-import com.iquest.advancedframeworks.internetbanking.services.exceptions.UserRegisteredException;
+import com.iquest.advancedframeworks.services.exceptions.UserNotFound;
+import com.iquest.advancedframeworks.services.exceptions.UserRegisteredException;
 
 /**
  * The UserServiceImpl class represents a service which use a UserDao injected object to perform operations with User

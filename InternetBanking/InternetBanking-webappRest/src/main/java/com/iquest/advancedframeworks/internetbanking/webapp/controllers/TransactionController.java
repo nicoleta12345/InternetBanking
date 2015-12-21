@@ -18,30 +18,60 @@ import com.iquest.advancedframeworks.internetbanking.services.dto.DepositTransac
 import com.iquest.advancedframeworks.internetbanking.services.dto.TransactionDto;
 import com.iquest.advancedframeworks.internetbanking.services.dto.TransferTransactionDto;
 import com.iquest.advancedframeworks.internetbanking.services.dto.WithdrawalTransactionDto;
-import com.iquest.advancedframeworks.internetbanking.services.exceptions.AccountAccessDenied;
-import com.iquest.advancedframeworks.internetbanking.services.exceptions.AccountNotFound;
-import com.iquest.advancedframeworks.internetbanking.services.exceptions.ServicesException;
+import com.iquest.advancedframeworks.services.exceptions.AccountAccessDenied;
+import com.iquest.advancedframeworks.services.exceptions.AccountNotFound;
 
+/**
+ * The AccountController class expose services for user transactions.
+ * 
+ * @author Nicoleta Barbulescu
+ *
+ */
 @RestController
 @RequestMapping("/clients/{clientId}/transactions")
 public class TransactionController {
 
+  /**
+   * Logger used to log useful informations about what happens into the methods. 
+   */
   private static final Logger LOGGER = LoggerFactory.getLogger(TransactionController.class);
 
+  /**
+   * The deposit transaction services.
+   */
   @Autowired
-  DepositTransactionService depositTransactionService;
+  private DepositTransactionService depositTransactionService;
 
+  /**
+   * The transfer transaction services.
+   */
   @Autowired
-  TransferTransactionService transferTransactionService;
+  private TransferTransactionService transferTransactionService;
 
+  /**
+   * The withdrawal transaction services.
+   */
   @Autowired
-  WithdrawalTransactionService withdrawalTransactionService;
+  private WithdrawalTransactionService withdrawalTransactionService;
 
+  /**
+   * Gets the transactions a client have made.
+   * 
+   * @param clientId the id of the client
+   * @return a list with the client transactions
+   */
   @RequestMapping(method = RequestMethod.GET)
   public List<TransactionDto> getClientTransactions(@PathVariable Integer clientId) {
     return null;
   }
 
+  /**
+   * Makes a deposit transaction.
+   * 
+   * @param clientId the id of the client
+   * @param depositDto the details about the transaction
+   * @throws AccountNotFound if the receiver account does not exists
+   */
   @RequestMapping(value = "/deposit", method = RequestMethod.POST)
   public void doDepositTransactions(@PathVariable Integer clientId, @RequestBody DepositTransactionDto depositDto)
       throws AccountNotFound {
@@ -54,9 +84,17 @@ public class TransactionController {
     }
   }
 
+  /**
+   * Makes a transfer transaction.
+   * 
+   * @param clientId the id of the client
+   * @param transferDto the details about the transaction
+   * @throws AccountAccessDenied if the client tries to make a transfer from an account he doesn't own
+   * @throws AccountNotFound if the sender account is not found
+   */
   @RequestMapping(value = "/transfer", method = RequestMethod.POST)
   public void doTransferTransactions(@PathVariable Integer clientId, @RequestBody TransferTransactionDto transferDto)
-      throws ServicesException {
+      throws AccountAccessDenied, AccountNotFound {
     try {
       transferTransactionService.addTransaction(transferDto, clientId);
     }
@@ -66,10 +104,24 @@ public class TransactionController {
     }
   }
 
+  /**
+   * Makes a withdrawal transaction.
+   * 
+   * @param clientId the id of the client
+   * @param withdrawalDto the details about the transaction
+   * @throws AccountAccessDenied if the client tries to make a transfer from an account he doesn't own
+   * @throws AccountNotFound if the sender account is not found
+   */
   @RequestMapping(value = "/withdrawal", method = RequestMethod.POST)
   public void doWithdrawalTransactions(@PathVariable Integer clientId,
-      @RequestBody WithdrawalTransactionDto withdrawalDto) {
-    // 
+      @RequestBody WithdrawalTransactionDto withdrawalDto) throws AccountAccessDenied, AccountNotFound {
+    try {
+      withdrawalTransactionService.addTransaction(withdrawalDto, clientId);
+    }
+    catch (AccountAccessDenied | AccountNotFound e) {
+      LOGGER.debug(e.getClass().getSimpleName(), e.getStackTrace());
+      throw e;
+    }
   }
 
 }

@@ -18,4 +18,5 @@ public interface UserRoleDao extends GenericDao<UserRole> {
    * @return a UserRole object
    */
   UserRole getUserRolebyRole(String role);
+  
 }
