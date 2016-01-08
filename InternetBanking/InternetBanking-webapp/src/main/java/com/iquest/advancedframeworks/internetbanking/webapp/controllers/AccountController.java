@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.iquest.advancedframeworks.internetbanking.services.AccountService;
 import com.iquest.advancedframeworks.internetbanking.services.dto.AccountDetailsDto;
 import com.iquest.advancedframeworks.internetbanking.services.dto.AccountFormDataDto;
-import com.iquest.advancedframeworks.internetbanking.services.exceptions.AccountAccessDenied;
+import com.iquest.advancedframeworks.services.exceptions.AccountAccessDenied;
 
 /**
  * The AccountController class represents a controller which interacts with the account specific views and the service
@@ -38,7 +38,7 @@ public class AccountController {
    * @return the name of the view(jsp)
    */
   @Secured("ROLE_USER")
-  @RequestMapping(value = "/accountForm", method = RequestMethod.GET)
+  @RequestMapping(value = "/details", method = RequestMethod.GET)
   public String showFormGetIdUser(HttpSession session, Model model) {
     String username = (String) session.getAttribute("username");
     AccountFormDataDto accountFormDataDto = accountService.getFormData(username);
@@ -60,13 +60,11 @@ public class AccountController {
   @RequestMapping(value = "/getAccount", method = RequestMethod.POST)
   public String getUser(HttpSession session, @RequestParam String accountNumber, Model model) {
     String currentUserUsername = (String) session.getAttribute("username");
-
     AccountDetailsDto accountDetailsDto;
     
       try {
         accountDetailsDto = accountService.getAccountDetails(accountNumber, currentUserUsername);
-      }
-      catch (AccountAccessDenied e) {
+      } catch (AccountAccessDenied e) {
         model.addAttribute("user", currentUserUsername);
         return "accessDenied";
       }

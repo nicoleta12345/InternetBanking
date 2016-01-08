@@ -14,36 +14,32 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(securedEnabled = true)
-@ComponentScan(basePackages = {
-		"com.iquest.advancedframeworks.internetbanking.webapp.controllers.configuration.springsecurity" })
+@ComponentScan(basePackages = { "com.iquest.advancedframeworks.internetbanking" })
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-	@Autowired
-	@Qualifier("customUserDetailsService")
-	UserDetailsService userDetailsService;
+  @Autowired
+  @Qualifier("customUserDetailsService")
+  UserDetailsService userDetailsService;
 
-	@Autowired
-	CustomSuccessHandler customSuccessHandler;
+  @Autowired
+  CustomSuccessHandler customSuccessHandler;
 
-	@Autowired
-	public void configureGlobalSecurity(AuthenticationManagerBuilder auth) throws Exception {
-		auth.userDetailsService(userDetailsService);
-	}
+  @Autowired
+  public void configureGlobalSecurity(AuthenticationManagerBuilder auth) throws Exception {
+    auth.userDetailsService(userDetailsService);
+  }
 
-	@Override
-	protected void configure(HttpSecurity http) throws Exception {
-		http.authorizeRequests().antMatchers("/").permitAll().antMatchers("/home")
-				.access("hasRole('USER') or hasRole('ADMIN')").antMatchers("/user/**").access("hasRole('USER')")
-				.antMatchers("/admin/**").access("hasRole('ADMIN')")
-				.antMatchers("/transaction/**")
-				.access("hasRole('USER')")
-				.antMatchers("/account/**")
-				.access("hasRole('USER')").
-				and().formLogin().loginPage("/login")
+  @Override
+  protected void configure(HttpSecurity http) throws Exception {
+    http.authorizeRequests().antMatchers("/").permitAll().antMatchers("/home").access(
+        "hasRole('USER') or hasRole('ADMIN')").antMatchers("/user/**").access("hasRole('USER')").antMatchers(
+            "/admin/**").access("hasRole('ADMIN')").antMatchers("/transaction/**").access(
+                "hasRole('USER')").antMatchers("/account/**").access("hasRole('USER')").and().formLogin().loginPage(
+                    "/login")
 
-				.successHandler(customSuccessHandler).usernameParameter("username").passwordParameter("password").and()
-				.csrf().and().exceptionHandling().accessDeniedPage("/Access_Denied");
+    .successHandler(customSuccessHandler).usernameParameter("username").passwordParameter(
+        "password").and().csrf().and().exceptionHandling().accessDeniedPage("/Access_Denied");
 
-	}
+  }
 
 }

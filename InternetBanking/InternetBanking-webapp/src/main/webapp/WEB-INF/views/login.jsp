@@ -46,28 +46,6 @@
 
 		</form>
 	</div>
-	<!--<c:url var="loginUrl" value="/login" />
-	<div class="container">
-
-		<form class="form-signin" action="${loginUrl}" method="post">
-			<c:if test="${param.error != null}">
-				<p>Invalid username and password.</p>
-			</c:if>
-			<c:if test="${param.logout != null}">
-				<p>You have been logged out successfully.</p>
-			</c:if>
-			<label for="inputUsername" class="sr-only">Username</label> 
-			<input
-				type="text" id="username" name="username" class="form-control"
-				placeholder="Usernme" required autofocus> <label
-				for="inputPassword" class="sr-only">Password</label> <input
-				type="password" id="password" name="password"
-				class="form-control" placeholder="Password" required>
-
-			<button class="btn btn-lg btn-primary btn-block" type="submit">Log
-				in</button>
-		</form>
-
-	</div> -->
+	
 </body>
 </html>
