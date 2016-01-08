@@ -17,8 +17,8 @@ import com.iquest.advancedframeworks.internetbanking.services.dto.DepositTransac
 import com.iquest.advancedframeworks.internetbanking.services.dto.TransactionAccounts;
 import com.iquest.advancedframeworks.internetbanking.services.dto.TransferTransactionDto;
 import com.iquest.advancedframeworks.internetbanking.services.dto.WithdrawalTransactionDto;
-import com.iquest.advancedframeworks.internetbanking.services.exceptions.AccountAccessDenied;
-import com.iquest.advancedframeworks.internetbanking.services.exceptions.AccountNotFound;
+import com.iquest.advancedframeworks.services.exceptions.AccountAccessDenied;
+import com.iquest.advancedframeworks.services.exceptions.AccountNotFound;
 
 /**
  * The TransactionController class represents a controller which interacts with the transaction specific views and the

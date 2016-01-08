@@ -19,7 +19,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>com.iquestgroup.advancedframeworks</groupId>
-			<artifactId>InternetBanking-serviceLayer</artifactId>
+			<artifactId>InternetBanking-services</artifactId>
 		</dependency>
 
 		<dependency>

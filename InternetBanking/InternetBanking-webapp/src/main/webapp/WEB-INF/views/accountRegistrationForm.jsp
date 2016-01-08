@@ -26,32 +26,35 @@
 		</c:if>
 
 
-		<form:form class="form-horizontal" modelAttribute="accountDetails"
+		<form:form class="form-horizontal" modelAttribute="registrationAccountInfDto"
 			action="registerAccount" method="POST">
 			<div class="form-group">
-				<!--<label for=clientCnp>User Cnp</label> -->
-				<input type="text" class="form-control" id="clientCnp"
-					placeholder="CNP" name="clientCnp">
+				
+				<input type="text" class="form-control" id="ownerCnp" placeholder="Owner CNP"
+					name="ownerCnp"> 
+				<p> <form:errors path="ownerCnp" class="control-label" /> </p>
 
+				<div>
 				<label>Account Type</label>
 				<select id="accountType" name="accountType" required>
 					<option value="Credit Account">Credit Account</option>
 					<option value="Savings Account">Savings Account</option>
 				</select>
-
+				</div>
 				
-				<!--<label for=accountNumber>Account Number</label> -->
 				<input type="text" class="form-control" id="accountNumber"
 					placeholder="Account Number" name="accountNumber">
+				<p> <form:errors path="accountNumber" class="control-label" /> </p>
 
 				<!-- <label
 					class="sr-only" for="amount">Amount (in
 					dollars)</label> -->
 				<div class="input-group">
 					<div class="input-group-addon">$</div>
-					<input type="text" class="form-control" id="amount"
+					<input type="number" class="form-control" id="amount"
 						placeholder="Amount" name="amount">
 					<div class="input-group-addon">.00</div>
+					<p> <form:errors path="amount" class="control-label" /> </p>
 				</div>
 			</div>
 			<button type="submit" class="btn btn-primary">Register

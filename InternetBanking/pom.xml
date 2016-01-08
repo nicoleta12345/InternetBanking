@@ -9,8 +9,10 @@
 
 	<modules>
 		<module>./InternetBanking-webapp</module>
-		<module>./InternetBanking-serviceLayer</module>
-		<module>./InternetBanking-persistenceLayer</module>
+		<module>./InternetBanking-webappRest</module>
+		<module>./InternetBanking-services</module>
+		<module>./InternetBanking-persistence</module>
+		<module>./InternetBanking-integration</module>
 	</modules>
 
 	<properties>
@@ -24,7 +26,13 @@
 		<dependencies>
 			<dependency>
 				<groupId>com.iquestgroup.advancedframeworks</groupId>
-				<artifactId>InternetBanking-persistenceLayer</artifactId>
+				<artifactId>InternetBanking-persistence</artifactId>
+				<version>1.0.0-SNAPSHOT</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.iquestgroup.advancedframeworks</groupId>
+				<artifactId>InternetBanking-integration</artifactId>
 				<version>1.0.0-SNAPSHOT</version>
 			</dependency>
 
@@ -135,7 +143,7 @@
 
 			<dependency>
 				<groupId>com.iquestgroup.advancedframeworks</groupId>
-				<artifactId>InternetBanking-serviceLayer</artifactId>
+				<artifactId>InternetBanking-services</artifactId>
 				<version>1.0.0-SNAPSHOT</version>
 			</dependency>
 
@@ -241,8 +249,54 @@
 				<artifactId>mail</artifactId>
 				<version>1.4.7</version>
 			</dependency>
-		</dependencies>
 
+			<dependency>
+				<groupId>org.springframework.security.oauth</groupId>
+				<artifactId>spring-security-oauth2</artifactId>
+				<version>2.0.7.RELEASE</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.fasterxml.jackson.core</groupId>
+				<artifactId>jackson-databind</artifactId>
+				<version>2.5.3</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-jms</artifactId>
+				<version>4.2.4.RELEASE</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.apache.activemq</groupId>
+				<artifactId>activemq-core</artifactId>
+				<version>5.7.0</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.springframework.integration</groupId>
+				<artifactId>spring-integration-core</artifactId>
+				<version>${spring.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.integration</groupId>
+				<artifactId>spring-integration-http</artifactId>
+				<version>${spring.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.integration</groupId>
+				<artifactId>spring-integration-jms</artifactId>
+				<version>${spring.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-oxm</artifactId>
+				<version>${spring.version}</version>
+			</dependency>
+
+
+		</dependencies>
 	</dependencyManagement>
 
 	<dependencies>
@@ -307,6 +361,8 @@
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-taglibs</artifactId>
 		</dependency>
+
+
 	</dependencies>
 
 	<build>
