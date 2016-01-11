@@ -6,6 +6,9 @@
 	<title>User page</title>
 </head>
 <body>
+<div id="header">
+    <jsp:include page="loggedInHeader.jsp"/>
+</div>
 	Dear <strong>${user}</strong>, Welcome to User Page.
 	<a href="<c:url value="/logout" />">Logout</a>
 </body>

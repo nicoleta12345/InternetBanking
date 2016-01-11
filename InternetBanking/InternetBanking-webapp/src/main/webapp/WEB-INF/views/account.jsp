@@ -11,8 +11,11 @@
 <%@ page isELIgnored="false"%>
 </head>
 <body>
-	<form:form action="getAccount"
-		method="post">
+	<div id="header">
+		<jsp:include page="loggedInHeader.jsp" />
+	</div>
+	
+	<form:form action="getAccount" method="post">
 
 		<label>Select an account</label>
 		<select id="account" name="accountNumber">

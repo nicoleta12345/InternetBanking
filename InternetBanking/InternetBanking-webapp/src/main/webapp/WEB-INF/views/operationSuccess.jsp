@@ -7,6 +7,10 @@
 <title>Transaction</title>
 </head>
 <body>
+	<div id="header">
+		<jsp:include page="loggedInHeader.jsp" />
+	</div>
+
 	<h2>${message}</h2>
 </body>
 </html>

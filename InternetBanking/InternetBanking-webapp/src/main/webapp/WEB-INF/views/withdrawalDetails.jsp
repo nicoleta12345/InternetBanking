@@ -9,7 +9,10 @@
 </head>
 <body>
 <body>
-	
+	<div id="header">
+		<jsp:include page="loggedInHeader.jsp" />
+	</div>
+
 	<h2>Withdrawal Details</h2>
 	<ul>
 		<li>Sender Account No.: ${accountNo}</li>

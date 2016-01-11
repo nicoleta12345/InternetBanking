@@ -19,7 +19,9 @@
 <title>Insert title here</title>
 </head>
 <body>
-
+	<div id="header">
+		<jsp:include page="loggedInHeader.jsp" />
+	</div>
 
 	<div class="container">
 
@@ -42,12 +44,16 @@
 					<td>${transaction.senderAccountNumber}</td>
 					<td>${transaction.externalAccountNumber}</td>
 					<td>${transaction.value}</td>
-					<td>
-						<spring:url value="/admin/acceptTransaction/${transaction.id}" var="approveUrl" />
-						<spring:url value="/admin/declineTransaction/${transaction.id}" var="declineUrl" /> 
+					<td><spring:url
+							value="/admin/acceptTransaction/${transaction.id}"
+							var="approveUrl" /> <spring:url
+							value="/admin/declineTransaction/${transaction.id}"
+							var="declineUrl" />
 
-						<button class="btn btn-info" onclick="location.href='${approveUrl}'">Approve</button>
-						<button class="btn btn-danger" onclick="location.href='${declineUrl}'">Decline</button></td>
+						<button class="btn btn-info"
+							onclick="location.href='${approveUrl}'">Approve</button>
+						<button class="btn btn-danger"
+							onclick="location.href='${declineUrl}'">Decline</button></td>
 				</tr>
 			</c:forEach>
 		</table>

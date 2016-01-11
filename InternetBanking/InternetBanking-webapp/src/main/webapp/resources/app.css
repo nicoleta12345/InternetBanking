@@ -10,3 +10,13 @@
 	color: red;
 }
 
+.brandImg {
+	height:30px ;
+	width:30px;
+}
+
+p.navbar-text {
+	width: 120em;
+	text-align:center
+}
+

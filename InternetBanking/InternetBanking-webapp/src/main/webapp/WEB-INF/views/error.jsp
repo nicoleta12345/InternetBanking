@@ -7,6 +7,10 @@
 <title>Error</title>
 </head>
 <body>
+	<div id="header">
+		<jsp:include page="loggedInHeader.jsp" />
+	</div>
+
 	<h2>${errorMessage}</h2>
 </body>
 </html>

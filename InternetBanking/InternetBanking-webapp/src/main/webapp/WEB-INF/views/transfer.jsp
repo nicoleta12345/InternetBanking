@@ -10,6 +10,9 @@
 <title>Transfer</title>
 </head>
 <body>
+	<div id="header">
+		<jsp:include page="loggedInHeader.jsp" />
+	</div>
 
 	<c:if test="${not empty errorMessage}">
 		<c:out value="${errorMessage}" />

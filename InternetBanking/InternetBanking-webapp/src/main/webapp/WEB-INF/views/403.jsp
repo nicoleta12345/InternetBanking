@@ -1,6 +1,9 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <html>
 <body>
+<div id="header">
+    <jsp:include page="loggedInHeader.jsp"/>
+</div>
 	<h1>HTTP Status 403 - Access is denied</h1>
 
 	<c:choose>

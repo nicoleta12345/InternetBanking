@@ -8,8 +8,11 @@
 </head>
 <body>
 <body>
+	<div id="header">
+		<jsp:include page="loggedInHeader.jsp" />
+	</div>
 
-${message}
+	${message}
 
 </body>
 </body>

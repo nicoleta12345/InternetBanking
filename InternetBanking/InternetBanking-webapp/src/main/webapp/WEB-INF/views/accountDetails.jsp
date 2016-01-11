@@ -9,6 +9,10 @@
 </head>
 <body>
 <body>
+	<div id="header">
+		<jsp:include page="loggedInHeader.jsp" />
+	</div>
+	
 	<h2>Account Details</h2>
 	<ul>
 		<li>Account Number: ${accountDetailsDto.accountNumber}</li>

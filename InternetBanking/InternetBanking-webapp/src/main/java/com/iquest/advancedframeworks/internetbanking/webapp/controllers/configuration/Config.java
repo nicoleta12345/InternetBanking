@@ -33,10 +33,11 @@ public class Config extends WebMvcConfigurerAdapter {
     return resolver;
   }
 
-//  @Override
-//  public void addResourceHandlers(ResourceHandlerRegistry registry) {
-//    registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
-//  }
+  @Override
+  public void addResourceHandlers(ResourceHandlerRegistry registry) {
+    registry.addResourceHandler("/images/**").addResourceLocations("/resources/images/");
+    registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
+  }
 
   @Bean(name = "messageSource")
   public MessageSource messageSource() {
