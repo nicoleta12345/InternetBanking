@@ -1,27 +1,47 @@
 package com.iquest.advancedframeworks.internetbanking.integration.externalRest.model;
 
-
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+/**
+ * The model of an user received from an external source.
+ * 
+ * @author Nicoleta Barbulescu
+ *
+ */
 @XmlRootElement(name = "User")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class ExternalUser {
 
+  /**
+   * The id of the user.
+   */
   @XmlElement(name = "ID")
   private String id;
 
+  /**
+   * The cnp of the user.
+   */
   @XmlElement(name = "CNP")
   private String cnp;
 
+  /**
+   * The first name of the user.
+   */
   @XmlElement(name = "FirstName")
   private String firstName;
 
+  /**
+   * The last name of the user.
+   */
   @XmlElement(name = "LastName")
   private String lastName;
 
+  /**
+   * The password of the user.
+   */
   @XmlElement(name = "Pass")
   private String password;
 

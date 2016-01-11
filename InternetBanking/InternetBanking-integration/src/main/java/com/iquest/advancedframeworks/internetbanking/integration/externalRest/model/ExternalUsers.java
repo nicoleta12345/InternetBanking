@@ -7,11 +7,19 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+/**
+ * The ExternalUsers class represents an object received from an external source which contains details about users.
+ * 
+ * @author Nicoleta Barbulescu
+ *
+ */
 @XmlRootElement(name = "Users")
 @XmlAccessorType(XmlAccessType.FIELD)
-// @JsonIgnoreProperties(ignoreUnknown = true)
 public class ExternalUsers {
 
+  /**
+   * The list with the external users details.
+   */
   @XmlElement(name = "User")
   private List<ExternalUser> users;
 
