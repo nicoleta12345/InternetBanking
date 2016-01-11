@@ -6,6 +6,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.Table;
 
 /**
@@ -16,6 +18,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "ACCOUNTS")
+@Inheritance(strategy=InheritanceType.SINGLE_TABLE)
 public class Account {
 
   /**
@@ -47,10 +50,24 @@ public class Account {
   private Double blockedAmount;
 
   /**
+   * The maintenance cost of the account.
+   */
+  @Column(name = "MENTENANCE_COST")
+  private Double maintenanceCost;
+
+  /**
    * Default constructor.
    */
   public Account() {
   };
+
+  public Double getMentenanceCost() {
+    return maintenanceCost;
+  }
+
+  public void setMentenanceCost(Double mentenanceCost) {
+    this.maintenanceCost = mentenanceCost;
+  }
 
   public Account(String accountNumber) {
     this.accountNumber = accountNumber;
