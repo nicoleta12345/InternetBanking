@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.iquest.advancedframeworks.internetbanking.integration.jms.services.JmsEmailRequestSender;
 import com.iquest.advancedframeworks.internetbanking.persistence.dao.AccountDao;
 import com.iquest.advancedframeworks.internetbanking.persistence.dao.TransactionDao;
 import com.iquest.advancedframeworks.internetbanking.persistence.dao.UserDao;
@@ -26,9 +25,9 @@ import com.iquest.advancedframeworks.internetbanking.persistence.model.SavingsAc
 import com.iquest.advancedframeworks.internetbanking.persistence.model.Transfer;
 import com.iquest.advancedframeworks.internetbanking.persistence.model.UserRole;
 import com.iquest.advancedframeworks.internetbanking.services.AdminService;
-import com.iquest.advancedframeworks.internetbanking.services.dto.EmailSenderDetails;
 import com.iquest.advancedframeworks.internetbanking.services.dto.RegistrationAccountInfDto;
 import com.iquest.advancedframeworks.internetbanking.services.dto.UserDto;
+import com.iquest.advancedframeworks.internetbanking.services.mail.MailSenderService;
 import com.iquest.advancedframeworks.services.exceptions.AccountRegisteredException;
 import com.iquest.advancedframeworks.services.exceptions.UserRegisteredException;
 
@@ -59,13 +58,10 @@ public class AdminServiceImpl implements AdminService {
   private UserRoleDao userRoleDao;
 
   @Autowired
-  private JmsEmailRequestSender jmsEmailRequestSender;
+  private MailSenderService mailSender;
 
   @Autowired
   private TransactionDao transactionDao;
-
-  @Autowired
-  private EmailSenderDetails emailSender;
 
   @Override
   @Transactional
@@ -85,7 +81,6 @@ public class AdminServiceImpl implements AdminService {
     if (user.getEmail() != null) {
       sendRegistrationMail(user);
     }
-
   }
 
   /**
@@ -94,12 +89,12 @@ public class AdminServiceImpl implements AdminService {
    * @param user the client details
    */
   private void setUserRole(Client user) {
-    String role = "ROLE_USER";
+    Role role = Role.ROLE_USER;
     UserRole clientRole = userRoleDao.getUserRolebyRole(role);
-
+    
     if (clientRole == null) {
       clientRole = new UserRole();
-      clientRole.setRole(Role.ROLE_USER);
+      clientRole.setRole(role);
       try {
         userRoleDao.create(clientRole);
       }
@@ -151,7 +146,7 @@ public class AdminServiceImpl implements AdminService {
     msg.append(" password: ");
     msg.append(user.getPassword());
 
-    jmsEmailRequestSender.sendMail(user.getEmail(), emailSender.getEmail(), subject, msg.toString());
+    mailSender.sendMail(user.getEmail(), subject, msg.toString());
   }
 
   /**

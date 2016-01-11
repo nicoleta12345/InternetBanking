@@ -57,4 +57,9 @@ public class EmailResponse {
     this.errorMessage = errorMessage;
   }
 
+  @Override
+  public String toString() {
+    return "EmailResponse [status=" + status + ", errorCode=" + errorCode + ", errorMessage=" + errorMessage + "]";
+  }
+
 }
