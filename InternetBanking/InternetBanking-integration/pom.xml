@@ -15,10 +15,6 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>com.iquestgroup.advancedframeworks</groupId>
-			<artifactId>InternetBanking-persistence</artifactId>
-		</dependency>
-		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-context-support</artifactId>
 		</dependency>
@@ -55,17 +51,8 @@
 			<artifactId>spring-oxm</artifactId>
 		</dependency>
 
-		<dependency>
-			<groupId>org.quartz-scheduler</groupId>
-			<artifactId>quartz</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.quartz-scheduler</groupId>
-			<artifactId>quartz-jobs</artifactId>
-		</dependency>
-
 	</dependencies>
-
+	
 	<build>
 		<finalName>InternetBanking-integration</finalName>
 	</build>

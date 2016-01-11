@@ -18,14 +18,23 @@ import org.springframework.stereotype.Component;
 
 import com.iquest.advancedframeworks.internetbanking.integration.jms.model.request.EmailRequest;
 
+/**
+ * The JmsEmailRequestSender class is used to send requests to the jms email simulator.
+ * 
+ * @author Nicoleta Barbulescu
+ *
+ */
 @Component
 public class JmsEmailRequestSender {
 
+  /**
+   * The JmsTemplate object used to send the request.
+   */
   @Autowired
   private JmsTemplate jmsTemplate;
 
   /**
-   * Sends a email using a jms queue.
+   * Sends a email using a JmsTemplate object. Before is sent, the mail is converted to a xml format.
    * 
    * @param to the receiver of the email
    * @param from the sender of the email
@@ -50,8 +59,7 @@ public class JmsEmailRequestSender {
       jaxbMarshaller.marshal(email, sw);
     }
     catch (JAXBException e1) {
-      // TODO Auto-generated catch block
-      e1.printStackTrace();
+      // stay silent
     }
 
     String xmlString = sw.toString();
@@ -59,15 +67,27 @@ public class JmsEmailRequestSender {
 
     sendMessage(xmlString, correlationId);
   }
-  
+
+  /**
+   * Computes the correlation Id for an email request.
+   * 
+   * @param email the email request
+   * @return the correlation id
+   */
   private String getCorrelationId(EmailRequest email) {
     Random rand = new Random();
     int hashcode = email.hashCode();
     int correlationId = hashcode + rand.nextInt(hashcode);
-    
-    return String.valueOf(correlationId);     
+
+    return String.valueOf(correlationId);
   }
 
+  /**
+   * Sends a request to a jms simulator using a JmsTemplate object.
+   * 
+   * @param msg the message which will be sent.
+   * @param correlationId the correlationId of the request
+   */
   public void sendMessage(final String msg, final String correlationId) {
     jmsTemplate.send(new MessageCreator() {
 
