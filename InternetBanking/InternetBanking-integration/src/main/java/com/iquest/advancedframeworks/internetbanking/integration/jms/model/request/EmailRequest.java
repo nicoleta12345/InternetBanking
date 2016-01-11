@@ -5,19 +5,37 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+/**
+ * The EmailRequest class represents the model for the request sent to jms email simulator.
+ * 
+ * @author Nicoleta Barbulescu
+ *
+ */
 @XmlRootElement(name = "REQUEST")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class EmailRequest {
 
+  /**
+   * The receiver email.
+   */
   @XmlElement(name = "EMAIL", required = true)
   private String email;
 
+  /**
+   * The sender email.
+   */
   @XmlElement(name = "SENDER_EMAIL", required = true)
   private String senderEmail;
 
+  /**
+   * The subject of the email.
+   */
   @XmlElement(name = "SUBJECT", required = true)
   private String subject;
 
+  /**
+   * The body of the email.
+   */
   @XmlElement(name = "BODY", required = true)
   private String body;
 
