@@ -25,7 +25,7 @@ public class EmailResponse {
    * The error code. There is a code for success and another for failure.
    */
   @XmlElement(name = "ERROR_CODE", required = true)
-  private Integer errorCode;
+  private String errorCode;
 
   /**
    * The error message if the mail could not be sent.
@@ -41,11 +41,11 @@ public class EmailResponse {
     this.status = status;
   }
 
-  public Integer getErrorCode() {
+  public String getErrorCode() {
     return errorCode;
   }
 
-  public void setErrorCode(Integer errorCode) {
+  public void setErrorCode(String errorCode) {
     this.errorCode = errorCode;
   }
 

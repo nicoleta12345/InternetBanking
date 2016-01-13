@@ -10,12 +10,9 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.jms.annotation.EnableJms;
 import org.springframework.jms.core.JmsTemplate;
-import org.springframework.jms.listener.SimpleMessageListenerContainer;
-import org.springframework.jms.listener.adapter.MessageListenerAdapter;
 import org.springframework.jms.support.converter.MarshallingMessageConverter;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
-
-import com.iquest.advancedframeworks.internetbanking.integration.jms.services.JmsEmailService;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 /**
  * The JmsConfig class configures the communication to a jms server simulator.
@@ -25,6 +22,7 @@ import com.iquest.advancedframeworks.internetbanking.integration.jms.services.Jm
  */
 @Configuration
 @EnableJms
+@EnableScheduling
 @ComponentScan(basePackages = "com.iquest.advancedframeworks.internetbanking.integration.jms")
 @PropertySource("classpath:mailQueue.properties")
 public class JmsConfig {
@@ -36,12 +34,6 @@ public class JmsConfig {
   private Environment env;
 
   /**
-   * Listens for messages on a jms queue.
-   */
-  @Autowired
-  private JmsEmailService listener;
-
-  /**
    * JmsTemplate is used to put messages on a jms queue.
    * 
    * @return a new JmsTemplate object configured to send messages to a specific queue
@@ -51,6 +43,7 @@ public class JmsConfig {
     JmsTemplate jmsTemplate = new JmsTemplate();
     jmsTemplate.setDefaultDestination(new ActiveMQQueue(env.getProperty("requestQueue.name")));
     jmsTemplate.setConnectionFactory(connectionFactory());
+    jmsTemplate.setMessageConverter(emailJaxbMarshallingMessageConverter(emailMarshaller()));
     return jmsTemplate;
   }
 
@@ -64,28 +57,6 @@ public class JmsConfig {
     ActiveMQConnectionFactory activeMQConnectionFactory = new ActiveMQConnectionFactory();
     activeMQConnectionFactory.setBrokerURL(env.getProperty("listening.connection"));
     return activeMQConnectionFactory;
-  }
-
-  /**
-   * Configures a SimpleMessageListenerContainer to have a specific class as a listener for a jms queue.
-   * 
-   * @return a new SimpleMessageListenerContainer
-   */
-  @Bean
-  public SimpleMessageListenerContainer simpleMessageListenerContainer() {
-    final SimpleMessageListenerContainer container = new SimpleMessageListenerContainer();
-
-    container.setConnectionFactory(connectionFactory());
-    MessageListenerAdapter adapter = new MessageListenerAdapter();
-    adapter.setMessageConverter(emailJaxbMarshallingMessageConverter(emailMarshaller()));
-    adapter.setDelegate(listener);
-    adapter.setDefaultListenerMethod("onMessage");
-
-    container.setMessageListener(adapter);
-    container.setDestinationName(env.getProperty("responseQueue.name"));
-
-    container.start();
-    return container;
   }
 
   /**

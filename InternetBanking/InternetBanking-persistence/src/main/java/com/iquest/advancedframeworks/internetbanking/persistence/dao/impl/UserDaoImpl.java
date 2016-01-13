@@ -1,5 +1,7 @@
 package com.iquest.advancedframeworks.internetbanking.persistence.dao.impl;
 
+import java.util.List;
+
 import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -85,6 +87,26 @@ public class UserDaoImpl extends GenericDaoImpl<User> implements UserDao {
     }
 
     return (User) result;
+  }
+
+  @SuppressWarnings("unchecked")
+  @Override
+  public List<User> getUsersWithPendingConfirmation() {
+    CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+    CriteriaQuery<User> cq = cb.createQuery(User.class);
+    Root<Client> userRoot = cq.from(Client.class);
+    cq.select(userRoot).where(cb.equal((userRoot.join("confirmationOfRegistration")).get("status"), "pending"));
+    Query q = entityManager.createQuery(cq);
+
+    List<User> result = null;
+    try {
+      result = q.getResultList();
+    }
+    catch (NoResultException e) {
+      // stay silent, null will be returned
+    }
+
+    return result;
   }
 
 }

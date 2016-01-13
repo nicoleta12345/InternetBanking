@@ -1,5 +1,7 @@
 package com.iquest.advancedframeworks.internetbanking.persistence.dao;
 
+import java.util.List;
+
 import com.iquest.advancedframeworks.internetbanking.persistence.model.User;
 
 /**
@@ -26,5 +28,7 @@ public interface UserDao extends GenericDao<User> {
    * @return a User object
    */
   User getUserByCnp(String cnp);
+
+  List<User> getUsersWithPendingConfirmation();
 
 }

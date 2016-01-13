@@ -17,6 +17,7 @@ import org.springframework.jms.core.MessageCreator;
 import org.springframework.stereotype.Component;
 
 import com.iquest.advancedframeworks.internetbanking.integration.jms.model.request.EmailRequest;
+import com.iquest.advancedframeworks.internetbanking.persistence.model.RegistrationUserEmail;
 
 /**
  * The JmsEmailRequestSender class is used to send requests to the jms email simulator.
@@ -34,6 +35,18 @@ public class JmsEmailRequestSender {
   private JmsTemplate jmsTemplate;
 
   /**
+   * The thread which waits for responses.
+   */
+  @Autowired
+  private JmsEmailResponseReceiver receiverThread;
+
+  /**
+   * The service which makes the calls to persist the state of the messages.
+   */
+  @Autowired
+  private RegistrationEmailService registrationEmailService;
+
+  /**
    * Sends a email using a JmsTemplate object. Before is sent, the mail is converted to a xml format.
    * 
    * @param to the receiver of the email
@@ -41,7 +54,7 @@ public class JmsEmailRequestSender {
    * @param subject the subject of the email
    * @param body the body of the email
    */
-  public void sendMail(String to, String from, String subject, String body) {
+  public void sendMail(RegistrationUserEmail regUserEmailConfirm, String to, String from, String subject, String body) {
     JAXBContext jaxbContext = null;
     Marshaller jaxbMarshaller = null;
     StringWriter sw = new StringWriter();
@@ -65,6 +78,10 @@ public class JmsEmailRequestSender {
     String xmlString = sw.toString();
     String correlationId = getCorrelationId(email);
 
+    regUserEmailConfirm.setCorrelationId(correlationId);
+    regUserEmailConfirm.setStatus("pending");
+    registrationEmailService.update(regUserEmailConfirm);
+
     sendMessage(xmlString, correlationId);
   }
 
@@ -76,14 +93,13 @@ public class JmsEmailRequestSender {
    */
   private String getCorrelationId(EmailRequest email) {
     Random rand = new Random();
-    int hashcode = email.hashCode();
-    int correlationId = hashcode + rand.nextInt(hashcode);
+    int correlationId = rand.nextInt(10000);
 
-    return String.valueOf(correlationId);
+    return "1" + String.valueOf(correlationId);
   }
 
   /**
-   * Sends a request to a jms simulator using a JmsTemplate object.
+   * Sends a request to a jms simulator using a JmsTemplate object. It also starts a thread which waits for responses.
    * 
    * @param msg the message which will be sent.
    * @param correlationId the correlationId of the request
@@ -100,6 +116,10 @@ public class JmsEmailRequestSender {
         return (Message) message;
       }
     });
+
+    if (receiverThread.isAlive() == false) {
+      receiverThread.start();
+    }
   }
 
 }

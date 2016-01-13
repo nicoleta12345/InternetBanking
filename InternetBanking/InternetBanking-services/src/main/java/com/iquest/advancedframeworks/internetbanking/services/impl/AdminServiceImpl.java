@@ -11,7 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.iquest.advancedframeworks.internetbanking.integration.jms.services.JmsEmailRequestSender;
 import com.iquest.advancedframeworks.internetbanking.persistence.dao.AccountDao;
+import com.iquest.advancedframeworks.internetbanking.persistence.dao.ConfirmationMailDao;
 import com.iquest.advancedframeworks.internetbanking.persistence.dao.TransactionDao;
 import com.iquest.advancedframeworks.internetbanking.persistence.dao.UserDao;
 import com.iquest.advancedframeworks.internetbanking.persistence.dao.UserRoleDao;
@@ -20,6 +22,7 @@ import com.iquest.advancedframeworks.internetbanking.persistence.dao.exception.E
 import com.iquest.advancedframeworks.internetbanking.persistence.model.Account;
 import com.iquest.advancedframeworks.internetbanking.persistence.model.Client;
 import com.iquest.advancedframeworks.internetbanking.persistence.model.CreditAccount;
+import com.iquest.advancedframeworks.internetbanking.persistence.model.RegistrationUserEmail;
 import com.iquest.advancedframeworks.internetbanking.persistence.model.Role;
 import com.iquest.advancedframeworks.internetbanking.persistence.model.SavingsAccount;
 import com.iquest.advancedframeworks.internetbanking.persistence.model.Transfer;
@@ -27,7 +30,6 @@ import com.iquest.advancedframeworks.internetbanking.persistence.model.UserRole;
 import com.iquest.advancedframeworks.internetbanking.services.AdminService;
 import com.iquest.advancedframeworks.internetbanking.services.dto.RegistrationAccountInfDto;
 import com.iquest.advancedframeworks.internetbanking.services.dto.UserDto;
-import com.iquest.advancedframeworks.internetbanking.services.mail.MailSenderService;
 import com.iquest.advancedframeworks.services.exceptions.AccountRegisteredException;
 import com.iquest.advancedframeworks.services.exceptions.UserRegisteredException;
 
@@ -58,10 +60,15 @@ public class AdminServiceImpl implements AdminService {
   private UserRoleDao userRoleDao;
 
   @Autowired
-  private MailSenderService mailSender;
+  private JmsEmailRequestSender mailSender;
 
   @Autowired
   private TransactionDao transactionDao;
+
+  @Autowired
+  private ConfirmationMailDao confirmationMailDao;
+  
+  private static final String EMAIL_FROM = "internetbankingiapp@gmail.com";
 
   @Override
   @Transactional
@@ -69,6 +76,17 @@ public class AdminServiceImpl implements AdminService {
     ModelMapper modelMapper = new ModelMapper();
     Client user = modelMapper.map(userDto, Client.class);
     setUserRole(user);
+
+    if (user.getEmail() != null) {
+      RegistrationUserEmail confirmationOfReg = new RegistrationUserEmail();
+      try {
+        confirmationMailDao.create(confirmationOfReg);
+      }
+      catch (EntityRegisteredException e) {
+        // stay silent
+      }
+      user.setConfirmationOfRegistration(confirmationOfReg);
+    }
 
     try {
       userDao.create(user);
@@ -91,7 +109,7 @@ public class AdminServiceImpl implements AdminService {
   private void setUserRole(Client user) {
     Role role = Role.ROLE_USER;
     UserRole clientRole = userRoleDao.getUserRolebyRole(role);
-    
+
     if (clientRole == null) {
       clientRole = new UserRole();
       clientRole.setRole(role);
@@ -146,7 +164,7 @@ public class AdminServiceImpl implements AdminService {
     msg.append(" password: ");
     msg.append(user.getPassword());
 
-    mailSender.sendMail(user.getEmail(), subject, msg.toString());
+    mailSender.sendMail(user.getConfirmationOfRegistration(), user.getEmail(), EMAIL_FROM, subject, msg.toString());
   }
 
   /**
@@ -213,8 +231,7 @@ public class AdminServiceImpl implements AdminService {
       transactionDao.update(transfer);
     }
     catch (EntityDeletedException e1) {
-      // TODO Auto-generated catch block
-      e1.printStackTrace();
+      // stay silent
     }
 
     Account sender = transfer.getSenderAccount();
@@ -224,8 +241,7 @@ public class AdminServiceImpl implements AdminService {
       accountDao.update(sender);
     }
     catch (EntityDeletedException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
+      // stay silent
     }
   }
 }

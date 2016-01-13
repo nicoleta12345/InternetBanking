@@ -33,6 +33,7 @@ public class TransactionDaoImpl extends GenericDaoImpl<Transaction> implements T
   @PersistenceContext
   EntityManager entityManager;
 
+  @SuppressWarnings("unchecked")
   @Override
   public List<Transfer> getPendingTransactions() {
     List<Transfer> result = null;
@@ -44,7 +45,7 @@ public class TransactionDaoImpl extends GenericDaoImpl<Transaction> implements T
       cq.where(cb.equal(root.get("pending"), 1));
       Query q = entityManager.createQuery(cq);
 
-      result = q.getResultList();
+      result = (List<Transfer>) q.getResultList();
     }
     catch (NoResultException e) {
       // stay silent, null will be returned

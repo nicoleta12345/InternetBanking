@@ -75,6 +75,10 @@ public class User {
   @Email
   private String email;
 
+  @OneToOne
+  @JoinColumn(name = "CONFIRMATION_OF_REGISTRATION_ID")
+  private RegistrationUserEmail confirmationOfRegistration;
+
   /**
    * The age of the user.
    */
@@ -97,7 +101,6 @@ public class User {
   @JoinTable(joinColumns = @JoinColumn(name = "ROLE_ID") , inverseJoinColumns = @JoinColumn(name = "USER_ID") )
   private Set<UserRole> roles;
 
-  
   public void setAge(int age) {
     this.age = age;
   }
@@ -180,6 +183,14 @@ public class User {
 
   public void setAddress(Address address) {
     this.address = address;
+  }
+
+  public RegistrationUserEmail getConfirmationOfRegistration() {
+    return confirmationOfRegistration;
+  }
+
+  public void setConfirmationOfRegistration(RegistrationUserEmail confirmationOfRegistration) {
+    this.confirmationOfRegistration = confirmationOfRegistration;
   }
 
   @Override
